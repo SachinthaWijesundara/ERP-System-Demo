@@ -6,6 +6,7 @@ import { useData } from '../data/DataContext.jsx'
 import { clientForQuote, projectsForQuote, canConvertToProject } from '../data/links.js'
 import { formatDate, formatMoney } from '../utils/format.js'
 import { itemTotal, labourTotal, quoteTotals } from './quoteFields.js'
+import { currentStageLabel } from '../projects/projectFields.js'
 import QuoteTotals from './QuoteTotals.jsx'
 
 // The PDF library is large, so it only loads when someone downloads a PDF.
@@ -182,7 +183,7 @@ export default function QuoteDetail({ quoteId, onBack, onEdit }) {
                   {projects.length > 0 ? (
                     projects.map((p) => (
                       <div key={p.id}>
-                        {p.id} · {p.name} <span className="cell-sub">({p.stage})</span>
+                        {p.id} · {p.name} <span className="cell-sub">({currentStageLabel(p)})</span>
                       </div>
                     ))
                   ) : quote.status === 'Approved' ? (
@@ -190,7 +191,9 @@ export default function QuoteDetail({ quoteId, onBack, onEdit }) {
                       <button type="button" className="btn btn-small" disabled={!canConvertToProject()}>
                         Convert to project
                       </button>
-                      <div className="cell-sub">Available once the Projects module is built.</div>
+                      <div className="cell-sub">
+                        One-click conversion will be connected later. For now, use New project on the Projects page.
+                      </div>
                     </>
                   ) : (
                     <div className="cell-sub">Becomes a project once the client approves this quote.</div>

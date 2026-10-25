@@ -11,7 +11,7 @@ const DataContext = createContext(null)
 export function DataProvider({ children }) {
   const [clients, setClients] = useState(clientsSeed)
   const [quotations, setQuotations] = useState(quotationsSeed)
-  const [projects] = useState(projectsSeed)
+  const [projects, setProjects] = useState(projectsSeed)
   const [invoices] = useState(invoicesSeed)
 
   const value = {
@@ -32,6 +32,13 @@ export function DataProvider({ children }) {
     },
     updateQuotation(quote) {
       setQuotations((list) => list.map((q) => (q.id === quote.id ? quote : q)))
+    },
+
+    addProject(project) {
+      setProjects((list) => [project, ...list])
+    },
+    updateProject(project) {
+      setProjects((list) => list.map((p) => (p.id === project.id ? project : p)))
     },
   }
 

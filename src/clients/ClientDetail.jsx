@@ -13,6 +13,7 @@ import {
   balanceDue,
 } from '../data/links.js'
 import { quoteTotals } from '../quotations/quoteFields.js'
+import { currentStageLabel } from '../projects/projectFields.js'
 import { formatDate, formatMoney, todayIso } from '../utils/format.js'
 
 export default function ClientDetail({ clientId, onBack, onEdit }) {
@@ -122,7 +123,9 @@ export default function ClientDetail({ clientId, onBack, onEdit }) {
                       <td className="cell-main">{p.id}</td>
                       <td>{p.name}</td>
                       <td>{p.quoteId}</td>
-                      <td>{p.stage}</td>
+                      <td>
+                        <Badge>{currentStageLabel(p)}</Badge>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
