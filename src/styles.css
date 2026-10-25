@@ -1,15 +1,16 @@
 :root {
-  --bg: #f7f6f3;
-  --surface: #ffffff;
-  --border: #e7e4de;
-  --border-soft: #efece7;
-  --text: #2b2a27;
-  --text-muted: #7a766f;
-  --accent: #8a6a4f;
-  --accent-soft: #f2ece6;
-  --radius: 10px;
+  --bg: #f1ebe1;
+  --surface: #fcfaf6;
+  --border: #ded3c3;
+  --border-soft: #e9e0d3;
+  --text: #2a2622;
+  --text-muted: #77695a;
+  --accent: #86643f;
+  --accent-soft: #ece2d3;
+  --radius: 3px;
+  --radius-sm: 2px;
 
-  font-family: 'Segoe UI', system-ui, -apple-system, Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-family: 'IBM Plex Sans', 'Segoe UI', system-ui, Arial, sans-serif;
   font-size: 14px;
   line-height: 1.5;
   color: var(--text);
@@ -76,7 +77,7 @@ input {
 .brand-mark {
   width: 34px;
   height: 34px;
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   display: grid;
   place-items: center;
   background: var(--accent);
@@ -121,7 +122,7 @@ input {
   width: 100%;
   padding: 9px 10px;
   border: 0;
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   background: transparent;
   color: var(--text-muted);
   text-align: left;
@@ -171,7 +172,7 @@ input {
   width: 240px;
   padding: 7px 12px;
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   background: var(--bg);
   color: var(--text-muted);
 }
@@ -190,7 +191,7 @@ input {
   width: 36px;
   height: 36px;
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   background: var(--surface);
   color: var(--text-muted);
   cursor: pointer;
@@ -203,7 +204,7 @@ input {
 .avatar {
   width: 34px;
   height: 34px;
-  border-radius: 50%;
+  border-radius: var(--radius-sm);
   background: var(--accent-soft);
   border: 1px solid var(--border);
 }
