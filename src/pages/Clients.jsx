@@ -1,19 +1,19 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useData } from '../data/DataContext.jsx'
+import { useOnChange } from '../utils/useOnChange.js'
 import ClientList from '../clients/ClientList.jsx'
 import ClientDetail from '../clients/ClientDetail.jsx'
 import ClientForm from '../clients/ClientForm.jsx'
 import { emptyClient, nextClientId } from '../clients/clientFields.js'
 
 // Switches between the client list, one client's page, and the add/edit form.
-export default function Clients({ query, branch, onOpenRecord }) {
+export default function Clients({ query, branch, openId, onOpenRecord }) {
   const data = useData()
-  const [view, setView] = useState({ mode: 'list' })
+  // `openId` opens one client straight away, e.g. when clicked on a quote.
+  const [view, setView] = useState(openId ? { mode: 'detail', id: openId } : { mode: 'list' })
 
   // Typing in the search bar or switching branch always brings the list back.
-  useEffect(() => {
-    setView({ mode: 'list' })
-  }, [query, branch])
+  useOnChange([query, branch], () => setView({ mode: 'list' }))
 
   if (view.mode === 'detail') {
     return (

@@ -3,7 +3,13 @@ import PageHeader from '../components/PageHeader.jsx'
 import Badge from '../components/Badge.jsx'
 import Card, { CardEmpty } from '../components/Card.jsx'
 import { useData } from '../data/DataContext.jsx'
-import { clientForQuote, projectsForQuote, canConvertToProject } from '../data/links.js'
+import {
+  clientForQuote,
+  projectsForQuote,
+  canConvertToProject,
+  inventoryItemForLine,
+  inventorySkusForQuote,
+} from '../data/links.js'
 import { formatDate, formatMoney } from '../utils/format.js'
 import { itemTotal, labourTotal, quoteTotals } from './quoteFields.js'
 import { currentStageLabel } from '../projects/projectFields.js'
@@ -15,13 +21,26 @@ async function downloadPdf(quote, client) {
   downloadQuotePdf(quote, client)
 }
 
-export default function QuoteDetail({ quoteId, onBack, onEdit }) {
+// A text link that opens another record.
+function Link({ onClick, children }) {
+  return (
+    <button type="button" className="inline-link" onClick={onClick}>
+      {children}
+    </button>
+  )
+}
+
+// `onOpenRecord(module, id, filter)` jumps to a client, project or
+// inventory item.
+export default function QuoteDetail({ quoteId, onBack, onEdit, onOpenRecord }) {
   const data = useData()
   const quote = data.quotations.find((q) => q.id === quoteId)
   if (!quote) return null
 
   const client = clientForQuote(data, quote)
   const projects = projectsForQuote(data, quote.id)
+  const skus = inventorySkusForQuote(data, quote)
+  const openClient = () => onOpenRecord('clients', quote.clientId)
 
   return (
     <>
@@ -48,7 +67,9 @@ export default function QuoteDetail({ quoteId, onBack, onEdit }) {
             <div className="doc-parties">
               <div>
                 <div className="doc-label">Quotation for</div>
-                <div className="doc-strong">{client?.name ?? 'Unknown client'}</div>
+                <div className="doc-strong">
+                  {client ? <Link onClick={openClient}>{client.name}</Link> : 'Unknown client'}
+                </div>
                 <div>{quote.clientId}</div>
                 {client && <div>{client.phone}</div>}
                 {client?.email && <div>{client.email}</div>}
@@ -91,19 +112,28 @@ export default function QuoteDetail({ quoteId, onBack, onEdit }) {
                   </tr>
                 </thead>
                 <tbody>
-                  {quote.items.map((item, i) => (
-                    <tr key={i}>
-                      <td className="wrap">
-                        <div className="cell-main">{item.product}</div>
-                        {item.description && <div className="cell-sub">{item.description}</div>}
-                      </td>
-                      <td className="num">{item.qty.toLocaleString('en-LK')}</td>
-                      <td>{item.unit}</td>
-                      <td className="num">{formatMoney(item.price)}</td>
-                      <td className="num">{item.discount ? `${item.discount}%` : '—'}</td>
-                      <td className="num">{formatMoney(itemTotal(item))}</td>
-                    </tr>
-                  ))}
+                  {quote.items.map((item, i) => {
+                    const stock = inventoryItemForLine(data, item)
+                    return (
+                      <tr key={i}>
+                        <td className="wrap">
+                          <div className="cell-main">
+                            {stock ? (
+                              <Link onClick={() => onOpenRecord('inventory', stock.sku)}>{item.product}</Link>
+                            ) : (
+                              item.product
+                            )}
+                          </div>
+                          {item.description && <div className="cell-sub">{item.description}</div>}
+                        </td>
+                        <td className="num">{item.qty.toLocaleString('en-LK')}</td>
+                        <td>{item.unit}</td>
+                        <td className="num">{formatMoney(item.price)}</td>
+                        <td className="num">{item.discount ? `${item.discount}%` : '—'}</td>
+                        <td className="num">{formatMoney(itemTotal(item))}</td>
+                      </tr>
+                    )
+                  })}
                 </tbody>
               </table>
             )}
@@ -163,17 +193,45 @@ export default function QuoteDetail({ quoteId, onBack, onEdit }) {
                 <User size={15} strokeWidth={1.75} />
                 <div>
                   <div className="links-title">Client</div>
-                  <div>{client ? `${client.name} · ${client.id}` : quote.clientId}</div>
+                  <div>
+                    {client ? (
+                      <Link onClick={openClient}>
+                        {client.name} · {client.id}
+                      </Link>
+                    ) : (
+                      quote.clientId
+                    )}
+                  </div>
                   <div className="cell-sub">Name, phone and site come from the client’s record.</div>
                 </div>
               </li>
               <li>
                 <Package size={15} strokeWidth={1.75} />
                 <div>
-                  <div className="links-title">Inventory</div>
-                  <div className="cell-sub">
-                    Not connected yet. Product lines will be picked from Inventory with their unit and selling price.
+                  <div className="links-title">
+                    {skus.length > 0 ? (
+                      <Link
+                        onClick={() => onOpenRecord('inventory', null, { skus, label: `${quote.id} · ${quote.title}` })}
+                      >
+                        Inventory · {skus.length} {skus.length === 1 ? 'item' : 'items'}
+                      </Link>
+                    ) : (
+                      'Inventory'
+                    )}
                   </div>
+                  {skus.length > 0 ? (
+                    skus.map((sku) => {
+                      const stock = data.inventory.find((i) => i.sku === sku)
+                      return (
+                        <div key={sku}>
+                          <Link onClick={() => onOpenRecord('inventory', sku)}>{stock.name}</Link>{' '}
+                          <span className="cell-sub">{sku}</span>
+                        </div>
+                      )
+                    })
+                  ) : (
+                    <div className="cell-sub">No stock items on this quote; every line is custom-made.</div>
+                  )}
                 </div>
               </li>
               <li>
@@ -183,7 +241,10 @@ export default function QuoteDetail({ quoteId, onBack, onEdit }) {
                   {projects.length > 0 ? (
                     projects.map((p) => (
                       <div key={p.id}>
-                        {p.id} · {p.name} <span className="cell-sub">({currentStageLabel(p)})</span>
+                        <Link onClick={() => onOpenRecord('projects', p.id)}>
+                          {p.id} · {p.name}
+                        </Link>{' '}
+                        <span className="cell-sub">({currentStageLabel(p)})</span>
                       </div>
                     ))
                   ) : quote.status === 'Approved' ? (

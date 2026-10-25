@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react'
-import { Plus } from 'lucide-react'
+import { useState } from 'react'
+import { Plus, Filter } from 'lucide-react'
+import { useOnChange } from '../utils/useOnChange.js'
 import PageHeader from '../components/PageHeader.jsx'
 import { useData } from '../data/DataContext.jsx'
 import { todayIso } from '../utils/format.js'
@@ -12,14 +13,15 @@ import { emptyItem, nextMovementId, worstStatus } from '../inventory/inventoryFi
 
 const TABS = { items: 'Items', movements: 'Movement log' }
 
-export default function Inventory({ query, branch }) {
+// `openId` opens one item straight away (a product clicked on a quote).
+// `openFilter` ({ skus, label }) shows only some items, e.g. those on a quote.
+export default function Inventory({ query, branch, openId, openFilter }) {
   const data = useData()
-  const [view, setView] = useState({ mode: 'items' })
+  const [view, setView] = useState(openId ? { mode: 'detail', sku: openId } : { mode: 'items' })
+  const [filter, setFilter] = useState(openFilter ?? null)
 
   // Typing in the search bar or switching branch goes back to the open tab.
-  useEffect(() => {
-    setView((v) => (v.mode === 'movements' ? v : { mode: 'items' }))
-  }, [query, branch])
+  useOnChange([query, branch], () => setView((v) => (v.mode === 'movements' ? v : { mode: 'items' })))
 
   if (view.mode === 'detail') {
     return (
@@ -99,7 +101,25 @@ export default function Inventory({ query, branch }) {
       {view.mode === 'movements' ? (
         <MovementLog query={query} branch={branch} />
       ) : (
-        <ItemList query={query} branch={branch} onOpen={(sku) => setView({ mode: 'detail', sku })} />
+        <>
+          {filter && (
+            <div className="admin-note filter-note">
+              <Filter size={15} strokeWidth={1.75} />
+              <span>
+                Showing only the {filter.skus.length} inventory items used on <strong>{filter.label}</strong>.
+              </span>
+              <button type="button" className="btn btn-small" onClick={() => setFilter(null)}>
+                Show all items
+              </button>
+            </div>
+          )}
+          <ItemList
+            query={query}
+            branch={branch}
+            onlySkus={filter?.skus}
+            onOpen={(sku) => setView({ mode: 'detail', sku })}
+          />
+        </>
       )}
     </>
   )

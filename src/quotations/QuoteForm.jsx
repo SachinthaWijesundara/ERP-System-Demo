@@ -69,10 +69,13 @@ export default function QuoteForm({ initial, isNew, onCancel, onSave }) {
   // --- Product lines ---
   function setItem(index, key, value) {
     let line = { ...form.items[index], [key]: value }
-    // Inventory connector: picking a known product fills its details.
+    // Picking an Inventory item links the line to it by SKU and fills in its
+    // details. Typing anything else makes it a custom line with no link.
     if (key === 'product') {
       const match = products.find((p) => p.name === value)
-      if (match) line = { ...line, description: match.description ?? '', unit: match.unit, price: match.sellingPrice }
+      line = match
+        ? { ...line, sku: match.sku, description: match.description ?? '', unit: match.unit, price: match.sellingPrice }
+        : { ...line, sku: '' }
     }
     setForm({ ...form, items: form.items.map((it, i) => (i === index ? line : it)) })
   }
@@ -215,7 +218,10 @@ export default function QuoteForm({ initial, isNew, onCancel, onSave }) {
               </div>
               {form.items.map((item, i) => (
                 <div key={i} className="line line-item">
-                  <Field error={errorFor(`items.${i}.product`)}>
+                  <Field
+                    error={errorFor(`items.${i}.product`)}
+                    hint={item.sku ? `Inventory · ${item.sku}` : item.product ? 'Custom item' : 'Pick from inventory or type'}
+                  >
                     <input
                       value={item.product}
                       onChange={(e) => setItem(i, 'product', e.target.value)}

@@ -12,7 +12,8 @@ export const DEFAULT_TERMS = [
 
 const QUOTE_ID = /^QT-\d{4}$/
 
-export const emptyItem = () => ({ product: '', description: '', qty: 1, unit: 'sqft', price: 0, discount: 0 })
+// `sku` links the line to an Inventory item; empty for custom-made items.
+export const emptyItem = () => ({ sku: '', product: '', description: '', qty: 1, unit: 'sqft', price: 0, discount: 0 })
 export const emptyLabour = () => ({ description: '', qty: 1, unit: 'lot', price: 0 })
 
 function addDays(iso, days) {
@@ -131,6 +132,7 @@ export function cleanQuote(quote) {
     id: quote.id.trim(),
     title: quote.title.trim(),
     items: quote.items.map((i) => ({
+      sku: i.sku ?? '',
       product: i.product.trim(),
       description: i.description.trim(),
       qty: num(i.qty),

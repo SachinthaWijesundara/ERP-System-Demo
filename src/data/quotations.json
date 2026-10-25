@@ -8,7 +8,7 @@
     "site": { "label": "Home", "address": "45 Beach Road", "city": "Matara" },
     "status": "Sent",
     "items": [
-      { "product": "WPC wall panel", "description": "Walnut finish, 160 mm fluted", "qty": 120, "unit": "sqft", "price": 1350, "discount": 0 }
+      { "sku": "WPC-WAL-01", "product": "WPC wall panel", "description": "Walnut finish, 160 mm fluted", "qty": 120, "unit": "sqft", "price": 1350, "discount": 0 }
     ],
     "labour": [
       { "description": "Panel fixing and finishing", "qty": 120, "unit": "sqft", "price": 250 }
@@ -67,9 +67,9 @@
     "site": { "label": "Home", "address": "14 Lake Road", "city": "Negombo" },
     "status": "Approved",
     "items": [
-      { "product": "Vinyl plank", "description": "VNL-OAK-01, oak finish, 5 mm click-lock", "qty": 450, "unit": "sqft", "price": 850, "discount": 0 },
-      { "product": "Underlay", "description": "2 mm foam with moisture barrier", "qty": 450, "unit": "sqft", "price": 120, "discount": 0 },
-      { "product": "Skirting", "description": "PVC, oak to match", "qty": 40, "unit": "m", "price": 450, "discount": 0 }
+      { "sku": "VNL-OAK-01", "product": "Vinyl plank", "description": "VNL-OAK-01, oak finish, 5 mm click-lock", "qty": 450, "unit": "sqft", "price": 850, "discount": 0 },
+      { "sku": "UND-FOAM-2", "product": "Underlay", "description": "2 mm foam with moisture barrier", "qty": 450, "unit": "sqft", "price": 120, "discount": 0 },
+      { "sku": "SKT-PVC-OAK", "product": "Skirting", "description": "PVC, oak to match", "qty": 40, "unit": "m", "price": 450, "discount": 0 }
     ],
     "labour": [
       { "description": "Floor installation", "qty": 450, "unit": "sqft", "price": 150 }
@@ -129,7 +129,7 @@
     "status": "Approved",
     "items": [
       { "product": "Blackout curtains", "description": "Beige, lined, with rails", "qty": 3, "unit": "set", "price": 38000, "discount": 0 },
-      { "product": "Roller blinds", "description": "White, chain operated", "qty": 4, "unit": "piece", "price": 12500, "discount": 0 }
+      { "sku": "BL-RLR-01", "product": "Roller blinds", "description": "White, chain operated", "qty": 4, "unit": "piece", "price": 12500, "discount": 0 }
     ],
     "labour": [
       { "description": "Measuring and fitting", "qty": 1, "unit": "lot", "price": 8000 }

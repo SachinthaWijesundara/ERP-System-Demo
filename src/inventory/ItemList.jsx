@@ -13,14 +13,16 @@ function matches(item, query) {
   return [item.sku, item.name, item.category, item.description].some((t) => t.toLowerCase().includes(q))
 }
 
-export default function ItemList({ query, branch, onOpen }) {
+// `onlySkus`, when given, limits the list to those items (e.g. a quote's).
+export default function ItemList({ query, branch, onlySkus, onOpen }) {
   const data = useData()
   const [filter, setFilter] = useState('All')
   const [category, setCategory] = useState('')
   const allBranches = branch === ALL_BRANCHES
 
-  const categories = [...new Set(data.inventory.map((i) => i.category))].sort()
-  const found = data.inventory.filter((i) => matches(i, query) && (!category || i.category === category))
+  const pool = onlySkus ? data.inventory.filter((i) => onlySkus.includes(i.sku)) : data.inventory
+  const categories = [...new Set(pool.map((i) => i.category))].sort()
+  const found = pool.filter((i) => matches(i, query) && (!category || i.category === category))
 
   const keep = (item, f) => {
     if (f === 'All') return true

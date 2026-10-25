@@ -21,7 +21,8 @@ export default function App() {
   // clicking the module that is already open.
   const [visit, setVisit] = useState(0)
   // A record to open straight away when a page loads, e.g. a quote clicked
-  // on a client's page: { module: 'quotations', id: 'QT-0012' }.
+  // on a client's page: { module: 'quotations', id: 'QT-0012' }. It can carry
+  // a filter instead, e.g. Inventory showing only the items on one quote.
   const [target, setTarget] = useState(null)
   const current = modules.find((m) => m.id === active)
 
@@ -32,16 +33,19 @@ export default function App() {
     setVisit((v) => v + 1)
   }
 
-  // Jumps to another module and opens one of its records.
-  function openRecord(module, id) {
+  // Jumps to another module and opens one of its records, or its list with
+  // a filter applied (pass id as null and a filter).
+  function openRecord(module, id, filter) {
     setActive(module)
     setQuery('')
-    setTarget({ module, id })
+    setTarget({ module, id, filter })
     setVisit((v) => v + 1)
     window.scrollTo(0, 0)
   }
 
-  const openId = target?.module === active ? target.id : undefined
+  const here = target?.module === active ? target : null
+  const openId = here?.id ?? undefined
+  const openFilter = here?.filter
 
   // Pages that have their own search. Typing anywhere else searches clients.
   const searchable = {
@@ -61,11 +65,14 @@ export default function App() {
 
   let page
   if (active === 'dashboard') page = <Dashboard />
-  else if (active === 'clients') page = <Clients query={query} branch={branch} onOpenRecord={openRecord} />
-  else if (active === 'quotations') page = <Quotations query={query} branch={branch} openId={openId} />
+  else if (active === 'clients')
+    page = <Clients query={query} branch={branch} openId={openId} onOpenRecord={openRecord} />
+  else if (active === 'quotations')
+    page = <Quotations query={query} branch={branch} openId={openId} onOpenRecord={openRecord} />
   else if (active === 'projects') page = <Projects query={query} branch={branch} openId={openId} />
   else if (active === 'pos') page = <Pos query={query} branch={branch} />
-  else if (active === 'inventory') page = <Inventory query={query} branch={branch} />
+  else if (active === 'inventory')
+    page = <Inventory query={query} branch={branch} openId={openId} openFilter={openFilter} />
   else if (active === 'invoices') page = <Invoices query={query} branch={branch} openId={openId} />
   else if (active === 'staff') page = <Staff query={query} branch={branch} />
   else
