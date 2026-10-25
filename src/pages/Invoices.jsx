@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
+import { useOnChange } from '../utils/useOnChange.js'
 import { Plus } from 'lucide-react'
 import PageHeader from '../components/PageHeader.jsx'
 import { useData } from '../data/DataContext.jsx'
@@ -8,14 +9,13 @@ import InvoiceDetail from '../invoices/InvoiceDetail.jsx'
 import InvoiceForm from '../invoices/InvoiceForm.jsx'
 import { emptyInvoice, nextInvoiceId } from '../invoices/invoiceFields.js'
 
-export default function Invoices({ query, branch }) {
+export default function Invoices({ query, branch, openId }) {
   const data = useData()
-  const [view, setView] = useState({ mode: 'list' })
+  // `openId` opens one invoice straight away, e.g. when clicked on a client page.
+  const [view, setView] = useState(openId ? { mode: 'detail', id: openId } : { mode: 'list' })
 
   // Typing in the search bar or switching branch always brings the list back.
-  useEffect(() => {
-    setView({ mode: 'list' })
-  }, [query, branch])
+  useOnChange([query, branch], () => setView({ mode: 'list' }))
 
   if (view.mode === 'detail') {
     return <InvoiceDetail invoiceId={view.id} justRaised={view.justRaised} onBack={() => setView({ mode: 'list' })} />

@@ -1,4 +1,4 @@
-import { ArrowLeft, Pencil, Phone, Mail, MapPin } from 'lucide-react'
+import { ArrowLeft, Pencil, Phone, Mail, MapPin, ChevronRight } from 'lucide-react'
 import PageHeader from '../components/PageHeader.jsx'
 import Badge from '../components/Badge.jsx'
 import Card, { CardEmpty as Empty } from '../components/Card.jsx'
@@ -16,7 +16,8 @@ import { quoteTotals } from '../quotations/quoteFields.js'
 import { currentStageLabel } from '../projects/projectFields.js'
 import { formatDate, formatMoney, todayIso } from '../utils/format.js'
 
-export default function ClientDetail({ clientId, onBack, onEdit }) {
+// `onOpenRecord(module, id)` jumps to that quote, project or invoice.
+export default function ClientDetail({ clientId, onBack, onEdit, onOpenRecord }) {
   const data = useData()
   const client = data.clients.find((c) => c.id === clientId)
   if (!client) return null
@@ -77,7 +78,7 @@ export default function ClientDetail({ clientId, onBack, onEdit }) {
             {quotes.length === 0 ? (
               <Empty>No quotations for this client yet.</Empty>
             ) : (
-              <table className="table table-compact">
+              <table className="table table-compact table-links">
                 <thead>
                   <tr>
                     <th>Quote no.</th>
@@ -85,11 +86,12 @@ export default function ClientDetail({ clientId, onBack, onEdit }) {
                     <th>Date</th>
                     <th>Status</th>
                     <th className="num">Total</th>
+                    <th />
                   </tr>
                 </thead>
                 <tbody>
                   {quotes.map((q) => (
-                    <tr key={q.id}>
+                    <tr key={q.id} onClick={() => onOpenRecord('quotations', q.id)} title={`Open ${q.id}`}>
                       <td className="cell-main">{q.id}</td>
                       <td>{q.title}</td>
                       <td>{formatDate(q.date)}</td>
@@ -97,6 +99,9 @@ export default function ClientDetail({ clientId, onBack, onEdit }) {
                         <Badge>{q.status}</Badge>
                       </td>
                       <td className="num">{formatMoney(quoteTotals(q).total)}</td>
+                      <td className="link-arrow">
+                        <ChevronRight size={15} strokeWidth={1.75} />
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -108,23 +113,39 @@ export default function ClientDetail({ clientId, onBack, onEdit }) {
             {projects.length === 0 ? (
               <Empty>No projects yet. A project appears here when one of this client’s quotes is approved.</Empty>
             ) : (
-              <table className="table table-compact">
+              <table className="table table-compact table-links">
                 <thead>
                   <tr>
                     <th>Project no.</th>
                     <th>Name</th>
                     <th>From quote</th>
                     <th>Stage</th>
+                    <th />
                   </tr>
                 </thead>
                 <tbody>
                   {projects.map((p) => (
-                    <tr key={p.id}>
+                    <tr key={p.id} onClick={() => onOpenRecord('projects', p.id)} title={`Open ${p.id}`}>
                       <td className="cell-main">{p.id}</td>
                       <td>{p.name}</td>
-                      <td>{p.quoteId}</td>
+                      <td>
+                        {/* The source quote opens on its own, without opening the project. */}
+                        <button
+                          type="button"
+                          className="inline-link"
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            onOpenRecord('quotations', p.quoteId)
+                          }}
+                        >
+                          {p.quoteId}
+                        </button>
+                      </td>
                       <td>
                         <Badge>{currentStageLabel(p)}</Badge>
+                      </td>
+                      <td className="link-arrow">
+                        <ChevronRight size={15} strokeWidth={1.75} />
                       </td>
                     </tr>
                   ))}
@@ -137,7 +158,7 @@ export default function ClientDetail({ clientId, onBack, onEdit }) {
             {invoices.length === 0 ? (
               <Empty>No invoices for this client yet.</Empty>
             ) : (
-              <table className="table table-compact">
+              <table className="table table-compact table-links">
                 <thead>
                   <tr>
                     <th>Invoice no.</th>
@@ -147,11 +168,12 @@ export default function ClientDetail({ clientId, onBack, onEdit }) {
                     <th className="num">Amount</th>
                     <th className="num">Paid</th>
                     <th className="num">Balance</th>
+                    <th />
                   </tr>
                 </thead>
                 <tbody>
                   {invoices.map((inv) => (
-                    <tr key={inv.id}>
+                    <tr key={inv.id} onClick={() => onOpenRecord('invoices', inv.id)} title={`Open ${inv.id}`}>
                       <td className="cell-main">{inv.id}</td>
                       <td>{inv.type}</td>
                       <td>{formatDate(inv.date)}</td>
@@ -161,6 +183,9 @@ export default function ClientDetail({ clientId, onBack, onEdit }) {
                       <td className="num">{formatMoney(inv.amount)}</td>
                       <td className="num">{formatMoney(amountPaid(inv))}</td>
                       <td className="num">{formatMoney(invoiceBalance(inv))}</td>
+                      <td className="link-arrow">
+                        <ChevronRight size={15} strokeWidth={1.75} />
+                      </td>
                     </tr>
                   ))}
                 </tbody>

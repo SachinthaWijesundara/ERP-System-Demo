@@ -20,13 +20,28 @@ export default function App() {
   // Bumped on every sidebar click so the page starts fresh, even when
   // clicking the module that is already open.
   const [visit, setVisit] = useState(0)
+  // A record to open straight away when a page loads, e.g. a quote clicked
+  // on a client's page: { module: 'quotations', id: 'QT-0012' }.
+  const [target, setTarget] = useState(null)
   const current = modules.find((m) => m.id === active)
 
   function openModule(id) {
     setActive(id)
     setQuery('')
+    setTarget(null)
     setVisit((v) => v + 1)
   }
+
+  // Jumps to another module and opens one of its records.
+  function openRecord(module, id) {
+    setActive(module)
+    setQuery('')
+    setTarget({ module, id })
+    setVisit((v) => v + 1)
+    window.scrollTo(0, 0)
+  }
+
+  const openId = target?.module === active ? target.id : undefined
 
   // Pages that have their own search. Typing anywhere else searches clients.
   const searchable = {
@@ -46,12 +61,12 @@ export default function App() {
 
   let page
   if (active === 'dashboard') page = <Dashboard />
-  else if (active === 'clients') page = <Clients query={query} branch={branch} />
-  else if (active === 'quotations') page = <Quotations query={query} branch={branch} />
-  else if (active === 'projects') page = <Projects query={query} branch={branch} />
+  else if (active === 'clients') page = <Clients query={query} branch={branch} onOpenRecord={openRecord} />
+  else if (active === 'quotations') page = <Quotations query={query} branch={branch} openId={openId} />
+  else if (active === 'projects') page = <Projects query={query} branch={branch} openId={openId} />
   else if (active === 'pos') page = <Pos query={query} branch={branch} />
   else if (active === 'inventory') page = <Inventory query={query} branch={branch} />
-  else if (active === 'invoices') page = <Invoices query={query} branch={branch} />
+  else if (active === 'invoices') page = <Invoices query={query} branch={branch} openId={openId} />
   else if (active === 'staff') page = <Staff query={query} branch={branch} />
   else
     page = (
