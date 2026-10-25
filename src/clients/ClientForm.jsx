@@ -1,19 +1,10 @@
 import { useState } from 'react'
 import { ArrowLeft, Plus, X } from 'lucide-react'
 import PageHeader from '../components/PageHeader.jsx'
+import Field from '../components/Field.jsx'
 import { useData } from '../data/DataContext.jsx'
 import { LEAD_SOURCES, STATUSES, SITE_LABELS, validateClient, cleanClient } from './clientFields.js'
 import { branches } from '../modules.js'
-
-function Field({ label, error, hint, wide, children }) {
-  return (
-    <label className={`field${wide ? ' field-wide' : ''}`}>
-      <span className="field-label">{label}</span>
-      {children}
-      {error ? <span className="field-error">{error}</span> : hint && <span className="field-hint">{hint}</span>}
-    </label>
-  )
-}
 
 export default function ClientForm({ initial, isNew, onCancel, onSave }) {
   const { clients } = useData()

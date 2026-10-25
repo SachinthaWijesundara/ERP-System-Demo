@@ -10,7 +10,7 @@ const DataContext = createContext(null)
 
 export function DataProvider({ children }) {
   const [clients, setClients] = useState(clientsSeed)
-  const [quotations] = useState(quotationsSeed)
+  const [quotations, setQuotations] = useState(quotationsSeed)
   const [projects] = useState(projectsSeed)
   const [invoices] = useState(invoicesSeed)
 
@@ -25,6 +25,13 @@ export function DataProvider({ children }) {
     },
     updateClient(client) {
       setClients((list) => list.map((c) => (c.id === client.id ? client : c)))
+    },
+
+    addQuotation(quote) {
+      setQuotations((list) => [quote, ...list])
+    },
+    updateQuotation(quote) {
+      setQuotations((list) => list.map((q) => (q.id === quote.id ? quote : q)))
     },
   }
 

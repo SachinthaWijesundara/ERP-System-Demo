@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { Search, Bell, ChevronRight } from 'lucide-react'
 
-export default function Topbar({ title, query, onSearch }) {
+export default function Topbar({ title, query, onSearch, placeholder }) {
   const searchRef = useRef(null)
 
   // Ctrl+K (Cmd+K on Mac) jumps to the search bar.
@@ -30,7 +30,7 @@ export default function Topbar({ title, query, onSearch }) {
           <input
             ref={searchRef}
             type="search"
-            placeholder="Search clients, IDs, projects"
+            placeholder={placeholder}
             value={query}
             onChange={(e) => onSearch(e.target.value)}
           />

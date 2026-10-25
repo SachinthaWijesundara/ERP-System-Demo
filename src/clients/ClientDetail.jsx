@@ -1,6 +1,7 @@
 import { ArrowLeft, Pencil, Phone, Mail, MapPin } from 'lucide-react'
 import PageHeader from '../components/PageHeader.jsx'
 import Badge from '../components/Badge.jsx'
+import Card, { CardEmpty as Empty } from '../components/Card.jsx'
 import { useData } from '../data/DataContext.jsx'
 import {
   quotationsForClient,
@@ -11,23 +12,8 @@ import {
   invoiceStatus,
   balanceDue,
 } from '../data/links.js'
+import { quoteTotals } from '../quotations/quoteFields.js'
 import { formatDate, formatMoney, todayIso } from '../utils/format.js'
-
-function Card({ title, count, children }) {
-  return (
-    <section className="card">
-      <header className="card-head">
-        <h2>{title}</h2>
-        {count !== undefined && <span className="card-count">{count}</span>}
-      </header>
-      <div className="card-body">{children}</div>
-    </section>
-  )
-}
-
-function Empty({ children }) {
-  return <p className="card-empty">{children}</p>
-}
 
 export default function ClientDetail({ clientId, onBack, onEdit }) {
   const data = useData()
@@ -109,7 +95,7 @@ export default function ClientDetail({ clientId, onBack, onEdit }) {
                       <td>
                         <Badge>{q.status}</Badge>
                       </td>
-                      <td className="num">{formatMoney(q.total)}</td>
+                      <td className="num">{formatMoney(quoteTotals(q).total)}</td>
                     </tr>
                   ))}
                 </tbody>

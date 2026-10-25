@@ -42,3 +42,39 @@ export function invoiceStatus(invoice) {
 export function balanceDue(data, clientId) {
   return invoicesForClient(data, clientId).reduce((sum, i) => sum + invoiceBalance(i), 0)
 }
+
+// --- Quotations -------------------------------------------------------
+
+// Quotations <- Clients (map connection 1). A quote stores only the client's
+// ID; name, phone and sites are read from the client record.
+export function clientForQuote(data, quote) {
+  return data.clients.find((c) => c.id === quote.clientId)
+}
+
+// A quote belongs to the branch of the client it was made for.
+export function quoteBranch(data, quote) {
+  return clientForQuote(data, quote)?.branch
+}
+
+// Quotations <- Inventory (map connection 2). NOT CONNECTED YET.
+// Once the Inventory module exists, return its products here, e.g.
+//   return data.products
+// Each product needs { name, description, unit, sellingPrice }. The quote
+// editor already offers these as suggestions and fills in unit and price
+// when one is picked, so nothing else has to change.
+export function productsForQuotes(data) {
+  return data.products ?? []
+}
+
+// Quotations -> Projects (map connection 3). A project stores the ID of the
+// quote it came from, so this finds the project an approved quote became.
+export function projectsForQuote(data, quoteId) {
+  return data.projects.filter((p) => p.quoteId === quoteId)
+}
+
+// NOT CONNECTED YET. When the Projects module exists, this should create a
+// project from an approved quote: client and site copied over, quote lines
+// becoming the materials list. The "Convert to project" button calls it.
+export function canConvertToProject() {
+  return false
+}

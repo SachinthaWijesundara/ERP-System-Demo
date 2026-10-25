@@ -4,6 +4,7 @@ import Topbar from './components/Topbar.jsx'
 import PageHeader from './components/PageHeader.jsx'
 import Dashboard from './pages/Dashboard.jsx'
 import Clients from './pages/Clients.jsx'
+import Quotations from './pages/Quotations.jsx'
 import { modules, ALL_BRANCHES } from './modules.js'
 import { todayLong } from './utils/format.js'
 
@@ -22,15 +23,21 @@ export default function App() {
     setVisit((v) => v + 1)
   }
 
-  // The search bar searches clients for now, so typing opens the Clients page.
+  // Pages that have their own search. Typing anywhere else searches clients.
+  const searchable = {
+    clients: 'Search clients, IDs, projects',
+    quotations: 'Search quotes, titles, clients',
+  }
+
   function search(text) {
     setQuery(text)
-    if (active !== 'clients') setActive('clients')
+    if (!searchable[active]) setActive('clients')
   }
 
   let page
   if (active === 'dashboard') page = <Dashboard />
   else if (active === 'clients') page = <Clients query={query} branch={branch} />
+  else if (active === 'quotations') page = <Quotations query={query} branch={branch} />
   else
     page = (
       <>
@@ -43,7 +50,12 @@ export default function App() {
     <div className="app">
       <Sidebar active={active} onSelect={openModule} branch={branch} onBranchChange={setBranch} />
       <div className="main">
-        <Topbar title={current.label} query={query} onSearch={search} />
+        <Topbar
+          title={current.label}
+          query={query}
+          onSearch={search}
+          placeholder={searchable[active] ?? searchable.clients}
+        />
         <main className="content" key={`${active}-${visit}`}>
           {page}
         </main>
