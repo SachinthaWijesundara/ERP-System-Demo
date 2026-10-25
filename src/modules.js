@@ -7,6 +7,7 @@ import {
   Package,
   Receipt,
   Settings,
+  IdCard,
 } from 'lucide-react'
 
 // Sidebar sections, top to bottom. The section with `pinned: true` sits at the foot.
@@ -30,6 +31,10 @@ export const sections = [
       { id: 'inventory', label: 'Inventory', icon: Package },
       { id: 'invoices', label: 'Invoices & payments', icon: Receipt },
     ],
+  },
+  {
+    label: 'Team',
+    items: [{ id: 'staff', label: 'Staff', icon: IdCard }],
   },
   {
     label: 'Admin',
