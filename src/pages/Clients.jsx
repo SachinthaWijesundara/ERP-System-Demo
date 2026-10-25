@@ -6,7 +6,7 @@ import ClientForm from '../clients/ClientForm.jsx'
 import { emptyClient, nextClientId } from '../clients/clientFields.js'
 
 // Switches between the client list, one client's page, and the add/edit form.
-export default function Clients({ query, branch }) {
+export default function Clients({ query, branch, onOpenRecord }) {
   const data = useData()
   const [view, setView] = useState({ mode: 'list' })
 
@@ -21,6 +21,7 @@ export default function Clients({ query, branch }) {
         clientId={view.id}
         onBack={() => setView({ mode: 'list' })}
         onEdit={() => setView({ mode: 'edit', id: view.id })}
+        onOpenRecord={onOpenRecord}
       />
     )
   }

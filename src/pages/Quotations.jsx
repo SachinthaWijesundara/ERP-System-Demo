@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
+import { useOnChange } from '../utils/useOnChange.js'
 import { useData } from '../data/DataContext.jsx'
 import QuoteList from '../quotations/QuoteList.jsx'
 import QuoteDetail from '../quotations/QuoteDetail.jsx'
@@ -7,14 +8,13 @@ import { emptyQuote, nextQuoteId } from '../quotations/quoteFields.js'
 import { todayIso } from '../utils/format.js'
 
 // Switches between the quotation list, one quotation, and the add/edit form.
-export default function Quotations({ query, branch }) {
+export default function Quotations({ query, branch, openId }) {
   const data = useData()
-  const [view, setView] = useState({ mode: 'list' })
+  // `openId` opens one quote straight away, e.g. when clicked on a client page.
+  const [view, setView] = useState(openId ? { mode: 'detail', id: openId } : { mode: 'list' })
 
   // Typing in the search bar or switching branch always brings the list back.
-  useEffect(() => {
-    setView({ mode: 'list' })
-  }, [query, branch])
+  useOnChange([query, branch], () => setView({ mode: 'list' }))
 
   if (view.mode === 'detail') {
     return (

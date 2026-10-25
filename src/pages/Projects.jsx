@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
+import { useOnChange } from '../utils/useOnChange.js'
 import { useData } from '../data/DataContext.jsx'
 import ProjectList from '../projects/ProjectList.jsx'
 import ProjectDetail from '../projects/ProjectDetail.jsx'
@@ -7,14 +8,13 @@ import { emptyProject, nextProjectId } from '../projects/projectFields.js'
 import { todayIso } from '../utils/format.js'
 
 // Switches between the project list, one project, and the add/edit form.
-export default function Projects({ query, branch }) {
+export default function Projects({ query, branch, openId }) {
   const data = useData()
-  const [view, setView] = useState({ mode: 'list' })
+  // `openId` opens one project straight away, e.g. when clicked on a client page.
+  const [view, setView] = useState(openId ? { mode: 'detail', id: openId } : { mode: 'list' })
 
   // Typing in the search bar or switching branch always brings the list back.
-  useEffect(() => {
-    setView({ mode: 'list' })
-  }, [query, branch])
+  useOnChange([query, branch], () => setView({ mode: 'list' }))
 
   if (view.mode === 'detail') {
     return (
