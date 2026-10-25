@@ -1,17 +1,22 @@
-import { Search, Bell } from 'lucide-react'
+import { Search, Bell, ChevronRight } from 'lucide-react'
 
 export default function Topbar({ title }) {
   return (
     <header className="topbar">
-      <h1>{title}</h1>
+      <div className="crumbs">
+        <span>Immense Home</span>
+        <ChevronRight size={14} strokeWidth={1.75} />
+        <span className="crumbs-current">{title}</span>
+      </div>
 
       <div className="topbar-actions">
         <label className="search">
-          <Search size={16} strokeWidth={1.75} />
+          <Search size={15} strokeWidth={1.75} />
           <input type="search" placeholder="Search" />
+          <kbd>Ctrl K</kbd>
         </label>
         <button type="button" className="icon-button" aria-label="Notifications">
-          <Bell size={18} strokeWidth={1.75} />
+          <Bell size={16} strokeWidth={1.75} />
         </button>
         <div className="avatar" aria-hidden="true" />
       </div>

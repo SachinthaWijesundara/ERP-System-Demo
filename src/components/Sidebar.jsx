@@ -1,4 +1,5 @@
-import { modules } from '../modules.js'
+import { ChevronsUpDown } from 'lucide-react'
+import { sections, branches } from '../modules.js'
 
 function NavItem({ item, active, onSelect }) {
   const Icon = item.icon
@@ -9,16 +10,24 @@ function NavItem({ item, active, onSelect }) {
       onClick={() => onSelect(item.id)}
       title={item.label}
     >
-      <Icon size={18} strokeWidth={1.75} />
+      <Icon size={16} strokeWidth={1.75} />
       <span>{item.label}</span>
     </button>
   )
 }
 
-export default function Sidebar({ active, onSelect }) {
-  const top = modules.filter((m) => m.group !== 'bottom')
-  const bottom = modules.filter((m) => m.group === 'bottom')
+function NavSection({ section, active, onSelect }) {
+  return (
+    <div className={`nav-section${section.pinned ? ' is-pinned' : ''}`}>
+      <div className="nav-label">{section.label}</div>
+      {section.items.map((item) => (
+        <NavItem key={item.id} item={item} active={active === item.id} onSelect={onSelect} />
+      ))}
+    </div>
+  )
+}
 
+export default function Sidebar({ active, onSelect }) {
   return (
     <aside className="sidebar">
       <div className="brand">
@@ -29,15 +38,19 @@ export default function Sidebar({ active, onSelect }) {
         </div>
       </div>
 
-      <nav className="nav">
-        {top.map((item) => (
-          <NavItem key={item.id} item={item} active={active === item.id} onSelect={onSelect} />
-        ))}
-      </nav>
+      <label className="branch">
+        <span className="branch-label">Branch</span>
+        <select defaultValue={branches[0]}>
+          {branches.map((b) => (
+            <option key={b}>{b}</option>
+          ))}
+        </select>
+        <ChevronsUpDown size={14} strokeWidth={1.75} />
+      </label>
 
-      <nav className="nav nav-bottom">
-        {bottom.map((item) => (
-          <NavItem key={item.id} item={item} active={active === item.id} onSelect={onSelect} />
+      <nav className="nav">
+        {sections.map((section) => (
+          <NavSection key={section.label} section={section} active={active} onSelect={onSelect} />
         ))}
       </nav>
     </aside>
