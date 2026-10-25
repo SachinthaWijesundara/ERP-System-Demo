@@ -1,0 +1,26 @@
+[
+  {
+    "id": "QT-0009",
+    "clientId": "CL-0015",
+    "title": "Kitchen cabinets",
+    "date": "2026-01-10",
+    "total": 640000,
+    "status": "Approved"
+  },
+  {
+    "id": "QT-0012",
+    "clientId": "CL-0021",
+    "title": "Living room vinyl flooring",
+    "date": "2026-09-20",
+    "total": 520000,
+    "status": "Approved"
+  },
+  {
+    "id": "QT-0014",
+    "clientId": "CL-0018",
+    "title": "Pantry and wardrobe",
+    "date": "2026-10-15",
+    "total": 385000,
+    "status": "Sent"
+  }
+]

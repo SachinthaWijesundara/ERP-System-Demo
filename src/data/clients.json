@@ -1,0 +1,94 @@
+[
+  {
+    "id": "CL-0023",
+    "name": "Chamari Silva",
+    "phone": "072 567 8901",
+    "email": "chamari.silva@yahoo.com",
+    "sites": [
+      { "label": "Villa", "address": "3 Mirissa Road", "city": "Weligama" }
+    ],
+    "leadSource": "Instagram",
+    "status": "Lead",
+    "followUp": "2026-11-02",
+    "notes": "Wants a site visit for a full villa interior. Budget not confirmed yet."
+  },
+  {
+    "id": "CL-0022",
+    "name": "Dilani Wickramasinghe",
+    "phone": "076 345 6789",
+    "email": "dilani.w@gmail.com",
+    "sites": [
+      { "label": "Home", "address": "45 Beach Road", "city": "Matara" }
+    ],
+    "leadSource": "Walk-in",
+    "status": "Lead",
+    "followUp": "2026-10-28",
+    "notes": "Asked about wall panelling for the living room. Gave a rough price range at the Matara showroom."
+  },
+  {
+    "id": "CL-0021",
+    "name": "Mrs. Nadeeka Perera",
+    "phone": "077 123 4567",
+    "email": "nadeeka.perera@gmail.com",
+    "sites": [
+      { "label": "Home", "address": "14 Lake Road", "city": "Negombo" }
+    ],
+    "leadSource": "Facebook",
+    "status": "Active",
+    "followUp": "2026-11-08",
+    "notes": "Living room vinyl flooring, 450 sqft. Prefers weekday site visits after 10 am."
+  },
+  {
+    "id": "CL-0019",
+    "name": "Lakmal Gunasekara",
+    "phone": "011 285 4321",
+    "email": "lakmal@gunasekara.lk",
+    "sites": [
+      { "label": "Office", "address": "77 Old Kesbewa Road", "city": "Nugegoda" }
+    ],
+    "leadSource": "Website",
+    "status": "Active",
+    "followUp": "2026-11-05",
+    "notes": "Office reception and two cabins. Asked for a revised quote with laminate instead of veneer."
+  },
+  {
+    "id": "CL-0018",
+    "name": "Kasun Jayawardena",
+    "phone": "071 234 5678",
+    "email": "kasun.j@outlook.com",
+    "sites": [
+      { "label": "Apartment", "address": "22/3 Stanley Thilakaratne Mawatha", "city": "Nugegoda" }
+    ],
+    "leadSource": "Referral",
+    "status": "Active",
+    "followUp": "2026-10-30",
+    "notes": "Pantry cupboards and a built-in wardrobe. Referred by Mrs. Perera."
+  },
+  {
+    "id": "CL-0015",
+    "name": "Ruwan Fernando",
+    "phone": "070 456 7890",
+    "email": "",
+    "sites": [
+      { "label": "Home", "address": "8 Temple Road", "city": "Maharagama" },
+      { "label": "Office", "address": "120 High Level Road", "city": "Nugegoda" }
+    ],
+    "leadSource": "Facebook",
+    "status": "Past",
+    "followUp": "",
+    "notes": "Kitchen cabinets completed in March 2026. Final invoice still has a balance."
+  },
+  {
+    "id": "CL-0012",
+    "name": "Mrs. Shanthi de Silva",
+    "phone": "041 222 3344",
+    "email": "",
+    "sites": [
+      { "label": "Home", "address": "19 Esplanade Road", "city": "Matara" }
+    ],
+    "leadSource": "Walk-in",
+    "status": "Past",
+    "followUp": "",
+    "notes": "Curtains and blinds for three bedrooms, 2025. Happy with the work."
+  }
+]
