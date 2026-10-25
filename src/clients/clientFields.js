@@ -42,6 +42,10 @@ function phoneDigits(value) {
   return /^0\d{9}$/.test(digits) ? digits : null
 }
 
+export function isValidPhone(value) {
+  return phoneDigits(value) !== null
+}
+
 // '0771234567' -> '077 123 4567'
 export function formatPhone(value) {
   const digits = phoneDigits(value)
