@@ -2308,9 +2308,118 @@ textarea {
   font-weight: 500;
 }
 
+/* Inventory */
+
+.badge-in-stock,
+.badge-in {
+  background: #e7f1e9;
+  color: #2e6a3e;
+}
+
+.badge-low-stock,
+.badge-adjustment {
+  background: #f8efdc;
+  color: #8a5a12;
+}
+
+.badge-out-of-stock {
+  background: #f8e6e3;
+  color: #9c3b2c;
+}
+
+.badge-out {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.qty-in {
+  color: #2e6a3e;
+}
+
+.qty-out {
+  color: #9c3b2c;
+}
+
+.toolbar-select {
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+}
+
+.table-note {
+  margin: 10px 0 0;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.item-facts {
+  grid-template-columns: repeat(5, 1fr);
+  margin-bottom: 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.item-desc {
+  margin: 14px 0 0;
+}
+
+.reserve-note {
+  margin: 12px 0 0;
+}
+
+.sell-check {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.check-result {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: var(--radius);
+}
+
+.check-result svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.check-result.is-ok {
+  border: 1px solid #cfe3d4;
+  background: #f1f8f3;
+  color: #2e6a3e;
+}
+
+.check-result.is-no {
+  border: 1px solid #ecc9c2;
+  background: #fbefed;
+  color: #9c3b2c;
+}
+
+.movement-hint {
+  margin: 8px 0 14px;
+}
+
+.movement-foot {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 16px;
+}
+
 /* Smaller screens */
 
 @media (max-width: 1100px) {
+  .item-facts {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
   .checkout,
   .sale-grid,
   .cashup {
@@ -2479,8 +2588,17 @@ textarea {
     align-items: flex-start;
   }
 
-  .cashup-pick {
+  .cashup-pick,
+  .sell-check {
     grid-template-columns: 1fr 1fr;
+  }
+
+  .item-facts {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .toolbar-select {
+    width: 100%;
   }
 
   .cashup-state {

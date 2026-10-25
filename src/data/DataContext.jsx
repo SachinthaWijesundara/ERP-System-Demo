@@ -6,6 +6,8 @@ import invoicesSeed from './invoices.json'
 import salesSeed from './sales.json'
 import cashUpsSeed from './cashups.json'
 import posProducts from './posProducts.json'
+import inventorySeed from './inventory.json'
+import movementsSeed from './movements.json'
 
 // One shared store for every module. The JSON files are the starting data;
 // changes made in the app live in memory and reset when the page reloads.
@@ -18,8 +20,12 @@ export function DataProvider({ children }) {
   const [invoices] = useState(invoicesSeed)
   const [sales, setSales] = useState(salesSeed)
   const [cashUps, setCashUps] = useState(cashUpsSeed)
+  const [inventory, setInventory] = useState(inventorySeed)
+  const [movements, setMovements] = useState(movementsSeed)
 
   const value = {
+    inventory,
+    movements,
     clients,
     quotations,
     projects,
@@ -54,6 +60,24 @@ export function DataProvider({ children }) {
     },
     addCashUp(cashUp) {
       setCashUps((list) => [cashUp, ...list])
+    },
+
+    addItem(item) {
+      setInventory((list) => [...list, item])
+    },
+    updateItem(item) {
+      setInventory((list) => list.map((i) => (i.sku === item.sku ? item : i)))
+    },
+    // Logs a stock movement and changes that branch's on-hand figure to match.
+    recordMovement(movement, delta) {
+      setMovements((list) => [movement, ...list])
+      setInventory((list) =>
+        list.map((i) =>
+          i.sku === movement.sku
+            ? { ...i, stock: { ...i.stock, [movement.branch]: (i.stock[movement.branch] ?? 0) + delta } }
+            : i,
+        ),
+      )
     },
   }
 

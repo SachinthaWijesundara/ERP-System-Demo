@@ -1,0 +1,18 @@
+[
+  { "id": "MV-0016", "date": "2026-10-25", "sku": "LED-STR-5", "branch": "Nugegoda", "type": "Out", "qty": 2, "reference": "POS sale SL-0312", "by": "Kavindu Silva", "note": "" },
+  { "id": "MV-0015", "date": "2026-10-25", "sku": "CU-VLV-01", "branch": "Nugegoda", "type": "Out", "qty": 2, "reference": "POS sale SL-0312", "by": "Kavindu Silva", "note": "" },
+  { "id": "MV-0014", "date": "2026-10-25", "sku": "CR-ROD-01", "branch": "Matara", "type": "Out", "qty": 1, "reference": "POS sale SL-0311", "by": "Ishara Madushani", "note": "" },
+  { "id": "MV-0013", "date": "2026-10-25", "sku": "BL-RLR-01", "branch": "Matara", "type": "Out", "qty": 1, "reference": "POS sale SL-0311", "by": "Ishara Madushani", "note": "" },
+  { "id": "MV-0012", "date": "2026-10-25", "sku": "TL-POR-60", "branch": "Nugegoda", "type": "Out", "qty": 2, "reference": "POS sale SL-0310", "by": "Kavindu Silva", "note": "Last two boxes at Nugegoda." },
+  { "id": "MV-0011", "date": "2026-10-24", "sku": "WP-PLN-02", "branch": "Nugegoda", "type": "Out", "qty": 6, "reference": "POS sale SL-0309", "by": "Kavindu Silva", "note": "" },
+  { "id": "MV-0010", "date": "2026-10-24", "sku": "WP-FLR-01", "branch": "Matara", "type": "Adjustment", "qty": -1, "reference": "Stock count", "by": "Pradeep Wijeratne", "note": "One roll water-damaged in the store room." },
+  { "id": "MV-0009", "date": "2026-10-23", "sku": "VNL-OAK-01", "branch": "Nugegoda", "type": "Out", "qty": 450, "reference": "Issued to PRJ-0007", "by": "Roshan Jayalath", "note": "Perera residence, living room." },
+  { "id": "MV-0008", "date": "2026-10-23", "sku": "UND-FOAM-2", "branch": "Nugegoda", "type": "Out", "qty": 450, "reference": "Issued to PRJ-0007", "by": "Roshan Jayalath", "note": "" },
+  { "id": "MV-0007", "date": "2026-10-22", "sku": "LAM-WGL-01", "branch": "Nugegoda", "type": "In", "qty": 30, "reference": "GRN-1042 · Lanka Laminates", "by": "Roshan Jayalath", "note": "20 sheets set aside for PRJ-0008." },
+  { "id": "MV-0006", "date": "2026-10-21", "sku": "TL-POR-60", "branch": "Nugegoda", "type": "Adjustment", "qty": -2, "reference": "Breakage", "by": "Roshan Jayalath", "note": "Two boxes cracked when moving stock." },
+  { "id": "MV-0005", "date": "2026-10-20", "sku": "VNL-OAK-01", "branch": "Nugegoda", "type": "In", "qty": 960, "reference": "GRN-1039 · Floor World (Pvt) Ltd", "by": "Roshan Jayalath", "note": "" },
+  { "id": "MV-0004", "date": "2026-10-20", "sku": "GYP-BRD-9", "branch": "Matara", "type": "In", "qty": 50, "reference": "GRN-1038 · Southern Building Supplies", "by": "Pradeep Wijeratne", "note": "" },
+  { "id": "MV-0003", "date": "2026-10-19", "sku": "SKT-PVC-OAK", "branch": "Nugegoda", "type": "In", "qty": 60, "reference": "GRN-1036 · Floor World (Pvt) Ltd", "by": "Roshan Jayalath", "note": "" },
+  { "id": "MV-0002", "date": "2026-10-18", "sku": "VAR-CLR-L", "branch": "Nugegoda", "type": "Out", "qty": 4, "reference": "Showroom use", "by": "Roshan Jayalath", "note": "Used to touch up the display counter." },
+  { "id": "MV-0001", "date": "2026-10-17", "sku": "WPC-WAL-01", "branch": "Matara", "type": "In", "qty": 40, "reference": "GRN-1035 · Lanka Laminates", "by": "Pradeep Wijeratne", "note": "" }
+]

@@ -51,7 +51,8 @@
     },
     "materials": [
       { "product": "Pantry cupboards", "description": "Melamine on 18 mm board, soft-close hinges", "qty": 8, "unit": "ft", "unitCost": 13000, "status": "Pending" },
-      { "product": "Built-in wardrobe", "description": "Sliding doors with mirror panel", "qty": 7, "unit": "ft", "unitCost": 15000, "status": "Pending" }
+      { "product": "Built-in wardrobe", "description": "Sliding doors with mirror panel", "qty": 7, "unit": "ft", "unitCost": 15000, "status": "Pending" },
+      { "product": "Laminate sheet, white gloss", "description": "LAM-WGL-01, 8 × 4 ft, for the pantry doors", "qty": 20, "unit": "piece", "unitCost": 4800, "status": "Reserved" }
     ],
     "measurements": [
       { "area": "Pantry wall", "dimensions": "8 ft wide × 7 ft high", "value": 8, "unit": "ft" },
@@ -132,7 +133,7 @@
     "materials": [
       { "product": "Vinyl plank", "description": "VNL-OAK-01, oak finish, 5 mm click-lock", "qty": 450, "unit": "sqft", "unitCost": 560, "status": "Issued" },
       { "product": "Underlay", "description": "2 mm foam with moisture barrier", "qty": 450, "unit": "sqft", "unitCost": 80, "status": "Issued" },
-      { "product": "Skirting", "description": "PVC, oak to match", "qty": 40, "unit": "m", "unitCost": 550, "status": "Pending" }
+      { "product": "Skirting", "description": "PVC, oak to match", "qty": 40, "unit": "m", "unitCost": 550, "status": "Reserved" }
     ],
     "measurements": [
       { "area": "Living room", "dimensions": "25 ft × 18 ft", "value": 450, "unit": "sqft" },
