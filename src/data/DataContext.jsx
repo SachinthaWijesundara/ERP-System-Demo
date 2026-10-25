@@ -17,7 +17,7 @@ export function DataProvider({ children }) {
   const [clients, setClients] = useState(clientsSeed)
   const [quotations, setQuotations] = useState(quotationsSeed)
   const [projects, setProjects] = useState(projectsSeed)
-  const [invoices] = useState(invoicesSeed)
+  const [invoices, setInvoices] = useState(invoicesSeed)
   const [sales, setSales] = useState(salesSeed)
   const [cashUps, setCashUps] = useState(cashUpsSeed)
   const [inventory, setInventory] = useState(inventorySeed)
@@ -58,6 +58,13 @@ export function DataProvider({ children }) {
     addSale(sale) {
       setSales((list) => [sale, ...list])
     },
+    addInvoice(invoice) {
+      setInvoices((list) => [invoice, ...list])
+    },
+    updateInvoice(invoice) {
+      setInvoices((list) => list.map((i) => (i.id === invoice.id ? invoice : i)))
+    },
+
     addCashUp(cashUp) {
       setCashUps((list) => [cashUp, ...list])
     },
