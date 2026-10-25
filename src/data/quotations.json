@@ -45,7 +45,7 @@
     "date": "2026-10-15",
     "validUntil": "2026-11-14",
     "site": { "label": "Apartment", "address": "22/3 Stanley Thilakaratne Mawatha", "city": "Nugegoda" },
-    "status": "Sent",
+    "status": "Approved",
     "items": [
       { "product": "Pantry cupboards", "description": "Melamine on 18 mm board, soft-close hinges", "qty": 8, "unit": "ft", "price": 22000, "discount": 5 },
       { "product": "Built-in wardrobe", "description": "Sliding doors with mirror panel", "qty": 7, "unit": "ft", "price": 26000, "discount": 0 }
@@ -115,6 +115,26 @@
       { "description": "Installation", "qty": 1, "unit": "lot", "price": 25000 }
     ],
     "discount": { "type": "amount", "value": 15000 },
+    "taxRate": 0,
+    "notes": "",
+    "terms": "1. 50% advance on confirmation, balance on completion.\n2. Prices are valid until the date shown above.\n3. Work starts within 7 days of receiving the advance.\n4. Any extra work will be quoted separately."
+  },
+  {
+    "id": "QT-0008",
+    "clientId": "CL-0012",
+    "title": "Bedroom curtains and blinds",
+    "date": "2025-06-02",
+    "validUntil": "2025-07-02",
+    "site": { "label": "Home", "address": "19 Esplanade Road", "city": "Matara" },
+    "status": "Approved",
+    "items": [
+      { "product": "Blackout curtains", "description": "Beige, lined, with rails", "qty": 3, "unit": "set", "price": 38000, "discount": 0 },
+      { "product": "Roller blinds", "description": "White, chain operated", "qty": 4, "unit": "piece", "price": 12500, "discount": 0 }
+    ],
+    "labour": [
+      { "description": "Measuring and fitting", "qty": 1, "unit": "lot", "price": 8000 }
+    ],
+    "discount": { "type": "amount", "value": 0 },
     "taxRate": 0,
     "notes": "",
     "terms": "1. 50% advance on confirmation, balance on completion.\n2. Prices are valid until the date shown above.\n3. Work starts within 7 days of receiving the advance.\n4. Any extra work will be quoted separately."

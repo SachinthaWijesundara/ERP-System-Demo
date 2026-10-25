@@ -72,9 +72,66 @@ export function projectsForQuote(data, quoteId) {
   return data.projects.filter((p) => p.quoteId === quoteId)
 }
 
-// NOT CONNECTED YET. When the Projects module exists, this should create a
-// project from an approved quote: client and site copied over, quote lines
-// becoming the materials list. The "Convert to project" button calls it.
+// NOT CONNECTED YET. This should create a project from an approved quote:
+// client and site copied over, quote lines becoming the materials list (see
+// materialsFromQuote below). The "Convert to project" button calls it.
 export function canConvertToProject() {
   return false
+}
+
+// --- Projects ---------------------------------------------------------
+
+// Projects <- Clients. A project stores the client's ID.
+export function clientForProject(data, project) {
+  return data.clients.find((c) => c.id === project.clientId)
+}
+
+// Projects <- Quotations (map connection 3). A project stores the ID of the
+// approved quote it came from.
+export function quoteForProject(data, project) {
+  return data.quotations.find((q) => q.id === project.quoteId)
+}
+
+export function projectBranch(data, project) {
+  return clientForProject(data, project)?.branch
+}
+
+// Approved quotes for a client that don't have a project yet.
+export function quotesReadyForProject(data, clientId, exceptProjectId) {
+  const taken = new Set(data.projects.filter((p) => p.id !== exceptProjectId).map((p) => p.quoteId))
+  return data.quotations.filter((q) => q.clientId === clientId && q.status === 'Approved' && !taken.has(q.id))
+}
+
+// Quote lines become the project's materials list. unitCost is the studio's
+// cost price, which will come from Inventory once it is connected.
+export function materialsFromQuote(quote) {
+  return quote.items.map((i) => ({
+    product: i.product,
+    description: i.description,
+    qty: i.qty,
+    unit: i.unit,
+    unitCost: 0,
+    status: 'Pending',
+  }))
+}
+
+// Projects -> Inventory (map connection 4). NOT CONNECTED YET.
+// When a material is reserved, Inventory should hold that stock for the
+// project so POS can't sell it; when issued, it should deduct it. The project
+// page calls this every time a material's status changes.
+export function materialStatusChanged(data, project, material, newStatus) {
+  // e.g. data.reserveStock(material.product, material.qty, project.id)
+  return { project, material, newStatus }
+}
+
+// Projects -> Invoices and payments (map connection 5). Invoices store the
+// project's ID, so this finds the advance, progress and final invoices.
+export function invoicesForProject(data, projectId) {
+  return data.invoices.filter((i) => i.projectId === projectId)
+}
+
+// Designers and installation teams. NOT CONNECTED YET. Once a Staff module
+// exists, return its people here; the project form already suggests them.
+export function staffForProjects(data) {
+  return data.staff ?? []
 }

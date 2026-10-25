@@ -1,16 +1,281 @@
 [
   {
-    "id": "PRJ-0004",
-    "clientId": "CL-0015",
-    "quoteId": "QT-0009",
-    "name": "Fernando kitchen",
-    "stage": "Handover"
+    "id": "PRJ-0008",
+    "clientId": "CL-0018",
+    "quoteId": "QT-0014",
+    "name": "Jayawardena apartment",
+    "site": { "label": "Apartment", "address": "22/3 Stanley Thilakaratne Mawatha", "city": "Nugegoda" },
+    "designer": "Tharushi Fonseka",
+    "team": ["Chathura Dias"],
+    "startDate": "2026-10-20",
+    "dueDate": "2026-11-30",
+    "stages": {
+      "siteVisit": {
+        "status": "Done",
+        "date": "2026-10-21",
+        "visitedBy": "Tharushi Fonseka",
+        "notes": "Pantry wall is plastered and level. Wardrobe wall has a power socket that needs moving 300 mm left."
+      },
+      "design": {
+        "status": "Done",
+        "completedOn": "2026-10-24",
+        "notes": "Pantry in white gloss with oak handles. Wardrobe with one mirrored sliding door.",
+        "files": [
+          { "id": "p8-d1", "name": "pantry-elevation.pdf", "kind": "Plan", "addedOn": "2026-10-23", "url": null },
+          { "id": "p8-d2", "name": "wardrobe-3d-view.jpg", "kind": "3D render", "addedOn": "2026-10-24", "url": null }
+        ]
+      },
+      "approval": {
+        "status": "In progress",
+        "approvedOn": "",
+        "approvedBy": "",
+        "method": "",
+        "letter": null,
+        "notes": "Design sent to the client on 24 Oct. Waiting for sign-off."
+      },
+      "materials": { "status": "Not started", "neededBy": "2026-11-10", "notes": "" },
+      "installation": { "status": "Not started", "startDate": "", "endDate": "", "costs": [], "notes": "" },
+      "handover": {
+        "status": "Not started",
+        "plannedDate": "2026-11-30",
+        "actualDate": "",
+        "receivedBy": "",
+        "warrantyMonths": 12,
+        "checklist": [
+          { "item": "Doors and drawers aligned", "done": false },
+          { "item": "Site cleaned", "done": false },
+          { "item": "Client walkthrough", "done": false }
+        ],
+        "notes": ""
+      }
+    },
+    "materials": [
+      { "product": "Pantry cupboards", "description": "Melamine on 18 mm board, soft-close hinges", "qty": 8, "unit": "ft", "unitCost": 13000, "status": "Pending" },
+      { "product": "Built-in wardrobe", "description": "Sliding doors with mirror panel", "qty": 7, "unit": "ft", "unitCost": 15000, "status": "Pending" }
+    ],
+    "measurements": [
+      { "area": "Pantry wall", "dimensions": "8 ft wide × 7 ft high", "value": 8, "unit": "ft" },
+      { "area": "Bedroom wardrobe wall", "dimensions": "7 ft wide × 8 ft high", "value": 7, "unit": "ft" }
+    ],
+    "photos": [
+      { "id": "p8-p1", "name": "pantry-wall-before.jpg", "caption": "Pantry wall before work", "addedOn": "2026-10-21", "url": null },
+      { "id": "p8-p2", "name": "wardrobe-wall-socket.jpg", "caption": "Socket to be moved", "addedOn": "2026-10-21", "url": null }
+    ],
+    "notes": [
+      { "date": "2026-10-21", "author": "Tharushi Fonseka", "text": "Client wants the pantry finished before the family visit in early December." }
+    ]
   },
   {
     "id": "PRJ-0007",
     "clientId": "CL-0021",
     "quoteId": "QT-0012",
     "name": "Perera residence",
-    "stage": "Installation"
+    "site": { "label": "Home", "address": "14 Lake Road", "city": "Negombo" },
+    "designer": "Nimali Jayasinghe",
+    "team": ["Saman Kumara", "Chathura Dias"],
+    "startDate": "2026-09-26",
+    "dueDate": "2026-11-12",
+    "stages": {
+      "siteVisit": {
+        "status": "Done",
+        "date": "2026-09-27",
+        "visitedBy": "Nimali Jayasinghe",
+        "notes": "Floor is mostly level. Small dip near the balcony door needs levelling compound."
+      },
+      "design": {
+        "status": "Done",
+        "completedOn": "2026-10-02",
+        "notes": "Oak planks laid lengthwise towards the garden door. Matching oak skirting.",
+        "files": [
+          { "id": "p7-d1", "name": "living-room-floor-plan.pdf", "kind": "Plan", "addedOn": "2026-09-30", "url": null },
+          { "id": "p7-d2", "name": "plank-layout-render.jpg", "kind": "3D render", "addedOn": "2026-10-01", "url": null }
+        ]
+      },
+      "approval": {
+        "status": "Done",
+        "approvedOn": "2026-10-05",
+        "approvedBy": "Mrs. Nadeeka Perera",
+        "method": "Signed approval letter",
+        "letter": { "id": "p7-a1", "name": "PRJ-0007-approval-letter.pdf", "kind": "Approval letter", "addedOn": "2026-10-05", "url": null },
+        "notes": ""
+      },
+      "materials": {
+        "status": "In progress",
+        "neededBy": "2026-11-08",
+        "notes": "Skirting arriving from the supplier on 6 Nov."
+      },
+      "installation": {
+        "status": "In progress",
+        "startDate": "2026-10-23",
+        "endDate": "2026-11-08",
+        "costs": [
+          { "description": "Installer wages", "amount": 55000 },
+          { "description": "Transport", "amount": 15000 }
+        ],
+        "notes": "Levelling done on day 1. Plank laying in progress."
+      },
+      "handover": {
+        "status": "Not started",
+        "plannedDate": "2026-11-12",
+        "actualDate": "",
+        "receivedBy": "",
+        "warrantyMonths": 12,
+        "checklist": [
+          { "item": "Floor cleaned", "done": false },
+          { "item": "Skirting fixed", "done": false },
+          { "item": "Leftover planks handed to client", "done": false },
+          { "item": "Client walkthrough", "done": false }
+        ],
+        "notes": ""
+      }
+    },
+    "materials": [
+      { "product": "Vinyl plank", "description": "VNL-OAK-01, oak finish, 5 mm click-lock", "qty": 450, "unit": "sqft", "unitCost": 560, "status": "Issued" },
+      { "product": "Underlay", "description": "2 mm foam with moisture barrier", "qty": 450, "unit": "sqft", "unitCost": 80, "status": "Issued" },
+      { "product": "Skirting", "description": "PVC, oak to match", "qty": 40, "unit": "m", "unitCost": 550, "status": "Pending" }
+    ],
+    "measurements": [
+      { "area": "Living room", "dimensions": "25 ft × 18 ft", "value": 450, "unit": "sqft" },
+      { "area": "Skirting run", "dimensions": "Room perimeter less door openings", "value": 40, "unit": "m" }
+    ],
+    "photos": [
+      { "id": "p7-p1", "name": "living-room-before-1.jpg", "caption": "Before: existing tiles", "addedOn": "2026-09-27", "url": null },
+      { "id": "p7-p2", "name": "living-room-before-2.jpg", "caption": "Before: balcony side", "addedOn": "2026-09-27", "url": null },
+      { "id": "p7-p3", "name": "floor-dip-balcony.jpg", "caption": "Dip near the balcony door", "addedOn": "2026-09-27", "url": null },
+      { "id": "p7-p4", "name": "levelling-day-1.jpg", "caption": "Levelling compound applied", "addedOn": "2026-10-23", "url": null },
+      { "id": "p7-p5", "name": "underlay-laid.jpg", "caption": "Underlay laid", "addedOn": "2026-10-24", "url": null },
+      { "id": "p7-p6", "name": "planks-in-progress.jpg", "caption": "Planks going down", "addedOn": "2026-10-25", "url": null }
+    ],
+    "notes": [
+      { "date": "2026-09-27", "author": "Nimali Jayasinghe", "text": "Client prefers weekday work after 10 am. Keys with the neighbour at no. 16." },
+      { "date": "2026-10-23", "author": "Saman Kumara", "text": "Levelling done. Underlay and planks issued from the Nugegoda store." }
+    ]
+  },
+  {
+    "id": "PRJ-0004",
+    "clientId": "CL-0015",
+    "quoteId": "QT-0009",
+    "name": "Fernando kitchen",
+    "site": { "label": "Home", "address": "8 Temple Road", "city": "Maharagama" },
+    "designer": "Nimali Jayasinghe",
+    "team": ["Saman Kumara", "Nuwan Bandara"],
+    "startDate": "2026-01-16",
+    "dueDate": "2026-03-20",
+    "stages": {
+      "siteVisit": { "status": "Done", "date": "2026-01-17", "visitedBy": "Nimali Jayasinghe", "notes": "L-shaped kitchen. Old cabinets to be removed by the client." },
+      "design": {
+        "status": "Done",
+        "completedOn": "2026-01-28",
+        "notes": "Grey melamine with white quartz top.",
+        "files": [
+          { "id": "p4-d1", "name": "kitchen-layout.pdf", "kind": "Plan", "addedOn": "2026-01-25", "url": null }
+        ]
+      },
+      "approval": {
+        "status": "Done",
+        "approvedOn": "2026-02-02",
+        "approvedBy": "Ruwan Fernando",
+        "method": "Approved on site",
+        "letter": null,
+        "notes": ""
+      },
+      "materials": { "status": "Done", "neededBy": "2026-02-20", "notes": "" },
+      "installation": {
+        "status": "Done",
+        "startDate": "2026-02-23",
+        "endDate": "2026-03-17",
+        "costs": [
+          { "description": "Carpenter wages", "amount": 60000 },
+          { "description": "Transport", "amount": 12000 }
+        ],
+        "notes": ""
+      },
+      "handover": {
+        "status": "Done",
+        "plannedDate": "2026-03-20",
+        "actualDate": "2026-03-19",
+        "receivedBy": "Ruwan Fernando",
+        "warrantyMonths": 24,
+        "checklist": [
+          { "item": "Doors and drawers aligned", "done": true },
+          { "item": "Countertop sealed", "done": true },
+          { "item": "Site cleaned", "done": true },
+          { "item": "Client walkthrough", "done": true }
+        ],
+        "notes": "Client happy. Final invoice balance still to be collected."
+      }
+    },
+    "materials": [
+      { "product": "Kitchen base cabinets", "description": "Melamine on 18 mm board", "qty": 12, "unit": "ft", "unitCost": 17000, "status": "Issued" },
+      { "product": "Kitchen wall cabinets", "description": "Melamine on 18 mm board", "qty": 10, "unit": "ft", "unitCost": 11000, "status": "Issued" },
+      { "product": "Quartz countertop", "description": "20 mm, white", "qty": 12, "unit": "ft", "unitCost": 6500, "status": "Issued" }
+    ],
+    "measurements": [
+      { "area": "Kitchen, long wall", "dimensions": "12 ft run", "value": 12, "unit": "ft" },
+      { "area": "Kitchen, short wall", "dimensions": "10 ft run", "value": 10, "unit": "ft" }
+    ],
+    "photos": [
+      { "id": "p4-p1", "name": "kitchen-before.jpg", "caption": "Before", "addedOn": "2026-01-17", "url": null },
+      { "id": "p4-p2", "name": "kitchen-after-1.jpg", "caption": "After: long wall", "addedOn": "2026-03-19", "url": null },
+      { "id": "p4-p3", "name": "kitchen-after-2.jpg", "caption": "After: corner", "addedOn": "2026-03-19", "url": null }
+    ],
+    "notes": [
+      { "date": "2026-03-19", "author": "Saman Kumara", "text": "Handed over. Client asked about a matching pantry later this year." }
+    ]
+  },
+  {
+    "id": "PRJ-0003",
+    "clientId": "CL-0012",
+    "quoteId": "QT-0008",
+    "name": "De Silva bedroom curtains",
+    "site": { "label": "Home", "address": "19 Esplanade Road", "city": "Matara" },
+    "designer": "Tharushi Fonseka",
+    "team": ["Nuwan Bandara"],
+    "startDate": "2025-06-10",
+    "dueDate": "2025-06-30",
+    "stages": {
+      "siteVisit": { "status": "Done", "date": "2025-06-10", "visitedBy": "Tharushi Fonseka", "notes": "Three bedrooms, four windows in total." },
+      "design": {
+        "status": "Done",
+        "completedOn": "2025-06-13",
+        "notes": "Beige blackout curtains, white roller blinds for the small windows.",
+        "files": [
+          { "id": "p3-d1", "name": "fabric-samples.jpg", "kind": "Photo", "addedOn": "2025-06-12", "url": null }
+        ]
+      },
+      "approval": { "status": "Done", "approvedOn": "2025-06-14", "approvedBy": "Mrs. Shanthi de Silva", "method": "Approved at the Matara showroom", "letter": null, "notes": "" },
+      "materials": { "status": "Done", "neededBy": "2025-06-24", "notes": "" },
+      "installation": {
+        "status": "Done",
+        "startDate": "2025-06-26",
+        "endDate": "2025-06-27",
+        "costs": [{ "description": "Fitter wages", "amount": 9000 }],
+        "notes": ""
+      },
+      "handover": {
+        "status": "Done",
+        "plannedDate": "2025-06-30",
+        "actualDate": "2025-06-28",
+        "receivedBy": "Mrs. Shanthi de Silva",
+        "warrantyMonths": 6,
+        "checklist": [
+          { "item": "Rails fixed and tested", "done": true },
+          { "item": "Client walkthrough", "done": true }
+        ],
+        "notes": ""
+      }
+    },
+    "materials": [
+      { "product": "Blackout curtains", "description": "Beige, lined, with rails", "qty": 3, "unit": "set", "unitCost": 21000, "status": "Issued" },
+      { "product": "Roller blinds", "description": "White, chain operated", "qty": 4, "unit": "piece", "unitCost": 6500, "status": "Issued" }
+    ],
+    "measurements": [
+      { "area": "Bedroom windows", "dimensions": "3 at 6 ft × 5 ft", "value": 3, "unit": "set" },
+      { "area": "Small windows", "dimensions": "4 at 2 ft × 3 ft", "value": 4, "unit": "piece" }
+    ],
+    "photos": [
+      { "id": "p3-p1", "name": "master-bedroom-after.jpg", "caption": "Master bedroom, after", "addedOn": "2025-06-28", "url": null }
+    ],
+    "notes": []
   }
 ]
