@@ -1,0 +1,16 @@
+[
+  {
+    "id": "PRJ-0004",
+    "clientId": "CL-0015",
+    "quoteId": "QT-0009",
+    "name": "Fernando kitchen",
+    "stage": "Handover"
+  },
+  {
+    "id": "PRJ-0007",
+    "clientId": "CL-0021",
+    "quoteId": "QT-0012",
+    "name": "Perera residence",
+    "stage": "Installation"
+  }
+]

@@ -1,0 +1,35 @@
+[
+  {
+    "id": "INV-0030",
+    "clientId": "CL-0015",
+    "projectId": "PRJ-0004",
+    "type": "Advance",
+    "date": "2026-01-15",
+    "amount": 320000,
+    "payments": [
+      { "id": "PAY-0058", "date": "2026-01-16", "amount": 320000, "method": "Bank transfer" }
+    ]
+  },
+  {
+    "id": "INV-0031",
+    "clientId": "CL-0015",
+    "projectId": "PRJ-0004",
+    "type": "Final",
+    "date": "2026-03-20",
+    "amount": 320000,
+    "payments": [
+      { "id": "PAY-0060", "date": "2026-03-22", "amount": 200000, "method": "Cash" }
+    ]
+  },
+  {
+    "id": "INV-0045",
+    "clientId": "CL-0021",
+    "projectId": "PRJ-0007",
+    "type": "Advance",
+    "date": "2026-09-24",
+    "amount": 260000,
+    "payments": [
+      { "id": "PAY-0091", "date": "2026-09-25", "amount": 260000, "method": "Bank transfer" }
+    ]
+  }
+]

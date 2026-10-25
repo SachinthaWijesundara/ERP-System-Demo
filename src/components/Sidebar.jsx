@@ -1,5 +1,5 @@
 import { ChevronsUpDown } from 'lucide-react'
-import { sections, branches } from '../modules.js'
+import { sections, branches, ALL_BRANCHES } from '../modules.js'
 
 function NavItem({ item, active, onSelect }) {
   const Icon = item.icon
@@ -27,7 +27,7 @@ function NavSection({ section, active, onSelect }) {
   )
 }
 
-export default function Sidebar({ active, onSelect }) {
+export default function Sidebar({ active, onSelect, branch, onBranchChange }) {
   return (
     <aside className="sidebar">
       <div className="brand">
@@ -40,8 +40,8 @@ export default function Sidebar({ active, onSelect }) {
 
       <label className="branch">
         <span className="branch-label">Branch</span>
-        <select defaultValue={branches[0]}>
-          {branches.map((b) => (
+        <select value={branch} onChange={(e) => onBranchChange(e.target.value)}>
+          {[ALL_BRANCHES, ...branches].map((b) => (
             <option key={b}>{b}</option>
           ))}
         </select>

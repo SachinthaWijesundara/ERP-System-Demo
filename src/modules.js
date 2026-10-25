@@ -41,3 +41,6 @@ export const sections = [
 export const modules = sections.flatMap((s) => s.items)
 
 export const branches = ['Matara', 'Nugegoda']
+
+// Branch switcher option that shows records from every branch.
+export const ALL_BRANCHES = 'All branches'

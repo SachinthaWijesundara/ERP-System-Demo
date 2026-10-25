@@ -1,3 +1,6 @@
+import PageHeader from '../components/PageHeader.jsx'
+import { todayLong } from '../utils/format.js'
+
 // Empty layout only. Each slot will hold a widget once the other modules exist
 // and the dashboard is connected to them. The grey bars are placeholders that
 // show where a widget's title and content will sit.
@@ -26,22 +29,26 @@ function PanelSlot({ className = '' }) {
 
 export default function Dashboard() {
   return (
-    <div className="dashboard">
-      <section className="row row-stats">
-        <StatSlot />
-        <StatSlot />
-        <StatSlot />
-        <StatSlot />
-      </section>
+    <>
+      <PageHeader title="Dashboard" subtitle={todayLong()} />
 
-      <section className="row row-split">
-        <PanelSlot className="slot-large" />
-        <PanelSlot className="slot-large" />
-      </section>
+      <div className="dashboard">
+        <section className="row row-stats">
+          <StatSlot />
+          <StatSlot />
+          <StatSlot />
+          <StatSlot />
+        </section>
 
-      <section className="row">
-        <PanelSlot className="slot-wide" />
-      </section>
-    </div>
+        <section className="row row-split">
+          <PanelSlot className="slot-large" />
+          <PanelSlot className="slot-large" />
+        </section>
+
+        <section className="row">
+          <PanelSlot className="slot-wide" />
+        </section>
+      </div>
+    </>
   )
 }
