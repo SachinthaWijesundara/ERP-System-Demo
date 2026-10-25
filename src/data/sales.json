@@ -1,0 +1,162 @@
+[
+  {
+    "id": "SL-0312",
+    "date": "2026-10-25",
+    "time": "12:30",
+    "branch": "Nugegoda",
+    "cashier": "Kavindu Silva",
+    "customer": { "name": "Mrs. Nadeeka Perera", "phone": "077 123 4567" },
+    "clientId": "CL-0021",
+    "items": [
+      { "sku": "CU-VLV-01", "name": "Cushion cover, velvet", "qty": 2, "unit": "piece", "price": 1450, "discount": 0 },
+      { "sku": "LED-STR-5", "name": "LED strip, 5 m, warm white", "qty": 2, "unit": "piece", "price": 2900, "discount": 0 }
+    ],
+    "payment": { "method": "Cash", "tendered": 9000, "reference": "" }
+  },
+  {
+    "id": "SL-0311",
+    "date": "2026-10-25",
+    "time": "11:45",
+    "branch": "Matara",
+    "cashier": "Ishara Madushani",
+    "customer": null,
+    "clientId": "",
+    "items": [
+      { "sku": "BL-RLR-01", "name": "Roller blind, 3 × 5 ft, white", "qty": 1, "unit": "piece", "price": 12500, "discount": 0 },
+      { "sku": "CR-ROD-01", "name": "Curtain rod, 6 ft, brass", "qty": 1, "unit": "piece", "price": 3200, "discount": 0 }
+    ],
+    "payment": { "method": "Card", "tendered": 0, "reference": "VISA •••• 3307" }
+  },
+  {
+    "id": "SL-0310",
+    "date": "2026-10-25",
+    "time": "10:20",
+    "branch": "Nugegoda",
+    "cashier": "Kavindu Silva",
+    "customer": null,
+    "clientId": "",
+    "items": [
+      { "sku": "TL-POR-60", "name": "Porcelain tile, 600 × 600 (box of 4)", "qty": 2, "unit": "box", "price": 6800, "discount": 0 }
+    ],
+    "payment": { "method": "Cash", "tendered": 14000, "reference": "" }
+  },
+  {
+    "id": "SL-0309",
+    "date": "2026-10-24",
+    "time": "17:05",
+    "branch": "Nugegoda",
+    "cashier": "Kavindu Silva",
+    "customer": null,
+    "clientId": "",
+    "items": [
+      { "sku": "WP-PLN-02", "name": "Wallpaper roll, plain linen", "qty": 6, "unit": "roll", "price": 3800, "discount": 0 }
+    ],
+    "payment": { "method": "Card", "tendered": 0, "reference": "VISA •••• 0072" }
+  },
+  {
+    "id": "SL-0308",
+    "date": "2026-10-24",
+    "time": "13:15",
+    "branch": "Nugegoda",
+    "cashier": "Kavindu Silva",
+    "customer": null,
+    "clientId": "",
+    "items": [
+      { "sku": "HD-SS-01", "name": "Cabinet handle, steel (pair)", "qty": 10, "unit": "set", "price": 950, "discount": 0 }
+    ],
+    "payment": { "method": "Cash", "tendered": 10000, "reference": "" }
+  },
+  {
+    "id": "SL-0307",
+    "date": "2026-10-24",
+    "time": "10:40",
+    "branch": "Nugegoda",
+    "cashier": "Kavindu Silva",
+    "customer": { "name": "Lakmal Gunasekara", "phone": "011 285 4321" },
+    "clientId": "CL-0019",
+    "items": [
+      { "sku": "WPC-WAL-01", "name": "WPC wall panel, walnut", "qty": 12, "unit": "piece", "price": 3250, "discount": 10 }
+    ],
+    "payment": { "method": "Bank transfer", "tendered": 0, "reference": "COM 24-10 / 5530" }
+  },
+  {
+    "id": "SL-0306",
+    "date": "2026-10-24",
+    "time": "14:30",
+    "branch": "Matara",
+    "cashier": "Ishara Madushani",
+    "customer": null,
+    "clientId": "",
+    "items": [
+      { "sku": "PNT-WHT-4", "name": "Interior paint, white, 4 L", "qty": 2, "unit": "piece", "price": 7800, "discount": 0 }
+    ],
+    "payment": { "method": "Card", "tendered": 0, "reference": "MASTERCARD •••• 1190" }
+  },
+  {
+    "id": "SL-0305",
+    "date": "2026-10-24",
+    "time": "09:50",
+    "branch": "Matara",
+    "cashier": "Ishara Madushani",
+    "customer": { "name": "Dilani Wickramasinghe", "phone": "076 345 6789" },
+    "clientId": "CL-0022",
+    "items": [
+      { "sku": "SH-FLT-01", "name": "Floating wall shelf, 2 ft", "qty": 3, "unit": "piece", "price": 3600, "discount": 0 }
+    ],
+    "payment": { "method": "Cash", "tendered": 11000, "reference": "" }
+  },
+  {
+    "id": "SL-0304",
+    "date": "2026-10-23",
+    "time": "16:20",
+    "branch": "Nugegoda",
+    "cashier": "Kavindu Silva",
+    "customer": null,
+    "clientId": "",
+    "items": [
+      { "sku": "CU-VLV-01", "name": "Cushion cover, velvet", "qty": 4, "unit": "piece", "price": 1450, "discount": 0 },
+      { "sku": "LED-STR-5", "name": "LED strip, 5 m, warm white", "qty": 1, "unit": "piece", "price": 2900, "discount": 0 }
+    ],
+    "payment": { "method": "Cash", "tendered": 10000, "reference": "" }
+  },
+  {
+    "id": "SL-0303",
+    "date": "2026-10-23",
+    "time": "11:05",
+    "branch": "Nugegoda",
+    "cashier": "Kavindu Silva",
+    "customer": { "name": "Mr. Asanka Herath", "phone": "077 889 2210" },
+    "clientId": "",
+    "items": [
+      { "sku": "VNL-OAK-01", "name": "Vinyl plank, oak (box of 24 sqft)", "qty": 3, "unit": "box", "price": 20400, "discount": 5 }
+    ],
+    "payment": { "method": "Bank transfer", "tendered": 0, "reference": "BOC 23-10 / 7781" }
+  },
+  {
+    "id": "SL-0302",
+    "date": "2026-10-23",
+    "time": "15:40",
+    "branch": "Matara",
+    "cashier": "Ishara Madushani",
+    "customer": null,
+    "clientId": "",
+    "items": [
+      { "sku": "BL-RLR-01", "name": "Roller blind, 3 × 5 ft, white", "qty": 2, "unit": "piece", "price": 12500, "discount": 0 },
+      { "sku": "CR-ROD-01", "name": "Curtain rod, 6 ft, brass", "qty": 2, "unit": "piece", "price": 3200, "discount": 0 }
+    ],
+    "payment": { "method": "Card", "tendered": 0, "reference": "VISA •••• 4821" }
+  },
+  {
+    "id": "SL-0301",
+    "date": "2026-10-23",
+    "time": "10:15",
+    "branch": "Matara",
+    "cashier": "Ishara Madushani",
+    "customer": null,
+    "clientId": "",
+    "items": [
+      { "sku": "WP-FLR-01", "name": "Wallpaper roll, floral", "qty": 4, "unit": "roll", "price": 4500, "discount": 0 }
+    ],
+    "payment": { "method": "Cash", "tendered": 20000, "reference": "" }
+  }
+]

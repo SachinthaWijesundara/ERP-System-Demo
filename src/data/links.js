@@ -130,6 +130,39 @@ export function invoicesForProject(data, projectId) {
   return data.invoices.filter((i) => i.projectId === projectId)
 }
 
+// --- POS --------------------------------------------------------------
+// None of these are connected yet. Each one marks where POS will link to
+// another module, and says what it should do once that module is ready.
+
+// Items the counter can sell. For now POS has its own small showroom list
+// (posProducts.json). Once Inventory exists, return its products for the
+// branch, with stock on hand, so POS can't sell what's reserved for projects.
+export function productsForPos(data) {
+  return data.posProducts
+}
+
+// POS <- Clients (map connection 7, optional). NOT CONNECTED YET.
+// A sale can carry a clientId; when connected, return the client so the sale
+// shows on their profile:
+//   return data.clients.find((c) => c.id === sale.clientId)
+export function clientForSale() {
+  return null
+}
+
+// POS -> Inventory (map connection 8). NOT CONNECTED YET.
+// Called when a sale is completed. Should reduce stock at the sale's branch
+// for every item sold.
+export function saleReducesStock(data, sale) {
+  return sale
+}
+
+// POS -> Invoices and payments (map connection 9). NOT CONNECTED YET.
+// Called when a sale is completed. Should save it as an invoice of type
+// "POS sale" with its payment, so all money is in one place.
+export function invoiceForSale() {
+  return null
+}
+
 // Designers and installation teams. NOT CONNECTED YET. Once a Staff module
 // exists, return its people here; the project form already suggests them.
 export function staffForProjects(data) {

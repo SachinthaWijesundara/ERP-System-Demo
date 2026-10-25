@@ -1,0 +1,38 @@
+[
+  {
+    "branch": "Nugegoda",
+    "date": "2026-10-24",
+    "openingFloat": 5000,
+    "counted": 14500,
+    "closedBy": "Kavindu Silva",
+    "closedAt": "18:10",
+    "notes": ""
+  },
+  {
+    "branch": "Matara",
+    "date": "2026-10-24",
+    "openingFloat": 5000,
+    "counted": 15800,
+    "closedBy": "Ishara Madushani",
+    "closedAt": "18:02",
+    "notes": ""
+  },
+  {
+    "branch": "Nugegoda",
+    "date": "2026-10-23",
+    "openingFloat": 5000,
+    "counted": 13500,
+    "closedBy": "Kavindu Silva",
+    "closedAt": "18:15",
+    "notes": "LKR 200 short. Counted twice; likely wrong change on the 4:20 pm sale."
+  },
+  {
+    "branch": "Matara",
+    "date": "2026-10-23",
+    "openingFloat": 5000,
+    "counted": 23000,
+    "closedBy": "Ishara Madushani",
+    "closedAt": "18:05",
+    "notes": ""
+  }
+]
