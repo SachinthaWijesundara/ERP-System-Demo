@@ -3,6 +3,7 @@ import { ArrowLeft, Pencil, MapPin, Phone, FileText, Package, Receipt, Users } f
 import PageHeader from '../components/PageHeader.jsx'
 import Badge from '../components/Badge.jsx'
 import Card from '../components/Card.jsx'
+import Link from '../components/RecordLink.jsx'
 import ProgressBar from '../components/ProgressBar.jsx'
 import { useData } from '../data/DataContext.jsx'
 import {
@@ -11,6 +12,9 @@ import {
   invoicesForProject,
   amountPaid,
   invoiceStatus,
+  projectMaterialsCost,
+  itemForMaterial,
+  staffByName,
 } from '../data/links.js'
 import { formatDate, formatMoney, todayIso } from '../utils/format.js'
 import { quoteTotals } from '../quotations/quoteFields.js'
@@ -20,7 +24,6 @@ import {
   currentStageLabel,
   isCompleted,
   progressOf,
-  materialsCost,
   installationCost,
 } from './projectFields.js'
 import StageTracker from './StageTracker.jsx'
@@ -36,7 +39,18 @@ function Fact({ label, children, tone }) {
   )
 }
 
-export default function ProjectDetail({ projectId, onBack, onEdit }) {
+// A designer's or installer's name. It links to their Staff page when
+// someone with that name is registered; otherwise it's plain text.
+function PersonName({ name, onOpenRecord }) {
+  const data = useData()
+  const person = staffByName(data, name)
+  if (!name) return '—'
+  return person ? <Link onClick={() => onOpenRecord('staff', person.id)}>{name}</Link> : name
+}
+
+// `onOpenRecord(module, id, filter)` jumps to the client, quote, invoice,
+// inventory item or staff member.
+export default function ProjectDetail({ projectId, onBack, onEdit, onOpenRecord }) {
   const data = useData()
   const project = data.projects.find((p) => p.id === projectId)
   const [selected, setSelected] = useState(() => (project ? (currentStage(project) ?? STAGES[STAGES.length - 1]).key : null))
@@ -46,6 +60,8 @@ export default function ProjectDetail({ projectId, onBack, onEdit }) {
   const quote = quoteForProject(data, project)
   const invoices = invoicesForProject(data, project.id)
   const save = (next) => data.updateProject(next)
+  const openClient = () => onOpenRecord('clients', project.clientId)
+  const openQuote = () => onOpenRecord('quotations', project.quoteId)
 
   const done = isCompleted(project)
   const late = !done && project.dueDate < todayIso()
@@ -54,9 +70,11 @@ export default function ProjectDetail({ projectId, onBack, onEdit }) {
   const quoteTotal = quote ? quoteTotals(quote).total : 0
   const invoiced = invoices.reduce((s, i) => s + i.amount, 0)
   const paid = invoices.reduce((s, i) => s + amountPaid(i), 0)
-  const costs = materialsCost(project) + installationCost(project)
-  const profit = quoteTotal - costs
+  const materialsCost = projectMaterialsCost(data, project)
+  const profit = quoteTotal - materialsCost - installationCost(project)
   const advance = invoices.find((i) => i.type === 'Advance')
+
+  const registeredStaff = [project.designer, ...project.team].filter((n) => staffByName(data, n))
 
   return (
     <>
@@ -83,8 +101,19 @@ export default function ProjectDetail({ projectId, onBack, onEdit }) {
             {formatDate(project.dueDate)}
             {late && ' · late'}
           </Fact>
-          <Fact label="Designer">{project.designer || '—'}</Fact>
-          <Fact label="Installation team">{project.team.length ? project.team.join(', ') : '—'}</Fact>
+          <Fact label="Designer">
+            <PersonName name={project.designer} onOpenRecord={onOpenRecord} />
+          </Fact>
+          <Fact label="Installation team">
+            {project.team.length
+              ? project.team.map((name, i) => (
+                  <span key={name}>
+                    {i > 0 && ', '}
+                    <PersonName name={name} onOpenRecord={onOpenRecord} />
+                  </span>
+                ))
+              : '—'}
+          </Fact>
         </div>
         <StageTracker project={project} selected={selected} onSelect={setSelected} />
       </section>
@@ -92,7 +121,7 @@ export default function ProjectDetail({ projectId, onBack, onEdit }) {
       <div className="detail-grid">
         <div className="detail-main">
           <StagePanel key={selected} project={project} stageKey={selected} client={client} onChange={save} />
-          <MaterialsCard project={project} onChange={save} />
+          <MaterialsCard project={project} onChange={save} onOpenRecord={onOpenRecord} />
           <MeasurementsCard project={project} onChange={save} />
           <PhotosCard project={project} onChange={save} />
           <NotesCard project={project} onChange={save} />
@@ -101,7 +130,7 @@ export default function ProjectDetail({ projectId, onBack, onEdit }) {
         <aside className="detail-side">
           <Card title="Client and site">
             <div className="side-block">
-              <div className="cell-main">{client?.name ?? project.clientId}</div>
+              <div className="cell-main">{client ? <Link onClick={openClient}>{client.name}</Link> : project.clientId}</div>
               <div className="cell-sub">
                 {project.clientId}
                 {client && ` · ${client.branch}`}
@@ -138,7 +167,7 @@ export default function ProjectDetail({ projectId, onBack, onEdit }) {
             </dl>
             <dl className="facts facts-split">
               <dt>Materials cost</dt>
-              <dd>{formatMoney(materialsCost(project))}</dd>
+              <dd>{formatMoney(materialsCost)}</dd>
               <dt>Installation cost</dt>
               <dd>{formatMoney(installationCost(project))}</dd>
               <dt className="cell-main">Profit</dt>
@@ -157,7 +186,10 @@ export default function ProjectDetail({ projectId, onBack, onEdit }) {
                   <div className="links-title">Source quote</div>
                   {quote ? (
                     <div>
-                      {quote.id} · {quote.title} <Badge>{quote.status}</Badge>
+                      <Link onClick={openQuote}>
+                        {quote.id} · {quote.title}
+                      </Link>{' '}
+                      <Badge>{quote.status}</Badge>
                     </div>
                   ) : (
                     <div className="cell-sub">{project.quoteId} not found</div>
@@ -171,28 +203,68 @@ export default function ProjectDetail({ projectId, onBack, onEdit }) {
                   {invoices.length ? (
                     invoices.map((i) => (
                       <div key={i.id}>
-                        {i.id} · {i.type} · {formatMoney(i.amount)} <Badge>{invoiceStatus(i)}</Badge>
+                        <Link onClick={() => onOpenRecord('invoices', i.id)}>
+                          {i.id} · {i.type} · {formatMoney(i.amount)}
+                        </Link>{' '}
+                        <Badge>{invoiceStatus(i)}</Badge>
                       </div>
                     ))
                   ) : (
-                    <div className="cell-sub">None yet. Advance, progress and final invoices will be raised from here.</div>
+                    <div className="cell-sub">None yet. Raise them from Invoices and payments.</div>
                   )}
                 </div>
               </li>
               <li>
                 <Package size={15} strokeWidth={1.75} />
                 <div>
-                  <div className="links-title">Inventory</div>
-                  <div className="cell-sub">
-                    Not connected yet. Reserving and issuing materials will hold and deduct stock at the branch.
+                  <div className="links-title">
+                    {project.materials.length ? (
+                      <Link
+                        onClick={() =>
+                          onOpenRecord('inventory', null, {
+                            skus: project.materials.map((m) => m.sku),
+                            label: `${project.id} · ${project.name}`,
+                          })
+                        }
+                      >
+                        Inventory · {project.materials.length} {project.materials.length === 1 ? 'item' : 'items'}
+                      </Link>
+                    ) : (
+                      'Inventory'
+                    )}
                   </div>
+                  {project.materials.length ? (
+                    project.materials.map((m) => {
+                      const item = itemForMaterial(data, m)
+                      return (
+                        <div key={m.sku}>
+                          {item ? <Link onClick={() => onOpenRecord('inventory', item.sku)}>{item.name}</Link> : m.sku}{' '}
+                          <span className="cell-sub">{m.status}</span>
+                        </div>
+                      )
+                    })
+                  ) : (
+                    <div className="cell-sub">No materials yet.</div>
+                  )}
                 </div>
               </li>
               <li>
                 <Users size={15} strokeWidth={1.75} />
                 <div>
                   <div className="links-title">Staff</div>
-                  <div className="cell-sub">Not connected yet. Designer and team will be picked from a staff list.</div>
+                  {registeredStaff.length ? (
+                    registeredStaff.map((name) => (
+                      <div key={name}>
+                        <PersonName name={name} onOpenRecord={onOpenRecord} />
+                      </div>
+                    ))
+                  ) : (
+                    <div className="cell-sub">
+                      {project.designer || project.team.length
+                        ? 'The people on this project aren’t on the Staff list yet. Their names will link once an admin adds them.'
+                        : 'No designer or team set.'}
+                    </div>
+                  )}
                 </div>
               </li>
             </ul>

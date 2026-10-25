@@ -4,7 +4,7 @@ import PageHeader from '../components/PageHeader.jsx'
 import Badge from '../components/Badge.jsx'
 import ProgressBar from '../components/ProgressBar.jsx'
 import { useData } from '../data/DataContext.jsx'
-import { clientForProject, projectBranch } from '../data/links.js'
+import { clientForProject, projectBranch, quotesReadyForProject } from '../data/links.js'
 import { formatDate, todayIso } from '../utils/format.js'
 import { currentStageLabel, isCompleted, progressOf } from './projectFields.js'
 import { ALL_BRANCHES } from '../modules.js'
@@ -35,14 +35,29 @@ export default function ProjectList({ query, branch, onOpen, onNew }) {
 
   const subtitle = `${inBranch.length} projects ${allBranches ? 'across both branches' : `at ${branch}`}`
 
+  // A project can only start from an approved quote that has no project yet.
+  const readyQuotes = data.clients.flatMap((c) => quotesReadyForProject(data, c.id))
+
   return (
     <>
       <PageHeader title="Projects" subtitle={subtitle}>
-        <button type="button" className="btn btn-primary" onClick={onNew}>
+        <button
+          type="button"
+          className="btn btn-primary"
+          onClick={onNew}
+          disabled={readyQuotes.length === 0}
+          title={readyQuotes.length === 0 ? 'Approve a quotation first' : undefined}
+        >
           <Plus size={15} strokeWidth={2} />
           New project
         </button>
       </PageHeader>
+
+      <p className="table-note project-rule">
+        {readyQuotes.length === 0
+          ? 'Every approved quotation already has a project. To start a new one, a client’s quotation must be approved first.'
+          : `${readyQuotes.length} approved ${readyQuotes.length === 1 ? 'quotation is' : 'quotations are'} ready to become a project: ${readyQuotes.map((q) => q.id).join(', ')}.`}
+      </p>
 
       <div className="toolbar">
         <div className="tabs">

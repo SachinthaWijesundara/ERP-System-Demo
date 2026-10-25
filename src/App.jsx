@@ -69,12 +69,13 @@ export default function App() {
     page = <Clients query={query} branch={branch} openId={openId} onOpenRecord={openRecord} />
   else if (active === 'quotations')
     page = <Quotations query={query} branch={branch} openId={openId} onOpenRecord={openRecord} />
-  else if (active === 'projects') page = <Projects query={query} branch={branch} openId={openId} />
+  else if (active === 'projects')
+    page = <Projects query={query} branch={branch} openId={openId} onOpenRecord={openRecord} />
   else if (active === 'pos') page = <Pos query={query} branch={branch} />
   else if (active === 'inventory')
     page = <Inventory query={query} branch={branch} openId={openId} openFilter={openFilter} />
   else if (active === 'invoices') page = <Invoices query={query} branch={branch} openId={openId} />
-  else if (active === 'staff') page = <Staff query={query} branch={branch} />
+  else if (active === 'staff') page = <Staff query={query} branch={branch} openId={openId} />
   else
     page = (
       <>

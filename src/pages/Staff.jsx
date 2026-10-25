@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
+import { useOnChange } from '../utils/useOnChange.js'
 import PageHeader from '../components/PageHeader.jsx'
 import { useData } from '../data/DataContext.jsx'
 import { ALL_BRANCHES } from '../modules.js'
@@ -6,13 +7,12 @@ import StaffList from '../staff/StaffList.jsx'
 import StaffDetail from '../staff/StaffDetail.jsx'
 
 // The studio's people. View-only: there is deliberately no "add" button.
-export default function Staff({ query, branch }) {
+// `openId` opens one person straight away, e.g. a designer clicked on a project.
+export default function Staff({ query, branch, openId }) {
   const data = useData()
-  const [view, setView] = useState({ mode: 'list' })
+  const [view, setView] = useState(openId ? { mode: 'detail', id: openId } : { mode: 'list' })
 
-  useEffect(() => {
-    setView({ mode: 'list' })
-  }, [query, branch])
+  useOnChange([query, branch], () => setView({ mode: 'list' }))
 
   if (view.mode === 'detail') {
     return <StaffDetail staffId={view.id} onBack={() => setView({ mode: 'list' })} />

@@ -110,10 +110,6 @@ export function completeStage(project, key, today) {
 
 // --- Money -------------------------------------------------------------
 
-export function materialsCost(project) {
-  return project.materials.reduce((sum, m) => sum + (Number(m.qty) || 0) * (Number(m.unitCost) || 0), 0)
-}
-
 export function installationCost(project) {
   return project.stages.installation.costs.reduce((sum, c) => sum + (Number(c.amount) || 0), 0)
 }

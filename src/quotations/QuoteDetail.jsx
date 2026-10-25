@@ -2,6 +2,7 @@ import { ArrowLeft, Pencil, Download, Package, Hammer, User } from 'lucide-react
 import PageHeader from '../components/PageHeader.jsx'
 import Badge from '../components/Badge.jsx'
 import Card, { CardEmpty } from '../components/Card.jsx'
+import Link from '../components/RecordLink.jsx'
 import { useData } from '../data/DataContext.jsx'
 import {
   clientForQuote,
@@ -19,15 +20,6 @@ import QuoteTotals from './QuoteTotals.jsx'
 async function downloadPdf(quote, client) {
   const { downloadQuotePdf } = await import('./quotePdf.js')
   downloadQuotePdf(quote, client)
-}
-
-// A text link that opens another record.
-function Link({ onClick, children }) {
-  return (
-    <button type="button" className="inline-link" onClick={onClick}>
-      {children}
-    </button>
-  )
 }
 
 // `onOpenRecord(module, id, filter)` jumps to a client, project or
