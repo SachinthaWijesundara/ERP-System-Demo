@@ -1,9 +1,10 @@
 # ERP System Demo
 
-A demo ERP system written in Python.
+Immense Home interior studio ERP demo, built with React and Vite.
 
 ## Run
 
 ```bash
-python main.py
+npm install
+npm run dev
 ```
