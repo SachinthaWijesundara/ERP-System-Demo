@@ -9,7 +9,7 @@ import InvoiceDetail from '../invoices/InvoiceDetail.jsx'
 import InvoiceForm from '../invoices/InvoiceForm.jsx'
 import { emptyInvoice, nextInvoiceId } from '../invoices/invoiceFields.js'
 
-export default function Invoices({ query, branch, openId }) {
+export default function Invoices({ query, branch, openId, onOpenRecord }) {
   const data = useData()
   // `openId` opens one invoice straight away, e.g. when clicked on a client page.
   const [view, setView] = useState(openId ? { mode: 'detail', id: openId } : { mode: 'list' })
@@ -18,7 +18,14 @@ export default function Invoices({ query, branch, openId }) {
   useOnChange([query, branch], () => setView({ mode: 'list' }))
 
   if (view.mode === 'detail') {
-    return <InvoiceDetail invoiceId={view.id} justRaised={view.justRaised} onBack={() => setView({ mode: 'list' })} />
+    return (
+      <InvoiceDetail
+        invoiceId={view.id}
+        justRaised={view.justRaised}
+        onBack={() => setView({ mode: 'list' })}
+        onOpenRecord={onOpenRecord}
+      />
+    )
   }
 
   if (view.mode === 'new') {
@@ -39,7 +46,7 @@ export default function Invoices({ query, branch, openId }) {
       <PageHeader title="Invoices and payments" subtitle="Every bill sent and every rupee received">
         <button type="button" className="btn btn-primary" onClick={() => setView({ mode: 'new' })}>
           <Plus size={15} strokeWidth={2} />
-          Raise invoice
+          Raise progress invoice
         </button>
       </PageHeader>
       <InvoiceList query={query} branch={branch} onOpen={(id) => setView({ mode: 'detail', id })} />

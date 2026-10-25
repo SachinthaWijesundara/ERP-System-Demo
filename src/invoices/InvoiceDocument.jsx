@@ -1,3 +1,4 @@
+import Link from '../components/RecordLink.jsx'
 import { useData } from '../data/DataContext.jsx'
 import {
   clientForInvoice,
@@ -11,13 +12,19 @@ import {
 import { formatDate, formatMoney } from '../utils/format.js'
 
 // The invoice as the client sees it, on screen and when printed. The
-// "Receipt" buttons in the payments table are marked no-print.
-export default function InvoiceDocument({ invoice, onReceipt }) {
+// "Receipt" buttons in the payments table are marked no-print; the client,
+// project and sale names open those records on screen.
+export default function InvoiceDocument({ invoice, onReceipt, onOpenRecord }) {
   const data = useData()
   const client = clientForInvoice(data, invoice)
   const project = projectForInvoice(data, invoice)
   const sale = saleForInvoice(data, invoice)
   const status = invoiceStatus(invoice)
+  const open = (module, id) => () => onOpenRecord(module, id)
+  // Final invoices carry a breakdown; the others are one line.
+  const lines = invoice.lines?.length
+    ? invoice.lines
+    : [{ description: `${invoice.type} invoice: ${invoice.description}`, amount: invoice.amount }]
 
   return (
     <article className="doc invoice-doc" id="invoice-document">
@@ -27,7 +34,9 @@ export default function InvoiceDocument({ invoice, onReceipt }) {
           <div className="cell-sub">Interior studio · {invoiceBranch(data, invoice)} branch</div>
         </div>
         <div className="invoice-title">
-          <div className="invoice-word">{invoice.cancelled ? 'CANCELLED INVOICE' : 'INVOICE'}</div>
+          <div className="invoice-word">
+            {invoice.cancelled ? 'CANCELLED INVOICE' : invoice.draft ? 'DRAFT INVOICE' : 'INVOICE'}
+          </div>
           <dl className="doc-dates">
             <dt>Invoice no.</dt>
             <dd>{invoice.id}</dd>
@@ -44,7 +53,9 @@ export default function InvoiceDocument({ invoice, onReceipt }) {
           <div className="doc-label">Bill to</div>
           {client ? (
             <>
-              <div className="doc-strong">{client.name}</div>
+              <div className="doc-strong">
+                <Link onClick={open('clients', client.id)}>{client.name}</Link>
+              </div>
               <div>{client.id}</div>
               <div>{client.phone}</div>
               {client.email && <div>{client.email}</div>}
@@ -57,9 +68,11 @@ export default function InvoiceDocument({ invoice, onReceipt }) {
           <div className="doc-label">{project ? 'Project' : 'Sale'}</div>
           {project ? (
             <>
-              <div className="doc-strong">{project.name}</div>
+              <div className="doc-strong">
+                <Link onClick={open('projects', project.id)}>{project.name}</Link>
+              </div>
               <div>
-                {project.id} · quote {project.quoteId}
+                {project.id} · quote <Link onClick={open('quotations', project.quoteId)}>{project.quoteId}</Link>
               </div>
               {project.site && (
                 <div>
@@ -67,8 +80,16 @@ export default function InvoiceDocument({ invoice, onReceipt }) {
                 </div>
               )}
             </>
+          ) : sale ? (
+            <div className="doc-strong">
+              Counter sale <Link onClick={open('pos', sale.id)}>{sale.id}</Link>
+            </div>
+          ) : invoice.quoteId ? (
+            <div>
+              Quotation <Link onClick={open('quotations', invoice.quoteId)}>{invoice.quoteId}</Link>
+            </div>
           ) : (
-            <div>{invoice.saleId ? `Counter sale ${invoice.saleId}` : '—'}</div>
+            <div>—</div>
           )}
         </div>
       </div>
@@ -81,13 +102,12 @@ export default function InvoiceDocument({ invoice, onReceipt }) {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td className="wrap">
-              <div className="cell-main">{invoice.type} invoice</div>
-              <div>{invoice.description}</div>
-            </td>
-            <td className="num cell-main">{formatMoney(invoice.amount)}</td>
-          </tr>
+          {lines.map((line, i) => (
+            <tr key={i}>
+              <td className="wrap">{line.description}</td>
+              <td className={`num${line.amount < 0 ? ' qty-out' : ''}`}>{formatMoney(line.amount)}</td>
+            </tr>
+          ))}
         </tbody>
       </table>
 
@@ -131,8 +151,10 @@ export default function InvoiceDocument({ invoice, onReceipt }) {
           <dd>{formatMoney(invoice.amount)}</dd>
           <dt>Paid to date</dt>
           <dd>−{formatMoney(amountPaid(invoice))}</dd>
-          <dt className="totals-grand">{status === 'Paid' ? 'Paid in full' : 'Balance due'}</dt>
-          <dd className="totals-grand">{formatMoney(invoiceBalance(invoice))}</dd>
+          <dt className="totals-grand">
+            {invoice.draft ? 'Draft total (not owed yet)' : status === 'Paid' ? 'Paid in full' : 'Balance due'}
+          </dt>
+          <dd className="totals-grand">{formatMoney(invoice.draft ? invoice.amount : invoiceBalance(invoice))}</dd>
         </dl>
       </div>
     </article>

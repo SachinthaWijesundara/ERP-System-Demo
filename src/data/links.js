@@ -18,31 +18,33 @@ export function quotationsForClient(data, clientId) {
   return data.quotations.filter((q) => q.clientId === clientId)
 }
 
-// Clients -> Projects, through the approved quote (map connection 3)
+// Clients -> Projects, through the approved quote (map connection 3). A
+// project stores only its quote; the client is the quote's client.
 export function projectsForClient(data, clientId) {
-  return data.projects.filter((p) => p.clientId === clientId)
+  const quoteIds = new Set(quotationsForClient(data, clientId).map((q) => q.id))
+  return data.projects.filter((p) => quoteIds.has(p.quoteId))
 }
 
-// Invoices and payments -> Clients (map connection 6). Cancelled invoices
-// are left out. POS sales linked to a client (connection 7) will also
-// arrive here as invoices of type "POS sale".
+// Invoices and payments -> Clients (map connection 6). An invoice's client
+// is its quote's client, or its POS sale's client. Cancelled ones are left out.
 export function invoicesForClient(data, clientId) {
-  return data.invoices.filter((i) => i.clientId === clientId && !i.cancelled)
+  return data.invoices.filter((i) => !i.cancelled && clientForInvoice(data, i)?.id === clientId)
 }
 
 export function amountPaid(invoice) {
   return invoice.payments.reduce((sum, p) => sum + p.amount, 0)
 }
 
-// What's still owed. A cancelled invoice owes nothing.
+// What's still owed. A cancelled or draft invoice owes nothing.
 export function invoiceBalance(invoice) {
-  return invoice.cancelled ? 0 : invoice.amount - amountPaid(invoice)
+  return invoice.cancelled || invoice.draft ? 0 : invoice.amount - amountPaid(invoice)
 }
 
-// Cancelled, Paid, Overdue (past the due date with money owed), Partly paid
-// or Unpaid.
+// Cancelled, Draft (not issued yet), Paid, Overdue (past the due date with
+// money owed), Partly paid or Unpaid.
 export function invoiceStatus(invoice) {
   if (invoice.cancelled) return 'Cancelled'
+  if (invoice.draft) return 'Draft'
   const paid = amountPaid(invoice)
   if (paid >= invoice.amount) return 'Paid'
   if (invoice.dueDate && invoice.dueDate < todayIso()) return 'Overdue'
@@ -91,18 +93,20 @@ export function projectsForQuote(data, quoteId) {
   return data.projects.filter((p) => p.quoteId === quoteId)
 }
 
-// NOT CONNECTED YET. This should create a project from an approved quote:
-// client and site copied over, quote lines becoming the materials list (see
-// materialsFromQuote below). The "Convert to project" button calls it.
-export function canConvertToProject() {
-  return false
+// An approved quote with no project yet can be converted. The quote's
+// "Convert to project" button opens a new project started from it (see
+// projectFromQuote below).
+export function canConvertToProject(data, quote) {
+  return quote.status === 'Approved' && projectsForQuote(data, quote.id).length === 0
 }
 
 // --- Projects ---------------------------------------------------------
 
-// Projects <- Clients. A project stores the client's ID.
+// Projects <- Clients. A project's client is its quote's client; the project
+// itself stores only the quote.
 export function clientForProject(data, project) {
-  return data.clients.find((c) => c.id === project.clientId)
+  const quote = data.quotations.find((q) => q.id === project.quoteId)
+  return quote ? data.clients.find((c) => c.id === quote.clientId) : undefined
 }
 
 // Projects <- Quotations (map connection 3). A project stores the ID of the
@@ -129,6 +133,20 @@ export function materialsFromQuote(quote) {
   return quote.items.filter((i) => i.sku).map((i) => ({ sku: i.sku, qty: i.qty, status: 'Pending' }))
 }
 
+// What a new project copies from its source quote: the client (for the
+// form's picker only), the site, the title as a starting name and the
+// inventory lines as materials.
+export function projectFromQuote(project, quote) {
+  return {
+    ...project,
+    clientId: quote.clientId,
+    quoteId: quote.id,
+    site: quote.site ?? project.site,
+    name: project.name || quote.title,
+    materials: materialsFromQuote(quote),
+  }
+}
+
 // The Inventory item behind a project material.
 export function itemForMaterial(data, material) {
   return data.inventory.find((i) => i.sku === material.sku)
@@ -139,14 +157,24 @@ export function projectMaterialsCost(data, project) {
   return project.materials.reduce((sum, m) => sum + m.qty * (itemForMaterial(data, m)?.costPrice ?? 0), 0)
 }
 
+// What the client is charged on top of the quote: materials and extra work
+// ticked "charge client" on the project, at Inventory selling prices.
+export function projectExtrasCharged(data, project) {
+  const materials = project.materials
+    .filter((m) => m.billable)
+    .reduce((sum, m) => sum + m.qty * (itemForMaterial(data, m)?.sellingPrice ?? 0), 0)
+  const work = project.stages.installation.costs.filter((c) => c.billable).reduce((sum, c) => sum + (Number(c.amount) || 0), 0)
+  return materials + work
+}
+
 // Inventory reservations, worked out from project materials marked Reserved.
 // This is the only place a reservation exists: Inventory doesn't keep its
 // own copy. A reservation is held at the branch of the project's client.
-export function reservationsFromProjects(projects, clients, sku) {
-  return projects.flatMap((p) =>
+export function reservationsFromProjects(data, sku) {
+  return data.projects.flatMap((p) =>
     p.materials
       .filter((m) => m.sku === sku && m.status === 'Reserved')
-      .map((m) => ({ projectId: p.id, branch: clients.find((c) => c.id === p.clientId)?.branch, qty: m.qty })),
+      .map((m) => ({ projectId: p.id, branch: clientForProject(data, p)?.branch, qty: m.qty })),
   )
 }
 
@@ -188,49 +216,63 @@ export function checkMaterialStatus(data, project, material, newStatus) {
   return { ok: true, movement: null }
 }
 
-// Projects -> Invoices and payments (map connection 5). Invoices store the
-// project's ID, so this finds the advance, progress and final invoices.
+// Quotations -> Invoices. A quote's invoices store its ID (`quoteId`): the
+// advance made when it's approved, any progress invoices, and the final one.
+export function invoicesForQuote(data, quoteId) {
+  return quoteId ? data.invoices.filter((i) => i.quoteId === quoteId && !i.cancelled) : []
+}
+
+// Projects -> Invoices and payments (map connection 5). A project comes from
+// one quote, so its invoices are that quote's invoices; nothing is stored on
+// the invoice about the project.
 export function invoicesForProject(data, projectId) {
-  return data.invoices.filter((i) => i.projectId === projectId && !i.cancelled)
+  const project = data.projects.find((p) => p.id === projectId)
+  return project ? invoicesForQuote(data, project.quoteId) : []
 }
 
 // --- POS --------------------------------------------------------------
-// None of these are connected yet. Each one marks where POS will link to
-// another module, and says what it should do once that module is ready.
 
-// Items the counter can sell. For now POS has its own small showroom list
-// (posProducts.json). Once Inventory exists, return its products for the
-// branch, with stock on hand, so POS can't sell what's reserved for projects.
-export function productsForPos(data) {
-  return data.posProducts
+// Items the counter can sell: the Inventory items, with what's available at
+// the branch (on hand less project reservations). CONNECTED. POS has no
+// product list of its own; a sale line stores the item's SKU.
+export function productsForPos(data, branch) {
+  return inventoryForPos(data, branch)
 }
 
-// POS <- Clients (map connection 7, optional). NOT CONNECTED YET.
-// A sale can carry a clientId; when connected, return the client so the sale
-// shows on their profile:
-//   return data.clients.find((c) => c.id === sale.clientId)
-export function clientForSale() {
-  return null
+// POS <- Clients (map connection 7, optional). CONNECTED. A sale may name a
+// registered client; walk-in sales have none.
+export function clientForSale(data, sale) {
+  return sale.clientId ? data.clients.find((c) => c.id === sale.clientId) : undefined
 }
 
-// POS -> Inventory (map connection 8). NOT CONNECTED YET.
-// Called when a sale is completed. Should reduce stock at the sale's branch
-// for every item sold.
-export function saleReducesStock(data, sale) {
-  return sale
+// POS -> Inventory (map connection 8). CONNECTED. The stock movements a
+// completed sale makes: one "Out" per Inventory item sold, at the sale's
+// branch. Custom lines (no SKU) don't touch stock.
+export function stockMovementsForSale(sale) {
+  return sale.items
+    .filter((line) => line.sku)
+    .map((line) => ({
+      date: sale.date,
+      sku: line.sku,
+      branch: sale.branch,
+      type: 'Out',
+      qty: line.qty,
+      reference: `POS sale ${sale.id}`,
+      by: sale.cashier,
+      note: '',
+    }))
 }
 
-// POS -> Invoices and payments (map connection 9). NOT CONNECTED YET.
-// Called when a sale is completed. To connect, build the invoice with
-// posSaleAsInvoice (in the Invoices section below) and save it with
-// data.addInvoice, so all money is in one place.
-export function invoiceForSale() {
-  return null
+// POS -> Invoices and payments (map connection 9). CONNECTED. Completing a
+// sale creates a paid "POS sale" invoice (see billing.js). The invoice stores
+// the sale's ID; this finds it from the sale's side.
+export function invoiceForSale(data, sale) {
+  return data.invoices.find((i) => i.saleId === sale.id)
 }
 
 // --- Inventory --------------------------------------------------------
-// Inventory is the stock list. Quotations use it (above); the other
-// connections below are ready to be switched on.
+// Inventory is the stock list. Quotations, Projects and POS all point at its
+// items by SKU; the functions below look those links up from either side.
 
 // Inventory -> Quotations (map connection 2). CONNECTED through
 // productsForQuotes above.
@@ -244,10 +286,8 @@ export function inventoryAsQuoteProducts(data) {
   }))
 }
 
-// Inventory -> POS. READY, NOT CONNECTED. Items the counter can sell at a
-// branch, with what's available after project reservations. To connect,
-// make productsForPos (above) return this. Note POS sells vinyl by the box
-// of 24 sqft while Inventory counts sqft; convert when connecting.
+// Inventory -> POS. Items the counter can sell at a branch, with what's
+// available after project reservations (null when no branch is chosen).
 export function inventoryForPos(data, branch) {
   return data.inventory.map((i) => ({
     sku: i.sku,
@@ -255,13 +295,13 @@ export function inventoryForPos(data, branch) {
     category: i.category,
     unit: i.unit,
     price: i.sellingPrice,
-    available: stockAt(i, branch).available,
+    available: branch ? stockAt(i, branch).available : null,
   }))
 }
 
-// POS -> Inventory, the reservation rule (map connection 8). READY, NOT
-// CONNECTED. Checkout should call this before completing a sale and refuse
-// any line that needs reserved stock. Returns one problem per short line.
+// POS -> Inventory, the reservation rule (map connection 8). CONNECTED.
+// Checkout runs this before completing a sale and refuses any line that
+// would need stock reserved for a project. Returns one problem per short line.
 export function checkSaleAgainstStock(data, sale) {
   return sale.items
     .map((line) => {
@@ -291,6 +331,16 @@ export function projectsUsingItem(data, sku) {
   return data.projects.flatMap((p) => p.materials.filter((m) => m.sku === sku).map((m) => ({ project: p, material: m })))
 }
 
+// Every quotation with a line for this item.
+export function quotationsUsingItem(data, sku) {
+  return data.quotations.flatMap((q) => q.items.filter((line) => line.sku === sku).map((line) => ({ quote: q, line })))
+}
+
+// Every counter sale of this item, newest first.
+export function salesOfItem(data, sku) {
+  return data.sales.flatMap((s) => s.items.filter((line) => line.sku === sku).map((line) => ({ sale: s, line })))
+}
+
 // Suppliers -> Inventory (phase 2). NOT BUILT. Goods received notes (GRN)
 // from suppliers and purchase orders will record "In" movements.
 export function goodsReceived() {
@@ -299,12 +349,26 @@ export function goodsReceived() {
 
 // --- Invoices and payments -----------------------------------------------
 
+// An invoice's client: the client of its quote, or of its POS sale (none for
+// a walk-in sale). The invoice stores only the quote or the sale.
 export function clientForInvoice(data, invoice) {
-  return data.clients.find((c) => c.id === invoice.clientId)
+  if (invoice.saleId) {
+    const sale = data.sales.find((s) => s.id === invoice.saleId)
+    return sale ? clientForSale(data, sale) : undefined
+  }
+  const quote = invoice.quoteId ? data.quotations.find((q) => q.id === invoice.quoteId) : undefined
+  return quote ? data.clients.find((c) => c.id === quote.clientId) : undefined
 }
 
+// The quote an invoice was raised against (advance, progress, final).
+export function quoteForInvoice(data, invoice) {
+  return invoice.quoteId ? data.quotations.find((q) => q.id === invoice.quoteId) : undefined
+}
+
+// The project an invoice belongs to: the one made from the invoice's quote.
+// There is no separate project link on the invoice.
 export function projectForInvoice(data, invoice) {
-  return data.projects.find((p) => p.id === invoice.projectId)
+  return invoice.quoteId ? data.projects.find((p) => p.quoteId === invoice.quoteId) : undefined
 }
 
 export function saleForInvoice(data, invoice) {
@@ -316,32 +380,33 @@ export function invoiceBranch(data, invoice) {
   return saleForInvoice(data, invoice)?.branch ?? clientForInvoice(data, invoice)?.branch
 }
 
-// How much of a project has been billed. The quote total is the contract
-// value; advance, progress and final invoices together should reach it.
-export function projectBilling(data, projectId, exceptInvoiceId) {
+// How much of a project has been billed so far. The quote total is the
+// contract value; issued advance and progress invoices count against it. The
+// final invoice (a draft until handover) bills whatever is left.
+export function projectBilling(data, projectId) {
   const project = data.projects.find((p) => p.id === projectId)
   const quote = project && data.quotations.find((q) => q.id === project.quoteId)
   const quoteTotal = quote ? quoteTotals(quote).total : 0
   const invoiced = invoicesForProject(data, projectId)
-    .filter((i) => i.id !== exceptInvoiceId)
+    .filter((i) => !i.draft && i.type !== 'Final')
     .reduce((sum, i) => sum + i.amount, 0)
   return { project, quote, quoteTotal, invoiced, remaining: quoteTotal - invoiced }
 }
 
-// READY, NOT CONNECTED. Turns a completed POS sale into a paid "POS sale"
-// invoice with one payment. invoiceForSale (POS section) should use it.
+// Turns a completed POS sale into a paid "POS sale" invoice with one
+// payment. billing.js uses it when a sale is completed.
 export function posSaleAsInvoice(sale, invoiceId, paymentId) {
   const total = saleTotals(sale).total
   return {
     id: invoiceId,
     type: 'POS sale',
-    clientId: sale.clientId ?? '',
-    projectId: '',
+    quoteId: '',
     saleId: sale.id,
     date: sale.date,
     dueDate: sale.date,
     description: `Counter sale ${sale.id} at ${sale.branch}`,
     amount: total,
+    draft: false,
     cancelled: false,
     payments: [
       {
@@ -362,7 +427,7 @@ export function posSaleAsInvoice(sale, invoiceId, paymentId) {
 export function moneyTotals(data, branch, allBranches) {
   const month = todayIso().slice(0, 7)
   const list = data.invoices.filter((i) => allBranches || invoiceBranch(data, i) === branch)
-  const live = list.filter((i) => !i.cancelled)
+  const live = list.filter((i) => !i.cancelled && !i.draft)
   const sum = (arr, fn) => arr.reduce((s, x) => s + fn(x), 0)
   return {
     outstanding: sum(live, invoiceBalance),

@@ -1,12 +1,13 @@
 [
   {
     "id": "PRJ-0008",
-    "clientId": "CL-0018",
     "quoteId": "QT-0014",
     "name": "Jayawardena apartment",
     "site": { "label": "Apartment", "address": "22/3 Stanley Thilakaratne Mawatha", "city": "Nugegoda" },
     "designer": "Tharushi Fonseka",
-    "team": ["Chathura Dias"],
+    "team": [
+      "Chathura Dias"
+    ],
     "startDate": "2026-10-20",
     "dueDate": "2026-11-30",
     "stages": {
@@ -25,16 +26,15 @@
           { "id": "p8-d2", "name": "wardrobe-3d-view.jpg", "kind": "3D render", "addedOn": "2026-10-24", "url": null }
         ]
       },
-      "approval": {
-        "status": "In progress",
-        "approvedOn": "",
-        "approvedBy": "",
-        "method": "",
-        "letter": null,
-        "notes": "Design sent to the client on 24 Oct. Waiting for sign-off."
-      },
+      "approval": { "status": "In progress", "approvedOn": "", "approvedBy": "", "method": "", "letter": null, "notes": "Design sent to the client on 24 Oct. Waiting for sign-off." },
       "materials": { "status": "Not started", "neededBy": "2026-11-10", "notes": "" },
-      "installation": { "status": "Not started", "startDate": "", "endDate": "", "costs": [], "notes": "" },
+      "installation": {
+        "status": "Not started",
+        "startDate": "",
+        "endDate": "",
+        "costs": [],
+        "notes": ""
+      },
       "handover": {
         "status": "Not started",
         "plannedDate": "2026-11-30",
@@ -51,8 +51,8 @@
     },
     "materials": [
       { "sku": "LAM-WGL-01", "qty": 20, "status": "Reserved" },
-      { "sku": "HD-SS-01", "qty": 10, "status": "Pending" },
-      { "sku": "LED-STR-5", "qty": 2, "status": "Pending" }
+      { "sku": "HD-SS-01", "qty": 10, "status": "Reserved" },
+      { "sku": "LED-STR-5", "qty": 2, "status": "Reserved" }
     ],
     "measurements": [
       { "area": "Pantry wall", "dimensions": "8 ft wide × 7 ft high", "value": 8, "unit": "ft" },
@@ -68,21 +68,18 @@
   },
   {
     "id": "PRJ-0007",
-    "clientId": "CL-0021",
     "quoteId": "QT-0012",
     "name": "Perera residence",
     "site": { "label": "Home", "address": "14 Lake Road", "city": "Negombo" },
     "designer": "Nimali Jayasinghe",
-    "team": ["Saman Kumara", "Chathura Dias"],
+    "team": [
+      "Saman Kumara",
+      "Chathura Dias"
+    ],
     "startDate": "2026-09-26",
     "dueDate": "2026-11-12",
     "stages": {
-      "siteVisit": {
-        "status": "Done",
-        "date": "2026-09-27",
-        "visitedBy": "Nimali Jayasinghe",
-        "notes": "Floor is mostly level. Small dip near the balcony door needs levelling compound."
-      },
+      "siteVisit": { "status": "Done", "date": "2026-09-27", "visitedBy": "Nimali Jayasinghe", "notes": "Floor is mostly level. Small dip near the balcony door needs levelling compound." },
       "design": {
         "status": "Done",
         "completedOn": "2026-10-02",
@@ -100,18 +97,15 @@
         "letter": { "id": "p7-a1", "name": "PRJ-0007-approval-letter.pdf", "kind": "Approval letter", "addedOn": "2026-10-05", "url": null },
         "notes": ""
       },
-      "materials": {
-        "status": "In progress",
-        "neededBy": "2026-11-08",
-        "notes": "Skirting arriving from the supplier on 6 Nov."
-      },
+      "materials": { "status": "In progress", "neededBy": "2026-11-08", "notes": "Skirting arriving from the supplier on 6 Nov." },
       "installation": {
         "status": "In progress",
         "startDate": "2026-10-23",
         "endDate": "2026-11-08",
         "costs": [
-          { "description": "Installer wages", "amount": 55000 },
-          { "description": "Transport", "amount": 15000 }
+          { "description": "Installer wages", "amount": 55000, "billable": false },
+          { "description": "Transport", "amount": 15000, "billable": false },
+          { "description": "Extra levelling compound for the balcony dip", "amount": 8000, "billable": true }
         ],
         "notes": "Levelling done on day 1. Plank laying in progress."
       },
@@ -154,12 +148,14 @@
   },
   {
     "id": "PRJ-0004",
-    "clientId": "CL-0015",
     "quoteId": "QT-0009",
     "name": "Fernando kitchen",
     "site": { "label": "Home", "address": "8 Temple Road", "city": "Maharagama" },
     "designer": "Nimali Jayasinghe",
-    "team": ["Saman Kumara", "Nuwan Bandara"],
+    "team": [
+      "Saman Kumara",
+      "Nuwan Bandara"
+    ],
     "startDate": "2026-01-16",
     "dueDate": "2026-03-20",
     "stages": {
@@ -172,22 +168,15 @@
           { "id": "p4-d1", "name": "kitchen-layout.pdf", "kind": "Plan", "addedOn": "2026-01-25", "url": null }
         ]
       },
-      "approval": {
-        "status": "Done",
-        "approvedOn": "2026-02-02",
-        "approvedBy": "Ruwan Fernando",
-        "method": "Approved on site",
-        "letter": null,
-        "notes": ""
-      },
+      "approval": { "status": "Done", "approvedOn": "2026-02-02", "approvedBy": "Ruwan Fernando", "method": "Approved on site", "letter": null, "notes": "" },
       "materials": { "status": "Done", "neededBy": "2026-02-20", "notes": "" },
       "installation": {
         "status": "Done",
         "startDate": "2026-02-23",
         "endDate": "2026-03-17",
         "costs": [
-          { "description": "Carpenter wages", "amount": 60000 },
-          { "description": "Transport", "amount": 12000 }
+          { "description": "Carpenter wages", "amount": 60000, "billable": false },
+          { "description": "Transport", "amount": 12000, "billable": false }
         ],
         "notes": ""
       },
@@ -226,12 +215,13 @@
   },
   {
     "id": "PRJ-0003",
-    "clientId": "CL-0012",
     "quoteId": "QT-0008",
     "name": "De Silva bedroom curtains",
     "site": { "label": "Home", "address": "19 Esplanade Road", "city": "Matara" },
     "designer": "Tharushi Fonseka",
-    "team": ["Nuwan Bandara"],
+    "team": [
+      "Nuwan Bandara"
+    ],
     "startDate": "2025-06-10",
     "dueDate": "2025-06-30",
     "stages": {
@@ -250,7 +240,9 @@
         "status": "Done",
         "startDate": "2025-06-26",
         "endDate": "2025-06-27",
-        "costs": [{ "description": "Fitter wages", "amount": 9000 }],
+        "costs": [
+          { "description": "Fitter wages", "amount": 9000, "billable": false }
+        ],
         "notes": ""
       },
       "handover": {

@@ -6,7 +6,7 @@ import { useData } from '../data/DataContext.jsx'
 import { itemForMaterial, projectMaterialsCost, checkMaterialStatus, clientForProject } from '../data/links.js'
 import { formatDate, formatMoney, todayIso } from '../utils/format.js'
 import { UNITS } from '../quotations/quoteFields.js'
-import { stockAt, nextMovementId, movementDelta } from '../inventory/inventoryFields.js'
+import { stockAt } from '../inventory/inventoryFields.js'
 import { MATERIAL_STATUSES } from './projectFields.js'
 
 // The sections under the stage panel: materials, measurements, photos and
@@ -29,12 +29,14 @@ export function MaterialsCard({ project, onChange, onOpenRecord }) {
       return
     }
     setProblem('')
-    if (check.movement) {
-      const movement = { ...check.movement, id: nextMovementId(data.movements) }
-      data.recordMovement(movement, movementDelta(movement))
-    }
-    onChange({ ...project, materials: project.materials.map((m, j) => (j === i ? { ...m, status } : m)) })
+    onChange(
+      { ...project, materials: project.materials.map((m, j) => (j === i ? { ...m, status } : m)) },
+      check.movement ? [check.movement] : [],
+    )
   }
+
+  const setBillable = (i, billable) =>
+    onChange({ ...project, materials: project.materials.map((m, j) => (j === i ? { ...m, billable } : m)) })
 
   // Items not already on the project, for the add picker.
   const onProject = new Set(project.materials.map((m) => m.sku))
@@ -47,7 +49,10 @@ export function MaterialsCard({ project, onChange, onOpenRecord }) {
       return
     }
     setProblem('')
-    onChange({ ...project, materials: [...project.materials, { sku: draft.sku, qty: Number(draft.qty), status: 'Pending' }] })
+    onChange({
+      ...project,
+      materials: [...project.materials, { sku: draft.sku, qty: Number(draft.qty), status: 'Pending', billable: draft.billable }],
+    })
     setDraft(null)
   }
 
@@ -72,7 +77,7 @@ export function MaterialsCard({ project, onChange, onOpenRecord }) {
             </button>
           )}
           {!draft && (
-            <button type="button" className="btn btn-small" onClick={() => setDraft({ sku: '', qty: 1 })}>
+            <button type="button" className="btn btn-small" onClick={() => setDraft({ sku: '', qty: 1, billable: true })}>
               <Plus size={14} strokeWidth={1.75} />
               Add material
             </button>
@@ -82,7 +87,9 @@ export function MaterialsCard({ project, onChange, onOpenRecord }) {
     >
       <p className="card-intro">
         Every material is an Inventory item. <strong>Reserved</strong> holds the stock at {branch ?? 'the branch'} for this
-        project so nobody else can sell it; <strong>Issued</strong> takes it out of the store to site.
+        project so nobody else can sell it; <strong>Issued</strong> takes it out of the store to site. Approving the design
+        reserves materials, and finishing the Materials stage issues them. Tick <strong>Charge client</strong> for
+        materials not on the quote; they’re added to the final invoice.
       </p>
 
       {problem && <div className="form-alert">{problem}</div>}
@@ -95,6 +102,7 @@ export function MaterialsCard({ project, onChange, onOpenRecord }) {
               <th className="num">Qty</th>
               <th className="num">Unit cost</th>
               <th className="num">Cost</th>
+              <th>Charge client</th>
               <th>Status</th>
               <th />
             </tr>
@@ -121,6 +129,17 @@ export function MaterialsCard({ project, onChange, onOpenRecord }) {
                   </td>
                   <td className="num">{item ? formatMoney(item.costPrice) : '—'}</td>
                   <td className="num">{item ? formatMoney(m.qty * item.costPrice) : '—'}</td>
+                  <td>
+                    <label className="charge-toggle" title="Bill this to the client on the final invoice">
+                      <input
+                        type="checkbox"
+                        checked={!!m.billable}
+                        onChange={(e) => setBillable(i, e.target.checked)}
+                        aria-label={`Charge client for ${item?.name ?? m.sku}`}
+                      />
+                      {m.billable && item ? formatMoney(m.qty * item.sellingPrice) : ''}
+                    </label>
+                  </td>
                   <td>
                     <select
                       className={`status-select status-${m.status.toLowerCase()}`}
@@ -154,7 +173,7 @@ export function MaterialsCard({ project, onChange, onOpenRecord }) {
             <tr>
               <td colSpan={3}>Materials cost (Inventory cost prices)</td>
               <td className="num cell-main">{formatMoney(projectMaterialsCost(data, project))}</td>
-              <td colSpan={2} />
+              <td colSpan={3} />
             </tr>
           </tfoot>
         </table>
@@ -176,6 +195,10 @@ export function MaterialsCard({ project, onChange, onOpenRecord }) {
               ? `${draftItem.unit} · ${branch ? `${stockAt(draftItem, branch).available} available at ${branch}` : ''}`
               : ''}
           </span>
+          <label className="charge-toggle">
+            <input type="checkbox" checked={draft.billable} onChange={(e) => setDraft({ ...draft, billable: e.target.checked })} />
+            Charge client
+          </label>
           <button type="button" className="btn btn-primary btn-small" onClick={addDraft}>
             Add
           </button>

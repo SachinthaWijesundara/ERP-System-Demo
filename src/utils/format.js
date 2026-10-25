@@ -1,5 +1,6 @@
+// 260000 -> 'LKR 260,000'; -80000 -> '−LKR 80,000'.
 export function formatMoney(amount) {
-  return `LKR ${amount.toLocaleString('en-LK')}`
+  return amount < 0 ? `−LKR ${(-amount).toLocaleString('en-LK')}` : `LKR ${amount.toLocaleString('en-LK')}`
 }
 
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']

@@ -118,5 +118,29 @@
     "description": "Cut to length, 2 ft deep.",
     "costPrice": 6500, "sellingPrice": 9500, "lowStockLevel": 10,
     "stock": { "Matara": 0, "Nugegoda": 30 }
+  },
+  {
+    "sku": "RUG-JUT-57", "name": "Area rug, jute, 5 × 7 ft", "category": "Decor", "unit": "piece",
+    "description": "Natural jute, hand-woven.",
+    "costPrice": 9800, "sellingPrice": 16500, "lowStockLevel": 3,
+    "stock": { "Matara": 5, "Nugegoda": 7 }
+  },
+  {
+    "sku": "LMP-CER-01", "name": "Table lamp, ceramic", "category": "Lighting", "unit": "piece",
+    "description": "Matt white base, linen shade.",
+    "costPrice": 4200, "sellingPrice": 7900, "lowStockLevel": 4,
+    "stock": { "Matara": 6, "Nugegoda": 3 }
+  },
+  {
+    "sku": "CLK-OAK-01", "name": "Wall clock, oak, 40 cm", "category": "Decor", "unit": "piece",
+    "description": "Silent movement.",
+    "costPrice": 3100, "sellingPrice": 5800, "lowStockLevel": 3,
+    "stock": { "Matara": 4, "Nugegoda": 9 }
+  },
+  {
+    "sku": "CUR-SHR-01", "name": "Sheer curtain panel, white", "category": "Curtains and blinds", "unit": "piece",
+    "description": "140 × 240 cm, ready to hang.",
+    "costPrice": 1900, "sellingPrice": 3600, "lowStockLevel": 8,
+    "stock": { "Matara": 18, "Nugegoda": 4 }
   }
 ]

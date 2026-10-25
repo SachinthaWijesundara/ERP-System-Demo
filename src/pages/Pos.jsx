@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Plus } from 'lucide-react'
 import PageHeader from '../components/PageHeader.jsx'
 import { useData } from '../data/DataContext.jsx'
-import { saleReducesStock, invoiceForSale } from '../data/links.js'
+import { useOnChange } from '../utils/useOnChange.js'
 import SaleList from '../pos/SaleList.jsx'
 import Checkout from '../pos/Checkout.jsx'
 import SaleDetail from '../pos/SaleDetail.jsx'
@@ -12,14 +12,13 @@ const TABS = { sales: 'Sales', cashup: 'End of day' }
 
 // POS has two tabs (sales and the end-of-day cash-up), the checkout screen,
 // and a receipt page for each sale.
-export default function Pos({ query, branch }) {
+// `openId` opens one sale's receipt straight away, e.g. from an Inventory item.
+export default function Pos({ query, branch, openId, onOpenRecord }) {
   const data = useData()
-  const [view, setView] = useState({ mode: 'sales' })
+  const [view, setView] = useState(openId ? { mode: 'detail', id: openId } : { mode: 'sales' })
 
   // Typing in the search bar or switching branch brings the sales list back.
-  useEffect(() => {
-    setView((v) => (v.mode === 'cashup' && !query ? v : { mode: 'sales' }))
-  }, [query, branch])
+  useOnChange([query, branch], () => setView((v) => (v.mode === 'cashup' && !query ? v : { mode: 'sales' })))
 
   if (view.mode === 'new') {
     return (
@@ -27,10 +26,9 @@ export default function Pos({ query, branch }) {
         branch={branch}
         onCancel={() => setView({ mode: 'sales' })}
         onComplete={(sale) => {
-          data.addSale(sale)
-          // Open connections: these do nothing until Inventory and Invoices exist.
-          saleReducesStock(data, sale)
-          invoiceForSale(data, sale)
+          // Saves the sale, takes its items out of stock and creates its
+          // paid invoice (see completeSale in the data store).
+          data.completeSale(sale)
           setView({ mode: 'detail', id: sale.id, justCompleted: true })
         }}
       />
@@ -44,6 +42,7 @@ export default function Pos({ query, branch }) {
         justCompleted={view.justCompleted}
         onBack={() => setView({ mode: 'sales' })}
         onNewSale={() => setView({ mode: 'new' })}
+        onOpenRecord={onOpenRecord}
       />
     )
   }

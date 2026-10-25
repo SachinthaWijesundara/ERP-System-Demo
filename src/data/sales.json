@@ -128,7 +128,7 @@
     "customer": { "name": "Mr. Asanka Herath", "phone": "077 889 2210" },
     "clientId": "",
     "items": [
-      { "sku": "VNL-OAK-01", "name": "Vinyl plank, oak (box of 24 sqft)", "qty": 3, "unit": "box", "price": 20400, "discount": 5 }
+      { "sku": "VNL-OAK-01", "name": "Vinyl plank, oak finish", "qty": 72, "unit": "sqft", "price": 850, "discount": 5 }
     ],
     "payment": { "method": "Bank transfer", "tendered": 0, "reference": "BOC 23-10 / 7781" }
   },

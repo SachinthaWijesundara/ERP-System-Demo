@@ -2708,6 +2708,223 @@ textarea {
   margin: -16px 0 16px;
 }
 
+/* Warranty */
+
+.badge-warranty-active {
+  background: #e7f1e9;
+  color: #2e6a3e;
+}
+
+.badge-warranty-expired {
+  background: var(--placeholder);
+  color: var(--text-muted);
+}
+
+.warranty-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 16px;
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--sidebar);
+  color: var(--text-muted);
+}
+
+.warranty-banner svg {
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.warranty-banner strong {
+  color: var(--text);
+}
+
+.warranty-banner.is-active {
+  border-color: #cfe3d4;
+  background: #f1f8f3;
+  color: #2e6a3e;
+}
+
+.warranty-banner.is-active strong {
+  color: #2e6a3e;
+}
+
+/* POS tiles show stock; items with none free are greyed out */
+
+.product-stock {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.product-tile.is-out {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.product-tile.is-out:hover {
+  border-color: var(--border);
+  background: var(--surface);
+}
+
+.cart-error {
+  margin: 6px 0 0;
+}
+
+.cart-stock {
+  margin: 4px 0 0;
+}
+
+/* Charge-to-client toggles on project materials and costs */
+
+.charge-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.charge-toggle input {
+  accent-color: var(--accent);
+}
+
+.cost-row {
+  grid-template-columns: 1fr 140px auto 34px;
+  align-items: center;
+}
+
+.cost-help {
+  margin: 0 0 4px;
+}
+
+.inline-add-pick {
+  grid-template-columns: minmax(200px, 1.6fr) 90px 1fr auto auto auto;
+}
+
+.stage-warning {
+  padding: 10px 14px;
+  border: 1px solid #ecdcb9;
+  border-radius: var(--radius-sm);
+  background: #fbf5e8;
+  color: #8a5a12;
+  margin-bottom: 16px;
+}
+
+.stage-warning ul,
+.form-alert ul {
+  margin: 6px 0 0;
+  padding-left: 18px;
+}
+
+.stage-stock-note {
+  margin: 0;
+}
+
+.badge-draft {
+  background: var(--placeholder);
+  color: var(--text-muted);
+  border: 1px dashed var(--border);
+}
+
+/* Notification bell */
+
+.notify {
+  position: relative;
+}
+
+.notify .icon-button {
+  position: relative;
+}
+
+.notify-count {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  min-width: 17px;
+  height: 17px;
+  padding: 0 4px;
+  border-radius: 9px;
+  background: #9c3b2c;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 17px;
+  text-align: center;
+}
+
+.notify-panel {
+  position: absolute;
+  top: 40px;
+  right: 0;
+  z-index: 50;
+  width: 360px;
+  max-width: calc(100vw - 32px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: 0 8px 24px rgba(31, 29, 26, 0.12);
+}
+
+.notify-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.notify-empty {
+  margin: 0;
+  padding: 16px 14px;
+  color: var(--text-muted);
+}
+
+.notify-list {
+  max-height: 360px;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  list-style: none;
+}
+
+.notify-item {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  padding: 12px 14px;
+  border: 0;
+  border-bottom: 1px solid var(--border-soft);
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+
+.notify-item:hover {
+  background: var(--sidebar);
+}
+
+.notify-item svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: var(--text-faint);
+}
+
+.notify-item.is-unread {
+  background: var(--accent-soft);
+}
+
+.notify-item.is-unread svg {
+  color: var(--accent);
+}
+
+.notify-text {
+  display: block;
+  margin-bottom: 2px;
+}
+
 /* Smaller screens */
 
 @media (max-width: 1100px) {

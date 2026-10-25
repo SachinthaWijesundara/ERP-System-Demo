@@ -13,6 +13,7 @@ import {
   amountPaid,
   invoiceStatus,
   projectMaterialsCost,
+  projectExtrasCharged,
   itemForMaterial,
   staffByName,
 } from '../data/links.js'
@@ -28,6 +29,7 @@ import {
 } from './projectFields.js'
 import StageTracker from './StageTracker.jsx'
 import StagePanel from './StagePanel.jsx'
+import WarrantyStatus from './WarrantyStatus.jsx'
 import { MaterialsCard, MeasurementsCard, PhotosCard, NotesCard } from './ProjectRecords.jsx'
 
 function Fact({ label, children, tone }) {
@@ -59,20 +61,23 @@ export default function ProjectDetail({ projectId, onBack, onEdit, onOpenRecord 
   const client = clientForProject(data, project)
   const quote = quoteForProject(data, project)
   const invoices = invoicesForProject(data, project.id)
-  const save = (next) => data.updateProject(next)
-  const openClient = () => onOpenRecord('clients', project.clientId)
+  const save = (next, movements) => data.updateProject(next, movements)
+  const openClient = () => onOpenRecord('clients', client.id)
   const openQuote = () => onOpenRecord('quotations', project.quoteId)
 
   const done = isCompleted(project)
   const late = !done && project.dueDate < todayIso()
 
-  // Money: what the client pays (quote, invoices) against what it costs.
+  // Money: what the client pays (quote, extras, invoices) against what it costs.
   const quoteTotal = quote ? quoteTotals(quote).total : 0
-  const invoiced = invoices.reduce((s, i) => s + i.amount, 0)
-  const paid = invoices.reduce((s, i) => s + amountPaid(i), 0)
+  const extras = projectExtrasCharged(data, project)
+  const issued = invoices.filter((i) => !i.draft)
+  const invoiced = issued.reduce((s, i) => s + i.amount, 0)
+  const paid = issued.reduce((s, i) => s + amountPaid(i), 0)
   const materialsCost = projectMaterialsCost(data, project)
-  const profit = quoteTotal - materialsCost - installationCost(project)
-  const advance = invoices.find((i) => i.type === 'Advance')
+  const profit = quoteTotal + extras - materialsCost - installationCost(project)
+  const advance = issued.find((i) => i.type === 'Advance')
+  const final = invoices.find((i) => i.type === 'Final')
 
   const registeredStaff = [project.designer, ...project.team].filter((n) => staffByName(data, n))
 
@@ -118,6 +123,8 @@ export default function ProjectDetail({ projectId, onBack, onEdit, onOpenRecord 
         <StageTracker project={project} selected={selected} onSelect={setSelected} />
       </section>
 
+      <WarrantyStatus project={project} />
+
       <div className="detail-grid">
         <div className="detail-main">
           <StagePanel key={selected} project={project} stageKey={selected} client={client} onChange={save} />
@@ -130,11 +137,8 @@ export default function ProjectDetail({ projectId, onBack, onEdit, onOpenRecord 
         <aside className="detail-side">
           <Card title="Client and site">
             <div className="side-block">
-              <div className="cell-main">{client ? <Link onClick={openClient}>{client.name}</Link> : project.clientId}</div>
-              <div className="cell-sub">
-                {project.clientId}
-                {client && ` · ${client.branch}`}
-              </div>
+              <div className="cell-main">{client ? <Link onClick={openClient}>{client.name}</Link> : 'Client not found'}</div>
+              <div className="cell-sub">{client && `${client.id} · ${client.branch} · through quote ${project.quoteId}`}</div>
             </div>
             {client && (
               <div className="side-line">
@@ -156,7 +160,9 @@ export default function ProjectDetail({ projectId, onBack, onEdit, onOpenRecord 
             <dl className="facts">
               <dt>Quote total</dt>
               <dd>{quote ? formatMoney(quoteTotal) : '—'}</dd>
-              <dt>Invoiced</dt>
+              <dt>Extras charged</dt>
+              <dd>{formatMoney(extras)}</dd>
+              <dt>Invoiced (issued)</dt>
               <dd>{formatMoney(invoiced)}</dd>
               <dt>Paid</dt>
               <dd>{formatMoney(paid)}</dd>
@@ -164,6 +170,15 @@ export default function ProjectDetail({ projectId, onBack, onEdit, onOpenRecord 
               <dd className={invoiced - paid > 0 ? 'is-owed' : ''}>{formatMoney(invoiced - paid)}</dd>
               <dt>Advance paid</dt>
               <dd>{advance ? (invoiceStatus(advance) === 'Paid' ? 'Yes' : 'Not yet') : 'Not invoiced'}</dd>
+              {final && (
+                <>
+                  <dt>Final invoice</dt>
+                  <dd>
+                    <Link onClick={() => onOpenRecord('invoices', final.id)}>{formatMoney(final.amount)}</Link>
+                    <div className="cell-sub">{final.draft ? 'Draft, issued at handover' : invoiceStatus(final)}</div>
+                  </dd>
+                </>
+              )}
             </dl>
             <dl className="facts facts-split">
               <dt>Materials cost</dt>

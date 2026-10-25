@@ -2,8 +2,17 @@ import { useState } from 'react'
 import { CheckCircle2, Plus, X } from 'lucide-react'
 import Field from '../components/Field.jsx'
 import FileGallery, { UploadButton, filesToRecords } from '../components/FileGallery.jsx'
+import { useData } from '../data/DataContext.jsx'
 import { formatDate, formatMoney, todayIso } from '../utils/format.js'
-import { STAGES, STAGE_STATUSES, DESIGN_FILE_KINDS, completeStage, installationCost } from './projectFields.js'
+import { applyStageEffects } from './stageEffects.js'
+import {
+  STAGES,
+  STAGE_STATUSES,
+  DESIGN_FILE_KINDS,
+  completeStage,
+  installationCost,
+  warrantyInfo,
+} from './projectFields.js'
 
 const APPROVAL_METHODS = [
   'Signed approval letter',
@@ -202,7 +211,7 @@ function Installation({ stage, set, project }) {
         <button
           type="button"
           className="btn btn-small"
-          onClick={() => set({ costs: [...stage.costs, { description: '', amount: 0 }] })}
+          onClick={() => set({ costs: [...stage.costs, { description: '', amount: 0, billable: false }] })}
         >
           <Plus size={14} strokeWidth={1.75} />
           Add cost
@@ -212,6 +221,9 @@ function Installation({ stage, set, project }) {
         <p className="card-empty">No costs yet, e.g. wages, transport, hired tools.</p>
       ) : (
         <div className="cost-list">
+          <p className="cell-sub cost-help">
+            Tick “Charge client” for extra work the client pays for; it’s added to the project’s final invoice.
+          </p>
           {stage.costs.map((c, i) => (
             <div key={i} className="cost-row">
               <input value={c.description} onChange={(e) => setCost(i, { description: e.target.value })} placeholder="e.g. Installer wages" aria-label="Cost" />
@@ -223,6 +235,10 @@ function Installation({ stage, set, project }) {
                 onChange={(e) => setCost(i, { amount: e.target.value })}
                 aria-label="Amount in LKR"
               />
+              <label className="charge-toggle">
+                <input type="checkbox" checked={!!c.billable} onChange={(e) => setCost(i, { billable: e.target.checked })} />
+                Charge client
+              </label>
               <button type="button" className="icon-button" aria-label="Remove cost" onClick={() => set({ costs: stage.costs.filter((_, j) => j !== i) })}>
                 <X size={15} strokeWidth={1.75} />
               </button>
@@ -242,7 +258,15 @@ function Installation({ stage, set, project }) {
   )
 }
 
-function Handover({ stage, set, client, onComplete }) {
+// Under the warranty field: when it ends, once the handover is done and dated.
+function warrantyHint(project) {
+  const w = warrantyInfo(project, todayIso())
+  if (!w) return 'Starts on the actual handover date.'
+  if (!w.expires) return 'No warranty.'
+  return `${w.active ? 'Active, ends' : 'Expired on'} ${formatDate(w.expires)}.`
+}
+
+function Handover({ stage, set, client, project, onComplete }) {
   const setItem = (i, patch) => set({ checklist: stage.checklist.map((c, j) => (j === i ? { ...c, ...patch } : c)) })
   const doneCount = stage.checklist.filter((c) => c.done).length
   return (
@@ -257,7 +281,7 @@ function Handover({ stage, set, client, onComplete }) {
         <Field label="Received by">
           <input value={stage.receivedBy} onChange={(e) => set({ receivedBy: e.target.value })} placeholder={client?.name ?? 'Client’s name'} />
         </Field>
-        <Field label="Warranty (months)">
+        <Field label="Warranty (months)" hint={warrantyHint(project)}>
           <input type="number" min="0" className="num" value={stage.warrantyMonths} onChange={(e) => set({ warrantyMonths: e.target.value })} />
         </Field>
       </div>
@@ -309,7 +333,10 @@ const BODIES = {
 }
 
 // The open stage: its status, a button to finish it, and its own details.
+// `onChange(project, movements)` saves the project and any stock moves.
 export default function StagePanel({ project, stageKey, client, onChange }) {
+  const data = useData()
+  const [message, setMessage] = useState(null)
   const meta = STAGES.find((s) => s.key === stageKey)
   const index = STAGES.indexOf(meta)
   const stage = project.stages[stageKey]
@@ -317,9 +344,17 @@ export default function StagePanel({ project, stageKey, client, onChange }) {
   const today = todayIso()
 
   const set = (patch) => onChange({ ...project, stages: { ...project.stages, [stageKey]: { ...stage, ...patch } } })
+
+  // Finishing a stage can reserve or issue the project's materials too.
   const finish = (patch = {}) => {
     const withPatch = { ...project, stages: { ...project.stages, [stageKey]: { ...stage, ...patch } } }
-    onChange(completeStage(withPatch, stageKey, today))
+    const effects = applyStageEffects(data, project, completeStage(withPatch, stageKey, today))
+    if (effects.blocked) {
+      setMessage({ tone: 'error', text: effects.blocked, details: effects.warnings })
+      return
+    }
+    setMessage(effects.warnings.length ? { tone: 'warn', text: 'Some materials couldn’t be reserved:', details: effects.warnings } : null)
+    onChange(effects.project, effects.movements)
   }
 
   return (
@@ -347,6 +382,23 @@ export default function StagePanel({ project, stageKey, client, onChange }) {
         </div>
       </header>
       <div className="card-body stage-body">
+        {message && (
+          <div className={message.tone === 'error' ? 'form-alert' : 'stage-warning'}>
+            {message.text}
+            <ul>
+              {message.details.map((d) => (
+                <li key={d}>{d}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+        {(stageKey === 'approval' || stageKey === 'materials') && stage.status !== 'Done' && (
+          <p className="cell-sub stage-stock-note">
+            {stageKey === 'approval'
+              ? 'Approving reserves this project’s pending materials in Inventory.'
+              : 'Marking this stage done issues every material: the stock leaves the store.'}
+          </p>
+        )}
         <Body
           stage={stage}
           set={set}

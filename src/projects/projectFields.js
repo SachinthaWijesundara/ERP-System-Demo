@@ -110,6 +110,29 @@ export function completeStage(project, key, today) {
 
 // --- Money -------------------------------------------------------------
 
+// --- Warranty ----------------------------------------------------------
+
+// '2026-03-19' plus 24 months -> '2028-03-19'.
+function addMonths(iso, months) {
+  const [y, m, d] = iso.split('-').map(Number)
+  const date = new Date(y, m - 1 + months, d)
+  const pad = (n) => String(n).padStart(2, '0')
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`
+}
+
+// The warranty on a handed-over project: it starts on the actual handover
+// date and runs for the warranty months set at handover. Null until the
+// handover is done and dated.
+export function warrantyInfo(project, today) {
+  const handover = project.stages.handover
+  if (handover.status !== 'Done' || !handover.actualDate) return null
+  const months = Number(handover.warrantyMonths) || 0
+  if (months <= 0) return { months: 0, start: handover.actualDate, expires: null, active: false, daysLeft: 0 }
+  const expires = addMonths(handover.actualDate, months)
+  const daysLeft = Math.round((new Date(expires) - new Date(today)) / 86400000)
+  return { months, start: handover.actualDate, expires, active: today <= expires, daysLeft }
+}
+
 export function installationCost(project) {
   return project.stages.installation.costs.reduce((sum, c) => sum + (Number(c.amount) || 0), 0)
 }
@@ -135,7 +158,11 @@ export function validateProject(project, projects, isNew) {
   return errors
 }
 
-export function cleanProject(project) {
+// Tidies the form before saving. The form's client picker isn't saved: the
+// project's client is its quote's client.
+export function cleanProject(form) {
+  // eslint-disable-next-line no-unused-vars
+  const { clientId, ...project } = form
   return {
     ...project,
     id: project.id.trim(),

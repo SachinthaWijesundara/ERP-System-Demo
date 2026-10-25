@@ -5,13 +5,20 @@ import ProjectList from '../projects/ProjectList.jsx'
 import ProjectDetail from '../projects/ProjectDetail.jsx'
 import ProjectForm from '../projects/ProjectForm.jsx'
 import { emptyProject, nextProjectId } from '../projects/projectFields.js'
+import { canConvertToProject, projectFromQuote } from '../data/links.js'
 import { todayIso } from '../utils/format.js'
 
 // Switches between the project list, one project, and the add/edit form.
-export default function Projects({ query, branch, openId, onOpenRecord }) {
+export default function Projects({ query, branch, openId, openFilter, onOpenRecord }) {
   const data = useData()
   // `openId` opens one project straight away, e.g. when clicked on a client page.
-  const [view, setView] = useState(openId ? { mode: 'detail', id: openId } : { mode: 'list' })
+  // `openFilter.fromQuote` opens the new-project form started from that quote,
+  // from the quote's Convert to project button.
+  const [view, setView] = useState(() => {
+    if (openId) return { mode: 'detail', id: openId }
+    if (openFilter?.fromQuote) return { mode: 'new', quoteId: openFilter.fromQuote }
+    return { mode: 'list' }
+  })
 
   // Typing in the search bar or switching branch always brings the list back.
   useOnChange([query, branch], () => setView({ mode: 'list' }))
@@ -42,9 +49,11 @@ export default function Projects({ query, branch, openId, onOpenRecord }) {
   }
 
   if (view.mode === 'new') {
+    const blank = emptyProject(nextProjectId(data.projects), todayIso())
+    const quote = data.quotations.find((q) => q.id === view.quoteId)
     return (
       <ProjectForm
-        initial={emptyProject(nextProjectId(data.projects), todayIso())}
+        initial={quote && canConvertToProject(data, quote) ? projectFromQuote(blank, quote) : blank}
         isNew
         onCancel={() => setView({ mode: 'list' })}
         onSave={(saved) => {

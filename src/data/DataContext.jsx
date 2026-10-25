@@ -1,12 +1,15 @@
 import { createContext, useContext, useMemo, useState } from 'react'
-import { reservationsFromProjects } from './links.js'
+import { reservationsFromProjects, stockMovementsForSale } from './links.js'
+import { onQuoteSaved, onProjectAdded, onProjectSaved, onSaleCompleted, liveFinalInvoice } from './billing.js'
+import { nextMovementId, movementDelta } from '../inventory/inventoryFields.js'
+import { nowTime } from '../pos/posFields.js'
+import { todayIso } from '../utils/format.js'
 import clientsSeed from './clients.json'
 import quotationsSeed from './quotations.json'
 import projectsSeed from './projects.json'
 import invoicesSeed from './invoices.json'
 import salesSeed from './sales.json'
 import cashUpsSeed from './cashups.json'
-import posProducts from './posProducts.json'
 import inventorySeed from './inventory.json'
 import movementsSeed from './movements.json'
 import staffSeed from './staff.json'
@@ -25,15 +28,60 @@ export function DataProvider({ children }) {
   const [inventory, setInventory] = useState(inventorySeed)
   const [movements, setMovements] = useState(movementsSeed)
   const [staff, setStaff] = useState(staffSeed)
+  const [notifications, setNotifications] = useState([])
 
   // Each item's reservations come from project materials marked Reserved.
   // They're worked out here for every page to read, never stored on the item.
   const inventoryView = useMemo(
-    () => inventory.map((i) => ({ ...i, reservations: reservationsFromProjects(projects, clients, i.sku) })),
-    [inventory, projects, clients],
+    () => inventory.map((i) => ({ ...i, reservations: reservationsFromProjects({ projects, quotations, clients }, i.sku) })),
+    [inventory, projects, quotations, clients],
   )
   // eslint-disable-next-line no-unused-vars
   const stored = ({ reservations, ...item }) => item
+
+  // Draft Final invoices show their figures as the project stands right now.
+  const invoicesView = useMemo(() => {
+    const base = { projects, quotations, invoices, inventory: inventoryView }
+    return invoices.map((i) => (i.type === 'Final' && i.draft ? liveFinalInvoice(base, i) : i))
+  }, [invoices, projects, quotations, inventoryView])
+
+  // The current data, for the billing rules to read.
+  const snapshot = (patch = {}) => ({ clients, quotations, projects, invoices, sales, inventory: inventoryView, ...patch })
+
+  // Saves what a billing rule decided and rings the notification bell.
+  function applyBilling({ invoices: next, notices }) {
+    if (next !== invoices) setInvoices(next)
+    if (notices.length) {
+      const at = `${todayIso()} ${nowTime()}`
+      setNotifications((list) => [
+        ...notices.map((n, i) => ({ ...n, id: `${Date.now()}-${i}`, at, read: false })),
+        ...list,
+      ])
+    }
+  }
+
+  // Logs stock movements and changes each branch's on-hand figure to match.
+  function recordMovements(list) {
+    if (!list.length) return
+    let ids = movements
+    const withIds = list.map((m) => {
+      const movement = { ...m, id: nextMovementId(ids) }
+      ids = [movement, ...ids]
+      return movement
+    })
+    setMovements((all) => [...withIds.reverse(), ...all])
+    setInventory((items) =>
+      items.map((i) => {
+        const mine = withIds.filter((m) => m.sku === i.sku)
+        if (!mine.length) return i
+        const stock = { ...i.stock }
+        mine.forEach((m) => {
+          stock[m.branch] = (stock[m.branch] ?? 0) + movementDelta(m)
+        })
+        return { ...i, stock }
+      }),
+    )
+  }
 
   const value = {
     staff,
@@ -42,10 +90,10 @@ export function DataProvider({ children }) {
     clients,
     quotations,
     projects,
-    invoices,
+    invoices: invoicesView,
     sales,
     cashUps,
-    posProducts,
+    notifications,
 
     addClient(client) {
       setClients((list) => [client, ...list])
@@ -56,21 +104,36 @@ export function DataProvider({ children }) {
 
     addQuotation(quote) {
       setQuotations((list) => [quote, ...list])
+      applyBilling(onQuoteSaved(snapshot(), null, quote))
     },
     updateQuotation(quote) {
+      const before = quotations.find((q) => q.id === quote.id)
       setQuotations((list) => list.map((q) => (q.id === quote.id ? quote : q)))
+      applyBilling(onQuoteSaved(snapshot({ quotations: quotations.map((q) => (q.id === quote.id ? quote : q)) }), before, quote))
     },
 
     addProject(project) {
       setProjects((list) => [project, ...list])
+      applyBilling(onProjectAdded(snapshot({ projects: [project, ...projects] }), project))
     },
-    updateProject(project) {
-      setProjects((list) => list.map((p) => (p.id === project.id ? project : p)))
+    // `movementsToRecord` are stock moves the change causes (materials reserved
+    // and issued by a stage being completed, for example).
+    updateProject(project, movementsToRecord = []) {
+      const before = projects.find((p) => p.id === project.id)
+      const nextProjects = projects.map((p) => (p.id === project.id ? project : p))
+      setProjects(nextProjects)
+      recordMovements(movementsToRecord)
+      applyBilling(onProjectSaved(snapshot({ projects: nextProjects }), before, project))
     },
 
-    addSale(sale) {
+    // A finished counter sale: save it, take the items out of stock, and
+    // create its paid invoice.
+    completeSale(sale) {
       setSales((list) => [sale, ...list])
+      recordMovements(stockMovementsForSale(sale))
+      applyBilling(onSaleCompleted(snapshot(), sale))
     },
+
     // Staff are added and changed only by an admin, from User settings.
     // The Staff page itself is read-only.
     addStaff(person) {
@@ -84,7 +147,14 @@ export function DataProvider({ children }) {
       setInvoices((list) => [invoice, ...list])
     },
     updateInvoice(invoice) {
-      setInvoices((list) => list.map((i) => (i.id === invoice.id ? invoice : i)))
+      // Drafts are shown with live figures; store them without those.
+      // eslint-disable-next-line no-unused-vars
+      const { lines, ...rest } = invoice
+      setInvoices((list) => list.map((i) => (i.id === invoice.id ? (invoice.draft ? rest : invoice) : i)))
+    },
+
+    markNotificationsRead() {
+      setNotifications((list) => list.map((n) => ({ ...n, read: true })))
     },
 
     addCashUp(cashUp) {
@@ -97,7 +167,7 @@ export function DataProvider({ children }) {
     updateItem(item) {
       setInventory((list) => list.map((i) => (i.sku === item.sku ? stored(item) : i)))
     },
-    // Logs a stock movement and changes that branch's on-hand figure to match.
+    // Logs one stock movement and changes that branch's on-hand figure.
     recordMovement(movement, delta) {
       setMovements((list) => [movement, ...list])
       setInventory((list) =>

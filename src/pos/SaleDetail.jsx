@@ -2,7 +2,9 @@ import { ArrowLeft, Printer, Download, User, Package, Receipt as ReceiptIcon, Ch
 import PageHeader from '../components/PageHeader.jsx'
 import Card from '../components/Card.jsx'
 import Badge from '../components/Badge.jsx'
+import Link from '../components/RecordLink.jsx'
 import { useData } from '../data/DataContext.jsx'
+import { clientForSale, invoiceForSale, invoiceStatus } from '../data/links.js'
 import { formatDate, formatMoney } from '../utils/format.js'
 import { saleTotals, findCashUp } from './posFields.js'
 import Receipt from './Receipt.jsx'
@@ -14,13 +16,15 @@ async function downloadPdf(sale) {
   downloadReceiptPdf(sale)
 }
 
-export default function SaleDetail({ saleId, justCompleted, onBack, onNewSale }) {
+export default function SaleDetail({ saleId, justCompleted, onBack, onNewSale, onOpenRecord }) {
   const data = useData()
   const sale = data.sales.find((s) => s.id === saleId)
   if (!sale) return null
 
   const t = saleTotals(sale)
   const cashUp = findCashUp(data.cashUps, sale.branch, sale.date)
+  const client = clientForSale(data, sale)
+  const invoice = invoiceForSale(data, sale)
 
   return (
     <>
@@ -55,6 +59,7 @@ export default function SaleDetail({ saleId, justCompleted, onBack, onNewSale })
           <div>
             <strong>Sale complete · {formatMoney(t.total)}</strong>
             {sale.payment.method === 'Cash' && t.change > 0 && <div>Give change: {formatMoney(t.change)}</div>}
+            {invoice && <div>Invoice {invoice.id} created and paid. Stock taken out of the {sale.branch} store.</div>}
           </div>
         </div>
       )}
@@ -94,25 +99,48 @@ export default function SaleDetail({ saleId, justCompleted, onBack, onNewSale })
                 <User size={15} strokeWidth={1.75} />
                 <div>
                   <div className="links-title">Client</div>
-                  <div className="cell-sub">
-                    {sale.clientId
-                      ? `Tagged to ${sale.clientId}. Not connected yet; once it is, this sale will show in the client’s history.`
-                      : 'Walk-in sale. Not connected yet; sales can be linked to a client later.'}
-                  </div>
+                  {client ? (
+                    <div>
+                      <Link onClick={() => onOpenRecord('clients', client.id)}>
+                        {client.name} · {client.id}
+                      </Link>
+                    </div>
+                  ) : (
+                    <div className="cell-sub">Walk-in customer, not a registered client.</div>
+                  )}
                 </div>
               </li>
               <li>
                 <Package size={15} strokeWidth={1.75} />
                 <div>
                   <div className="links-title">Inventory</div>
-                  <div className="cell-sub">Not connected yet. Each sale will reduce stock at the {sale.branch} branch.</div>
+                  {sale.items
+                    .filter((line) => line.sku)
+                    .map((line) => (
+                      <div key={line.sku}>
+                        <Link onClick={() => onOpenRecord('inventory', line.sku)}>{line.name}</Link>{' '}
+                        <span className="cell-sub">
+                          −{line.qty} {line.unit}
+                        </span>
+                      </div>
+                    ))}
+                  <div className="cell-sub">Sold items leave the {sale.branch} store as “Out” movements.</div>
                 </div>
               </li>
               <li>
                 <ReceiptIcon size={15} strokeWidth={1.75} />
                 <div>
                   <div className="links-title">Invoices and payments</div>
-                  <div className="cell-sub">Not connected yet. Each sale will be saved as a “POS sale” invoice with its payment.</div>
+                  {invoice ? (
+                    <div>
+                      <Link onClick={() => onOpenRecord('invoices', invoice.id)}>
+                        {invoice.id} · {formatMoney(invoice.amount)}
+                      </Link>{' '}
+                      <Badge>{invoiceStatus(invoice)}</Badge>
+                    </div>
+                  ) : (
+                    <div className="cell-sub">No invoice found for this sale.</div>
+                  )}
                 </div>
               </li>
             </ul>
