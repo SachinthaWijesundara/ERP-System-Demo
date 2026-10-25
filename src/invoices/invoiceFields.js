@@ -1,12 +1,13 @@
 import { invoiceBalance } from '../data/links.js'
 
-// Advance: up-front share of the quote. Progress: part-way through the job.
-// Final: whatever is left of the quote. POS sale: made by the counter, not
-// raised by hand.
+// Advance: up-front share of the quote, made when the quote is approved.
+// Progress: part-way through the job, raised by hand. Final: the rest of the
+// quote plus extras, a draft until handover. POS sale: made by the counter.
+// Only Progress invoices are raised by hand (see billing.js for the rest).
 export const INVOICE_TYPES = ['Advance', 'Progress', 'Final', 'POS sale']
-export const RAISED_TYPES = ['Advance', 'Progress', 'Final']
+export const RAISED_TYPES = ['Progress']
 
-export const INVOICE_STATUSES = ['Unpaid', 'Partly paid', 'Overdue', 'Paid', 'Cancelled']
+export const INVOICE_STATUSES = ['Draft', 'Unpaid', 'Partly paid', 'Overdue', 'Paid', 'Cancelled']
 
 export const PAYMENT_METHODS = ['Cash', 'Card', 'Bank transfer', 'Cheque']
 
@@ -32,17 +33,20 @@ export function addDays(iso, days) {
   return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`
 }
 
+// A blank progress invoice. `projectId` is only for the form's project
+// picker; the saved invoice keeps the project's quoteId instead.
 export function emptyInvoice(id, today) {
   return {
     id,
-    type: 'Advance',
-    clientId: '',
+    type: 'Progress',
     projectId: '',
+    quoteId: '',
     saleId: '',
     date: today,
     dueDate: addDays(today, 7),
     description: '',
     amount: '',
+    draft: false,
     cancelled: false,
     payments: [],
   }

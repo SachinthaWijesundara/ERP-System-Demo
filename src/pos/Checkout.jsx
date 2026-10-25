@@ -40,6 +40,7 @@ export default function Checkout({ branch, onCancel, onComplete }) {
 
   // Showroom items are the Inventory items, with what's free at this branch.
   const products = productsForPos(data, sale.branch)
+  const freeAt = (sku) => products.find((p) => p.sku === sku)?.available ?? 0
 
   const closedDay = !!(sale.branch && findCashUp(data.cashUps, sale.branch, sale.date))
   const errors = validateSale(sale, data.sales, closedDay)
@@ -235,7 +236,16 @@ export default function Checkout({ branch, onCancel, onComplete }) {
                       </label>
                       <span className="cart-amount">{formatMoney(lineTotal(item))}</span>
                     </div>
-                    {item.sku && stockProblems[item.sku] && <p className="field-error cart-error">{stockProblems[item.sku]}</p>}
+                    {item.sku &&
+                      (stockProblems[item.sku] ? (
+                        <p className="field-error cart-error">{stockProblems[item.sku]}</p>
+                      ) : (
+                        sale.branch && (
+                          <p className="cell-sub cart-stock">
+                            {freeAt(item.sku)} {item.unit} free at {sale.branch} (reserved stock not counted)
+                          </p>
+                        )
+                      ))}
                   </li>
                 ))}
               </ul>
@@ -303,7 +313,23 @@ export default function Checkout({ branch, onCancel, onComplete }) {
 
             <details className="customer-box">
               <summary>Customer details (optional)</summary>
-              <div className="form-grid">
+              <Field label="Registered client" hint="Pick one to link this sale to their client page. Leave empty for walk-ins.">
+                <select
+                  value={sale.clientId}
+                  onChange={(e) => {
+                    const c = data.clients.find((x) => x.id === e.target.value)
+                    update({ clientId: e.target.value, customer: c ? { name: c.name, phone: c.phone } : sale.customer })
+                  }}
+                >
+                  <option value="">Walk-in customer (not registered)</option>
+                  {data.clients.map((c) => (
+                    <option key={c.id} value={c.id}>
+                      {c.id} · {c.name}
+                    </option>
+                  ))}
+                </select>
+              </Field>
+              <div className="form-grid customer-fields">
                 <Field label="Name">
                   <input value={sale.customer.name} onChange={(e) => update({ customer: { ...sale.customer, name: e.target.value } })} />
                 </Field>
@@ -316,7 +342,6 @@ export default function Checkout({ branch, onCancel, onComplete }) {
                   />
                 </Field>
               </div>
-              <p className="cell-sub">Linking a sale to a client’s record will come when POS is connected to Clients.</p>
             </details>
 
             {submitted && Object.keys(errors).length > 0 && (

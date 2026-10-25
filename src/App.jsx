@@ -22,7 +22,8 @@ export default function App() {
   const [visit, setVisit] = useState(0)
   // A record to open straight away when a page loads, e.g. a quote clicked
   // on a client's page: { module: 'quotations', id: 'QT-0012' }. It can carry
-  // a filter instead, e.g. Inventory showing only the items on one quote.
+  // a filter instead, e.g. Inventory showing only the items on one quote, or
+  // Projects opening a new project from a quote ({ fromQuote: 'QT-0016' }).
   const [target, setTarget] = useState(null)
   const current = modules.find((m) => m.id === active)
 
@@ -70,13 +71,16 @@ export default function App() {
   else if (active === 'quotations')
     page = <Quotations query={query} branch={branch} openId={openId} onOpenRecord={openRecord} />
   else if (active === 'projects')
-    page = <Projects query={query} branch={branch} openId={openId} onOpenRecord={openRecord} />
+    page = (
+      <Projects query={query} branch={branch} openId={openId} openFilter={openFilter} onOpenRecord={openRecord} />
+    )
   else if (active === 'pos') page = <Pos query={query} branch={branch} openId={openId} onOpenRecord={openRecord} />
   else if (active === 'inventory')
     page = (
       <Inventory query={query} branch={branch} openId={openId} openFilter={openFilter} onOpenRecord={openRecord} />
     )
-  else if (active === 'invoices') page = <Invoices query={query} branch={branch} openId={openId} />
+  else if (active === 'invoices')
+    page = <Invoices query={query} branch={branch} openId={openId} onOpenRecord={openRecord} />
   else if (active === 'staff') page = <Staff query={query} branch={branch} openId={openId} />
   else
     page = (
@@ -95,6 +99,7 @@ export default function App() {
           query={query}
           onSearch={search}
           placeholder={searchable[active] ?? searchable.clients}
+          onOpenRecord={openRecord}
         />
         <main className="content" key={`${active}-${visit}`}>
           {page}

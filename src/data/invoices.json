@@ -1,14 +1,220 @@
 [
   {
+    "id": "INV-0061",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0312",
+    "date": "2026-10-25",
+    "dueDate": "2026-10-25",
+    "description": "Counter sale SL-0312 at Nugegoda",
+    "amount": 8700,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      { "id": "PAY-0105", "date": "2026-10-25", "amount": 8700, "method": "Cash", "reference": "", "receivedBy": "Kavindu Silva" }
+    ]
+  },
+  {
+    "id": "INV-0060",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0311",
+    "date": "2026-10-25",
+    "dueDate": "2026-10-25",
+    "description": "Counter sale SL-0311 at Matara",
+    "amount": 15700,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      { "id": "PAY-0104", "date": "2026-10-25", "amount": 15700, "method": "Card", "reference": "VISA •••• 3307", "receivedBy": "Ishara Madushani" }
+    ]
+  },
+  {
+    "id": "INV-0059",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0310",
+    "date": "2026-10-25",
+    "dueDate": "2026-10-25",
+    "description": "Counter sale SL-0310 at Nugegoda",
+    "amount": 13600,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      { "id": "PAY-0103", "date": "2026-10-25", "amount": 13600, "method": "Cash", "reference": "", "receivedBy": "Kavindu Silva" }
+    ]
+  },
+  {
+    "id": "INV-0058",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0309",
+    "date": "2026-10-24",
+    "dueDate": "2026-10-24",
+    "description": "Counter sale SL-0309 at Nugegoda",
+    "amount": 22800,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      { "id": "PAY-0102", "date": "2026-10-24", "amount": 22800, "method": "Card", "reference": "VISA •••• 0072", "receivedBy": "Kavindu Silva" }
+    ]
+  },
+  {
+    "id": "INV-0057",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0306",
+    "date": "2026-10-24",
+    "dueDate": "2026-10-24",
+    "description": "Counter sale SL-0306 at Matara",
+    "amount": 15600,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      { "id": "PAY-0101", "date": "2026-10-24", "amount": 15600, "method": "Card", "reference": "MASTERCARD •••• 1190", "receivedBy": "Ishara Madushani" }
+    ]
+  },
+  {
+    "id": "INV-0056",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0308",
+    "date": "2026-10-24",
+    "dueDate": "2026-10-24",
+    "description": "Counter sale SL-0308 at Nugegoda",
+    "amount": 9500,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      { "id": "PAY-0100", "date": "2026-10-24", "amount": 9500, "method": "Cash", "reference": "", "receivedBy": "Kavindu Silva" }
+    ]
+  },
+  {
+    "id": "INV-0055",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0307",
+    "date": "2026-10-24",
+    "dueDate": "2026-10-24",
+    "description": "Counter sale SL-0307 at Nugegoda",
+    "amount": 35100,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      { "id": "PAY-0099", "date": "2026-10-24", "amount": 35100, "method": "Bank transfer", "reference": "COM 24-10 / 5530", "receivedBy": "Kavindu Silva" }
+    ]
+  },
+  {
+    "id": "INV-0054",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0305",
+    "date": "2026-10-24",
+    "dueDate": "2026-10-24",
+    "description": "Counter sale SL-0305 at Matara",
+    "amount": 10800,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      { "id": "PAY-0098", "date": "2026-10-24", "amount": 10800, "method": "Cash", "reference": "", "receivedBy": "Ishara Madushani" }
+    ]
+  },
+  {
+    "id": "INV-0053",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0304",
+    "date": "2026-10-23",
+    "dueDate": "2026-10-23",
+    "description": "Counter sale SL-0304 at Nugegoda",
+    "amount": 8700,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      { "id": "PAY-0097", "date": "2026-10-23", "amount": 8700, "method": "Cash", "reference": "", "receivedBy": "Kavindu Silva" }
+    ]
+  },
+  {
+    "id": "INV-0052",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0302",
+    "date": "2026-10-23",
+    "dueDate": "2026-10-23",
+    "description": "Counter sale SL-0302 at Matara",
+    "amount": 31400,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      { "id": "PAY-0096", "date": "2026-10-23", "amount": 31400, "method": "Card", "reference": "VISA •••• 4821", "receivedBy": "Ishara Madushani" }
+    ]
+  },
+  {
+    "id": "INV-0051",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0303",
+    "date": "2026-10-23",
+    "dueDate": "2026-10-23",
+    "description": "Counter sale SL-0303 at Nugegoda",
+    "amount": 58140,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      { "id": "PAY-0095", "date": "2026-10-23", "amount": 58140, "method": "Bank transfer", "reference": "BOC 23-10 / 7781", "receivedBy": "Kavindu Silva" }
+    ]
+  },
+  {
+    "id": "INV-0050",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0301",
+    "date": "2026-10-23",
+    "dueDate": "2026-10-23",
+    "description": "Counter sale SL-0301 at Matara",
+    "amount": 18000,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      { "id": "PAY-0094", "date": "2026-10-23", "amount": 18000, "method": "Cash", "reference": "", "receivedBy": "Ishara Madushani" }
+    ]
+  },
+  {
+    "id": "INV-0048",
+    "type": "Final",
+    "quoteId": "QT-0012",
+    "saleId": "",
+    "date": "",
+    "dueDate": "",
+    "description": "",
+    "amount": 0,
+    "draft": true,
+    "cancelled": false,
+    "payments": []
+  },
+  {
+    "id": "INV-0049",
+    "type": "Final",
+    "quoteId": "QT-0014",
+    "saleId": "",
+    "date": "",
+    "dueDate": "",
+    "description": "",
+    "amount": 0,
+    "draft": true,
+    "cancelled": false,
+    "payments": []
+  },
+  {
     "id": "INV-0047",
     "type": "Advance",
-    "clientId": "CL-0018",
-    "projectId": "PRJ-0008",
+    "quoteId": "QT-0014",
     "saleId": "",
     "date": "2026-10-20",
     "dueDate": "2026-11-03",
     "description": "Advance payment: 50% of quotation QT-0014 (LKR 385,000)",
     "amount": 192500,
+    "draft": false,
     "cancelled": false,
     "payments": [
       { "id": "PAY-0093", "date": "2026-10-22", "amount": 100000, "method": "Bank transfer", "reference": "HNB 22-10 / 4410", "receivedBy": "Kavindu Silva" }
@@ -17,13 +223,13 @@
   {
     "id": "INV-0045",
     "type": "Advance",
-    "clientId": "CL-0021",
-    "projectId": "PRJ-0007",
+    "quoteId": "QT-0012",
     "saleId": "",
     "date": "2026-09-24",
     "dueDate": "2026-10-01",
     "description": "Advance payment: 50% of quotation QT-0012 (LKR 520,000)",
     "amount": 260000,
+    "draft": false,
     "cancelled": false,
     "payments": [
       { "id": "PAY-0091", "date": "2026-09-25", "amount": 260000, "method": "Bank transfer", "reference": "BOC 25-09 / 1187", "receivedBy": "Kavindu Silva" }
@@ -32,13 +238,13 @@
   {
     "id": "INV-0031",
     "type": "Final",
-    "clientId": "CL-0015",
-    "projectId": "PRJ-0004",
+    "quoteId": "QT-0009",
     "saleId": "",
     "date": "2026-03-20",
     "dueDate": "2026-04-03",
     "description": "Final payment: balance of quotation QT-0009 (LKR 640,000)",
     "amount": 320000,
+    "draft": false,
     "cancelled": false,
     "payments": [
       { "id": "PAY-0060", "date": "2026-03-22", "amount": 200000, "method": "Cash", "reference": "", "receivedBy": "Kavindu Silva" }
@@ -47,13 +253,13 @@
   {
     "id": "INV-0030",
     "type": "Advance",
-    "clientId": "CL-0015",
-    "projectId": "PRJ-0004",
+    "quoteId": "QT-0009",
     "saleId": "",
     "date": "2026-01-15",
     "dueDate": "2026-01-22",
     "description": "Advance payment: 50% of quotation QT-0009 (LKR 640,000)",
     "amount": 320000,
+    "draft": false,
     "cancelled": false,
     "payments": [
       { "id": "PAY-0058", "date": "2026-01-16", "amount": 320000, "method": "Bank transfer", "reference": "COM 16-01 / 2290", "receivedBy": "Kavindu Silva" }
@@ -62,13 +268,13 @@
   {
     "id": "INV-0029",
     "type": "Final",
-    "clientId": "CL-0012",
-    "projectId": "PRJ-0003",
+    "quoteId": "QT-0008",
     "saleId": "",
     "date": "2025-06-28",
     "dueDate": "2025-07-05",
     "description": "Final payment: balance of quotation QT-0008 (LKR 172,000)",
     "amount": 86000,
+    "draft": false,
     "cancelled": false,
     "payments": [
       { "id": "PAY-0055", "date": "2025-06-30", "amount": 86000, "method": "Cheque", "reference": "Cheque 004512 · Sampath Bank", "receivedBy": "Ishara Madushani" }
@@ -77,13 +283,13 @@
   {
     "id": "INV-0028",
     "type": "Advance",
-    "clientId": "CL-0012",
-    "projectId": "PRJ-0003",
+    "quoteId": "QT-0008",
     "saleId": "",
     "date": "2025-06-10",
     "dueDate": "2025-06-17",
     "description": "Advance payment: 50% of quotation QT-0008 (LKR 172,000)",
     "amount": 86000,
+    "draft": false,
     "cancelled": false,
     "payments": [
       { "id": "PAY-0050", "date": "2025-06-11", "amount": 86000, "method": "Cash", "reference": "", "receivedBy": "Ishara Madushani" }

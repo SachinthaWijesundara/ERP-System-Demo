@@ -11,6 +11,7 @@ import {
   projectsUsingItem,
   quotationsUsingItem,
   salesOfItem,
+  invoiceForSale,
   clientForProject,
   clientForQuote,
 } from '../data/links.js'
@@ -400,14 +401,36 @@ export default function ItemDetail({ sku, branch, onBack, onEdit, onOpenRecord }
                 <FileText size={15} strokeWidth={1.75} />
                 <div>
                   <div className="links-title">Quotations · {inQuotes.length}</div>
-                  <div className="cell-sub">Quote lines pick this item at its unit and selling price.</div>
+                  {inQuotes.length ? (
+                    inQuotes.map(({ quote, line }) => (
+                      <div key={quote.id}>
+                        <Link onClick={open('quotations', quote.id)}>{quote.id}</Link>{' '}
+                        <span className="cell-sub">
+                          {line.qty} {line.unit} · {quote.status}
+                        </span>
+                      </div>
+                    ))
+                  ) : (
+                    <div className="cell-sub">Not on any quote.</div>
+                  )}
                 </div>
               </li>
               <li>
                 <Hammer size={15} strokeWidth={1.75} />
                 <div>
                   <div className="links-title">Projects · {inProjects.length}</div>
-                  <div className="cell-sub">Projects reserve this item, then issue it to site.</div>
+                  {inProjects.length ? (
+                    inProjects.map(({ project, material }) => (
+                      <div key={project.id}>
+                        <Link onClick={open('projects', project.id)}>{project.id}</Link>{' '}
+                        <span className="cell-sub">
+                          {material.qty} {item.unit} · {material.status}
+                        </span>
+                      </div>
+                    ))
+                  ) : (
+                    <div className="cell-sub">Not used on any project.</div>
+                  )}
                 </div>
               </li>
               <li>
@@ -416,7 +439,27 @@ export default function ItemDetail({ sku, branch, onBack, onEdit, onOpenRecord }
                   <div className="links-title">
                     POS · {inSales.length} {inSales.length === 1 ? 'sale' : 'sales'}
                   </div>
-                  <div className="cell-sub">The counter sells only what’s free after reservations; each sale is an “Out” movement.</div>
+                  {inSales.length ? (
+                    inSales.map(({ sale, line }) => {
+                      const invoice = invoiceForSale(data, sale)
+                      return (
+                        <div key={sale.id}>
+                          <Link onClick={open('pos', sale.id)}>{sale.id}</Link>
+                          {invoice && (
+                            <>
+                              {' → '}
+                              <Link onClick={open('invoices', invoice.id)}>{invoice.id}</Link>
+                            </>
+                          )}{' '}
+                          <span className="cell-sub">
+                            −{line.qty} {line.unit}
+                          </span>
+                        </div>
+                      )
+                    })
+                  ) : (
+                    <div className="cell-sub">Not sold at the counter yet.</div>
+                  )}
                 </div>
               </li>
               <li>

@@ -158,7 +158,11 @@ export function validateProject(project, projects, isNew) {
   return errors
 }
 
-export function cleanProject(project) {
+// Tidies the form before saving. The form's client picker isn't saved: the
+// project's client is its quote's client.
+export function cleanProject(form) {
+  // eslint-disable-next-line no-unused-vars
+  const { clientId, ...project } = form
   return {
     ...project,
     id: project.id.trim(),

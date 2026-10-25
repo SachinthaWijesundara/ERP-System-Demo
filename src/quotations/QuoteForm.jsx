@@ -4,6 +4,7 @@ import PageHeader from '../components/PageHeader.jsx'
 import Field from '../components/Field.jsx'
 import { useData } from '../data/DataContext.jsx'
 import { productsForQuotes } from '../data/links.js'
+import { quoteApprovalLock } from '../data/billing.js'
 import { formatMoney } from '../utils/format.js'
 import {
   QUOTE_STATUSES,
@@ -43,6 +44,9 @@ export default function QuoteForm({ initial, isNew, onCancel, onSave }) {
   const [submitted, setSubmitted] = useState(false)
 
   const errors = validateQuote(form, data.quotations, isNew)
+  // An approved quote can't be un-approved once a project or a payment depends on it.
+  const lock = !isNew && initial.status === 'Approved' ? quoteApprovalLock(data, initial) : null
+  if (lock && form.status !== 'Approved') errors.status = `Can’t change from Approved: ${lock}`
   const errorFor = (key) => (submitted ? errors[key] : undefined)
   const invalid = (key) => !!errorFor(key)
 
@@ -134,8 +138,12 @@ export default function QuoteForm({ initial, isNew, onCancel, onSave }) {
                 aria-invalid={invalid('title')}
               />
             </Field>
-            <Field label="Status" hint="Draft → Sent → Approved or Rejected.">
-              <select value={form.status} onChange={set('status')}>
+            <Field
+              label="Status"
+              error={errors.status}
+              hint="Approved issues the advance invoice. Moving away from Approved puts it back to draft."
+            >
+              <select value={form.status} onChange={set('status')} aria-invalid={!!errors.status}>
                 {QUOTE_STATUSES.map((s) => (
                   <option key={s}>{s}</option>
                 ))}

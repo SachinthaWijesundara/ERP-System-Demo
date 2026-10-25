@@ -36,7 +36,7 @@ export function downloadInvoicePdf(invoice, { client, project, branch }) {
   const right = doc.internal.pageSize.getWidth() - M
   let y = M
 
-  letterhead(doc, invoice.cancelled ? 'CANCELLED INVOICE' : 'INVOICE', branch, M, right)
+  letterhead(doc, invoice.cancelled ? 'CANCELLED INVOICE' : invoice.draft ? 'DRAFT INVOICE' : 'INVOICE', branch, M, right)
   doc.setFont('helvetica', 'normal').setFontSize(9).setTextColor(...INK)
   doc.text([`Invoice no.  ${invoice.id}`, `Date  ${formatDate(invoice.date)}`, `Due  ${formatDate(invoice.dueDate)}`], right, y + 10, {
     align: 'right',
@@ -74,7 +74,10 @@ export function downloadInvoicePdf(invoice, { client, project, branch }) {
     headStyles: { fontStyle: 'bold', textColor: MUTED, fontSize: 8, lineWidth: { bottom: 0.3 }, lineColor: RULE },
     bodyStyles: { lineWidth: { bottom: 0.1 }, lineColor: RULE },
     head: [['Description', 'Amount']],
-    body: [[`${invoice.type} invoice\n${plain(invoice.description)}`, formatMoney(invoice.amount)]],
+    // Final invoices carry a breakdown; the others are one line.
+    body: invoice.lines?.length
+      ? invoice.lines.map((l) => [plain(l.description), plain(formatMoney(l.amount))])
+      : [[`${invoice.type} invoice\n${plain(invoice.description)}`, formatMoney(invoice.amount)]],
     columnStyles: { 1: { halign: 'right', cellWidth: 40 } },
     didParseCell: (c) => {
       if (c.section === 'head' && c.column.index === 1) c.cell.styles.halign = 'right'

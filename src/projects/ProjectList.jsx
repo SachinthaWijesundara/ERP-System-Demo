@@ -18,7 +18,7 @@ function matches(data, project, query) {
   const q = query.trim().toLowerCase()
   if (!q) return true
   const client = clientForProject(data, project)
-  return [project.id, project.name, project.quoteId, project.clientId, project.designer, client?.name ?? '']
+  return [project.id, project.name, project.quoteId, client?.id ?? '', project.designer, client?.name ?? '']
     .some((text) => text.toLowerCase().includes(q))
 }
 

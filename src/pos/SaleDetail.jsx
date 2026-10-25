@@ -4,6 +4,7 @@ import Card from '../components/Card.jsx'
 import Badge from '../components/Badge.jsx'
 import Link from '../components/RecordLink.jsx'
 import { useData } from '../data/DataContext.jsx'
+import { clientForSale, invoiceForSale, invoiceStatus } from '../data/links.js'
 import { formatDate, formatMoney } from '../utils/format.js'
 import { saleTotals, findCashUp } from './posFields.js'
 import Receipt from './Receipt.jsx'
@@ -22,6 +23,8 @@ export default function SaleDetail({ saleId, justCompleted, onBack, onNewSale, o
 
   const t = saleTotals(sale)
   const cashUp = findCashUp(data.cashUps, sale.branch, sale.date)
+  const client = clientForSale(data, sale)
+  const invoice = invoiceForSale(data, sale)
 
   return (
     <>
@@ -56,6 +59,7 @@ export default function SaleDetail({ saleId, justCompleted, onBack, onNewSale, o
           <div>
             <strong>Sale complete · {formatMoney(t.total)}</strong>
             {sale.payment.method === 'Cash' && t.change > 0 && <div>Give change: {formatMoney(t.change)}</div>}
+            {invoice && <div>Invoice {invoice.id} created and paid. Stock taken out of the {sale.branch} store.</div>}
           </div>
         </div>
       )}
@@ -95,11 +99,15 @@ export default function SaleDetail({ saleId, justCompleted, onBack, onNewSale, o
                 <User size={15} strokeWidth={1.75} />
                 <div>
                   <div className="links-title">Client</div>
-                  <div className="cell-sub">
-                    {sale.clientId
-                      ? `Tagged to ${sale.clientId}. Not connected yet; once it is, this sale will show in the client’s history.`
-                      : 'Walk-in sale. Not connected yet; sales can be linked to a client later.'}
-                  </div>
+                  {client ? (
+                    <div>
+                      <Link onClick={() => onOpenRecord('clients', client.id)}>
+                        {client.name} · {client.id}
+                      </Link>
+                    </div>
+                  ) : (
+                    <div className="cell-sub">Walk-in customer, not a registered client.</div>
+                  )}
                 </div>
               </li>
               <li>
@@ -123,7 +131,16 @@ export default function SaleDetail({ saleId, justCompleted, onBack, onNewSale, o
                 <ReceiptIcon size={15} strokeWidth={1.75} />
                 <div>
                   <div className="links-title">Invoices and payments</div>
-                  <div className="cell-sub">Not connected yet. Each sale will be saved as a “POS sale” invoice with its payment.</div>
+                  {invoice ? (
+                    <div>
+                      <Link onClick={() => onOpenRecord('invoices', invoice.id)}>
+                        {invoice.id} · {formatMoney(invoice.amount)}
+                      </Link>{' '}
+                      <Badge>{invoiceStatus(invoice)}</Badge>
+                    </div>
+                  ) : (
+                    <div className="cell-sub">No invoice found for this sale.</div>
+                  )}
                 </div>
               </li>
             </ul>

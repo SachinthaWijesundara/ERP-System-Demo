@@ -3,8 +3,6 @@ import { Plus } from 'lucide-react'
 import PageHeader from '../components/PageHeader.jsx'
 import { useData } from '../data/DataContext.jsx'
 import { useOnChange } from '../utils/useOnChange.js'
-import { stockMovementsForSale, invoiceForSale } from '../data/links.js'
-import { nextMovementId, movementDelta } from '../inventory/inventoryFields.js'
 import SaleList from '../pos/SaleList.jsx'
 import Checkout from '../pos/Checkout.jsx'
 import SaleDetail from '../pos/SaleDetail.jsx'
@@ -28,16 +26,9 @@ export default function Pos({ query, branch, openId, onOpenRecord }) {
         branch={branch}
         onCancel={() => setView({ mode: 'sales' })}
         onComplete={(sale) => {
-          data.addSale(sale)
-          // Each Inventory item sold leaves the store as an "Out" movement.
-          let taken = data.movements
-          stockMovementsForSale(sale).forEach((m) => {
-            const movement = { ...m, id: nextMovementId(taken) }
-            taken = [movement, ...taken]
-            data.recordMovement(movement, movementDelta(movement))
-          })
-          // Not connected yet: the sale will also become a "POS sale" invoice.
-          invoiceForSale(data, sale)
+          // Saves the sale, takes its items out of stock and creates its
+          // paid invoice (see completeSale in the data store).
+          data.completeSale(sale)
           setView({ mode: 'detail', id: sale.id, justCompleted: true })
         }}
       />

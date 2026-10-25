@@ -3,7 +3,13 @@ import { ArrowLeft, Plus, X } from 'lucide-react'
 import PageHeader from '../components/PageHeader.jsx'
 import Field from '../components/Field.jsx'
 import { useData } from '../data/DataContext.jsx'
-import { quotesReadyForProject, materialsFromQuote, staffForProjects } from '../data/links.js'
+import {
+  quotesReadyForProject,
+  projectFromQuote,
+  staffForProjects,
+  clientForProject,
+  clientForQuote,
+} from '../data/links.js'
 import { validateProject, cleanProject } from './projectFields.js'
 
 const sameSite = (a, b) => a && b && a.address === b.address && a.city === b.city
@@ -12,7 +18,13 @@ const sameSite = (a, b) => a && b && a.address === b.address && a.city === b.cit
 // Stage details, materials, photos and notes are edited on the project page.
 export default function ProjectForm({ initial, isNew, onCancel, onSave }) {
   const data = useData()
-  const [form, setForm] = useState({ ...initial, team: initial.team.length ? initial.team : [''] })
+  // `clientId` is only for the form's client picker. A saved project keeps
+  // just its quote; its client is always the quote's client.
+  const [form, setForm] = useState(() => ({
+    ...initial,
+    clientId: initial.clientId || clientForProject(data, initial)?.id || '',
+    team: initial.team.length ? initial.team : [''],
+  }))
   const [submitted, setSubmitted] = useState(false)
 
   const errors = validateProject(form, data.projects, isNew)
@@ -20,7 +32,11 @@ export default function ProjectForm({ initial, isNew, onCancel, onSave }) {
   const invalid = (key) => !!errorFor(key)
 
   const client = data.clients.find((c) => c.id === form.clientId)
-  const readyQuotes = form.clientId ? quotesReadyForProject(data, form.clientId, initial.id) : []
+  // Before a client is chosen, every approved quote without a project is
+  // listed; picking one fills in its client.
+  const readyQuotes = form.clientId
+    ? quotesReadyForProject(data, form.clientId, initial.id)
+    : data.clients.flatMap((c) => quotesReadyForProject(data, c.id))
   // A project always comes from an approved quote, so a new one can only be
   // for a registered client who has one. Editing keeps the saved client.
   const pickableClients = isNew
@@ -30,21 +46,27 @@ export default function ProjectForm({ initial, isNew, onCancel, onSave }) {
 
   const set = (key) => (e) => setForm({ ...form, [key]: e.target.value })
 
-  function chooseClient(e) {
-    setForm({ ...form, clientId: e.target.value, quoteId: '', site: null })
+  // Clears what the current quote filled in, keeping a name the user typed.
+  function withoutQuote(f) {
+    const quoteTitle = data.quotations.find((q) => q.id === f.quoteId)?.title
+    return { ...f, quoteId: '', materials: [], name: f.name === quoteTitle ? '' : f.name }
   }
 
-  // Picking the source quote copies its site and, for a new project, its
-  // product lines as the starting materials list.
+  // A client with only one approved quote waiting has nothing to choose
+  // between, so that quote is picked straight away.
+  function chooseClient(e) {
+    const clientId = e.target.value
+    const next = { ...withoutQuote(form), clientId, site: null }
+    const waiting = clientId ? quotesReadyForProject(data, clientId) : []
+    setForm(waiting.length === 1 ? projectFromQuote(next, waiting[0]) : next)
+  }
+
+  // Picking the source quote (only possible on a new project) fills in its
+  // client and site, and its inventory lines as the starting materials list.
   function chooseQuote(e) {
     const quote = data.quotations.find((q) => q.id === e.target.value)
-    setForm({
-      ...form,
-      quoteId: e.target.value,
-      site: quote?.site ?? form.site,
-      name: form.name || (quote ? quote.title : ''),
-      materials: isNew && quote ? materialsFromQuote(quote) : form.materials,
-    })
+    const next = withoutQuote(form)
+    setForm(quote ? projectFromQuote(next, quote) : next)
   }
 
   const siteIndex = client ? client.sites.findIndex((s) => sameSite(s, form.site)) : -1
@@ -106,7 +128,7 @@ export default function ProjectForm({ initial, isNew, onCancel, onSave }) {
             <Field
               label="Client"
               error={errorFor('clientId')}
-              hint={isNew ? 'Only registered clients with an approved quote are listed.' : undefined}
+              hint={isNew ? 'Only clients with an approved quote waiting are listed.' : undefined}
             >
               <select value={form.clientId} onChange={chooseClient} disabled={!isNew} aria-invalid={invalid('clientId')}>
                 <option value="">Choose a client…</option>
@@ -123,14 +145,15 @@ export default function ProjectForm({ initial, isNew, onCancel, onSave }) {
               hint={
                 client && readyQuotes.length === 0
                   ? 'This client has no approved quote without a project yet.'
-                  : 'Only approved quotes are listed.'
+                  : 'Only approved quotes without a project are listed.'
               }
             >
-              <select value={form.quoteId} onChange={chooseQuote} disabled={!client || !isNew} aria-invalid={invalid('quoteId')}>
-                <option value="">{client ? 'Choose a quote…' : 'Choose a client first'}</option>
+              <select value={form.quoteId} onChange={chooseQuote} disabled={!isNew} aria-invalid={invalid('quoteId')}>
+                <option value="">Choose a quote…</option>
                 {readyQuotes.map((q) => (
                   <option key={q.id} value={q.id}>
                     {q.id} · {q.title}
+                    {client ? '' : ` (${clientForQuote(data, q)?.name})`}
                   </option>
                 ))}
               </select>

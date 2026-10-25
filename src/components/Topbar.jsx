@@ -1,7 +1,8 @@
 import { useEffect, useRef } from 'react'
-import { Search, Bell, ChevronRight } from 'lucide-react'
+import { Search, ChevronRight } from 'lucide-react'
+import Notifications from './Notifications.jsx'
 
-export default function Topbar({ title, query, onSearch, placeholder }) {
+export default function Topbar({ title, query, onSearch, placeholder, onOpenRecord }) {
   const searchRef = useRef(null)
 
   // Ctrl+K (Cmd+K on Mac) jumps to the search bar.
@@ -36,9 +37,7 @@ export default function Topbar({ title, query, onSearch, placeholder }) {
           />
           {!query && <kbd>Ctrl K</kbd>}
         </label>
-        <button type="button" className="icon-button" aria-label="Notifications">
-          <Bell size={16} strokeWidth={1.75} />
-        </button>
+        <Notifications onOpenRecord={onOpenRecord} />
         <div className="avatar" aria-hidden="true" />
       </div>
     </header>

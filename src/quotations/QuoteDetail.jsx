@@ -1,4 +1,4 @@
-import { ArrowLeft, Pencil, Download, Package, Hammer, User } from 'lucide-react'
+import { ArrowLeft, Pencil, Download, Package, Hammer, User, Receipt } from 'lucide-react'
 import PageHeader from '../components/PageHeader.jsx'
 import Badge from '../components/Badge.jsx'
 import Card, { CardEmpty } from '../components/Card.jsx'
@@ -10,6 +10,8 @@ import {
   canConvertToProject,
   inventoryItemForLine,
   inventorySkusForQuote,
+  invoicesForQuote,
+  invoiceStatus,
 } from '../data/links.js'
 import { formatDate, formatMoney } from '../utils/format.js'
 import { itemTotal, labourTotal, quoteTotals } from './quoteFields.js'
@@ -32,6 +34,7 @@ export default function QuoteDetail({ quoteId, onBack, onEdit, onOpenRecord }) {
   const client = clientForQuote(data, quote)
   const projects = projectsForQuote(data, quote.id)
   const skus = inventorySkusForQuote(data, quote)
+  const invoices = invoicesForQuote(data, quote.id)
   const openClient = () => onOpenRecord('clients', quote.clientId)
 
   return (
@@ -227,6 +230,24 @@ export default function QuoteDetail({ quoteId, onBack, onEdit, onOpenRecord }) {
                 </div>
               </li>
               <li>
+                <Receipt size={15} strokeWidth={1.75} />
+                <div>
+                  <div className="links-title">Invoices</div>
+                  {invoices.length ? (
+                    invoices.map((i) => (
+                      <div key={i.id}>
+                        <Link onClick={() => onOpenRecord('invoices', i.id)}>
+                          {i.id} · {i.type} · {formatMoney(i.amount)}
+                        </Link>{' '}
+                        <Badge>{invoiceStatus(i)}</Badge>
+                      </div>
+                    ))
+                  ) : (
+                    <div className="cell-sub">Approving this quote issues its advance invoice.</div>
+                  )}
+                </div>
+              </li>
+              <li>
                 <Hammer size={15} strokeWidth={1.75} />
                 <div>
                   <div className="links-title">Project</div>
@@ -239,13 +260,17 @@ export default function QuoteDetail({ quoteId, onBack, onEdit, onOpenRecord }) {
                         <span className="cell-sub">({currentStageLabel(p)})</span>
                       </div>
                     ))
-                  ) : quote.status === 'Approved' ? (
+                  ) : canConvertToProject(data, quote) ? (
                     <>
-                      <button type="button" className="btn btn-small" disabled={!canConvertToProject()}>
+                      <button
+                        type="button"
+                        className="btn btn-small"
+                        onClick={() => onOpenRecord('projects', null, { fromQuote: quote.id })}
+                      >
                         Convert to project
                       </button>
                       <div className="cell-sub">
-                        One-click conversion will be connected later. For now, use New project on the Projects page.
+                        Opens a new project with this quote’s client, site and inventory items filled in.
                       </div>
                     </>
                   ) : (

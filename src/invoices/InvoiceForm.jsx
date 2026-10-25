@@ -35,7 +35,6 @@ export default function InvoiceForm({ initial, onCancel, onSave }) {
     const project = b.project
     setForm({
       ...next,
-      clientId: project?.clientId ?? '',
       amount: suggestedAmount(next.type, b),
       description: suggestedDescription(next.type, b),
     })
@@ -45,7 +44,15 @@ export default function InvoiceForm({ initial, onCancel, onSave }) {
     e.preventDefault()
     setSubmitted(true)
     if (Object.keys(errors).length === 0) {
-      onSave({ ...form, amount: Number(form.amount), description: form.description.trim() })
+      // The invoice keeps only the quote; the project is found through it.
+      // eslint-disable-next-line no-unused-vars
+      const { projectId, ...invoice } = form
+      onSave({
+        ...invoice,
+        quoteId: billing.project.quoteId,
+        amount: Number(form.amount),
+        description: form.description.trim(),
+      })
     }
   }
 
@@ -96,9 +103,8 @@ export default function InvoiceForm({ initial, onCancel, onSave }) {
                 ))}
               </div>
               <span className="field-hint">
-                {form.type === 'Advance' && 'Half the quote, asked for before work starts.'}
-                {form.type === 'Progress' && 'Part-way through the job. Enter the amount.'}
-                {form.type === 'Final' && 'Whatever is left of the quote, at handover.'}
+                Part-way through the job. Advance invoices are made when a quote is approved, and the final invoice is
+                issued at handover, so only progress invoices are raised here.
               </span>
             </div>
           </div>

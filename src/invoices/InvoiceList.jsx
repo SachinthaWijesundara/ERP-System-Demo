@@ -23,10 +23,11 @@ function matches(data, invoice, query) {
   return [
     invoice.id,
     invoice.description,
-    invoice.clientId,
-    invoice.projectId,
+    client?.id ?? '',
+    invoice.quoteId ?? '',
     invoice.saleId,
     client?.name ?? '',
+    project?.id ?? '',
     project?.name ?? '',
     ...invoice.payments.map((p) => p.id),
   ].some((t) => t.toLowerCase().includes(q))
@@ -102,19 +103,19 @@ export default function InvoiceList({ query, branch, onOpen }) {
                   <td>
                     <div className="cell-main">{inv.id}</div>
                     <div className="cell-sub">
-                      {inv.type} · {formatDate(inv.date)}
+                      {inv.type} · {inv.date ? formatDate(inv.date) : 'not issued'}
                     </div>
                   </td>
                   <td>
                     <div>{client?.name ?? 'Walk-in'}</div>
-                    <div className="cell-sub">{inv.clientId}</div>
+                    <div className="cell-sub">{client?.id}</div>
                   </td>
                   {allBranches && <td>{invoiceBranch(data, inv)}</td>}
                   <td>
-                    <div>{project?.name ?? (inv.saleId ? `Sale ${inv.saleId}` : '—')}</div>
-                    <div className="cell-sub">{inv.projectId}</div>
+                    <div>{project?.name ?? (inv.saleId ? `POS sale ${inv.saleId}` : inv.quoteId ? `Quote ${inv.quoteId}` : '—')}</div>
+                    <div className="cell-sub">{project?.id ?? (inv.saleId ? 'Counter' : '')}</div>
                   </td>
-                  <td className={status === 'Overdue' ? 'is-overdue' : ''}>{formatDate(inv.dueDate)}</td>
+                  <td className={status === 'Overdue' ? 'is-overdue' : ''}>{inv.dueDate ? formatDate(inv.dueDate) : '—'}</td>
                   <td>
                     <Badge>{status}</Badge>
                   </td>
