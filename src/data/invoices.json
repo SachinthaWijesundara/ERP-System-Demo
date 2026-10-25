@@ -1,35 +1,92 @@
 [
   {
-    "id": "INV-0030",
-    "clientId": "CL-0015",
-    "projectId": "PRJ-0004",
+    "id": "INV-0047",
     "type": "Advance",
-    "date": "2026-01-15",
-    "amount": 320000,
+    "clientId": "CL-0018",
+    "projectId": "PRJ-0008",
+    "saleId": "",
+    "date": "2026-10-20",
+    "dueDate": "2026-11-03",
+    "description": "Advance payment: 50% of quotation QT-0014 (LKR 385,000)",
+    "amount": 192500,
+    "cancelled": false,
     "payments": [
-      { "id": "PAY-0058", "date": "2026-01-16", "amount": 320000, "method": "Bank transfer" }
-    ]
-  },
-  {
-    "id": "INV-0031",
-    "clientId": "CL-0015",
-    "projectId": "PRJ-0004",
-    "type": "Final",
-    "date": "2026-03-20",
-    "amount": 320000,
-    "payments": [
-      { "id": "PAY-0060", "date": "2026-03-22", "amount": 200000, "method": "Cash" }
+      { "id": "PAY-0093", "date": "2026-10-22", "amount": 100000, "method": "Bank transfer", "reference": "HNB 22-10 / 4410", "receivedBy": "Kavindu Silva" }
     ]
   },
   {
     "id": "INV-0045",
+    "type": "Advance",
     "clientId": "CL-0021",
     "projectId": "PRJ-0007",
-    "type": "Advance",
+    "saleId": "",
     "date": "2026-09-24",
+    "dueDate": "2026-10-01",
+    "description": "Advance payment: 50% of quotation QT-0012 (LKR 520,000)",
     "amount": 260000,
+    "cancelled": false,
     "payments": [
-      { "id": "PAY-0091", "date": "2026-09-25", "amount": 260000, "method": "Bank transfer" }
+      { "id": "PAY-0091", "date": "2026-09-25", "amount": 260000, "method": "Bank transfer", "reference": "BOC 25-09 / 1187", "receivedBy": "Kavindu Silva" }
+    ]
+  },
+  {
+    "id": "INV-0031",
+    "type": "Final",
+    "clientId": "CL-0015",
+    "projectId": "PRJ-0004",
+    "saleId": "",
+    "date": "2026-03-20",
+    "dueDate": "2026-04-03",
+    "description": "Final payment: balance of quotation QT-0009 (LKR 640,000)",
+    "amount": 320000,
+    "cancelled": false,
+    "payments": [
+      { "id": "PAY-0060", "date": "2026-03-22", "amount": 200000, "method": "Cash", "reference": "", "receivedBy": "Kavindu Silva" }
+    ]
+  },
+  {
+    "id": "INV-0030",
+    "type": "Advance",
+    "clientId": "CL-0015",
+    "projectId": "PRJ-0004",
+    "saleId": "",
+    "date": "2026-01-15",
+    "dueDate": "2026-01-22",
+    "description": "Advance payment: 50% of quotation QT-0009 (LKR 640,000)",
+    "amount": 320000,
+    "cancelled": false,
+    "payments": [
+      { "id": "PAY-0058", "date": "2026-01-16", "amount": 320000, "method": "Bank transfer", "reference": "COM 16-01 / 2290", "receivedBy": "Kavindu Silva" }
+    ]
+  },
+  {
+    "id": "INV-0029",
+    "type": "Final",
+    "clientId": "CL-0012",
+    "projectId": "PRJ-0003",
+    "saleId": "",
+    "date": "2025-06-28",
+    "dueDate": "2025-07-05",
+    "description": "Final payment: balance of quotation QT-0008 (LKR 172,000)",
+    "amount": 86000,
+    "cancelled": false,
+    "payments": [
+      { "id": "PAY-0055", "date": "2025-06-30", "amount": 86000, "method": "Cheque", "reference": "Cheque 004512 · Sampath Bank", "receivedBy": "Ishara Madushani" }
+    ]
+  },
+  {
+    "id": "INV-0028",
+    "type": "Advance",
+    "clientId": "CL-0012",
+    "projectId": "PRJ-0003",
+    "saleId": "",
+    "date": "2025-06-10",
+    "dueDate": "2025-06-17",
+    "description": "Advance payment: 50% of quotation QT-0008 (LKR 172,000)",
+    "amount": 86000,
+    "cancelled": false,
+    "payments": [
+      { "id": "PAY-0050", "date": "2025-06-11", "amount": 86000, "method": "Cash", "reference": "", "receivedBy": "Ishara Madushani" }
     ]
   }
 ]

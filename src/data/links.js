@@ -9,6 +9,9 @@
 // `data` is the object returned by useData().
 
 import { stockAt, canTakeOut } from '../inventory/inventoryFields.js'
+import { quoteTotals } from '../quotations/quoteFields.js'
+import { saleTotals } from '../pos/posFields.js'
+import { todayIso } from '../utils/format.js'
 
 // Clients -> Quotations (map connection 1)
 export function quotationsForClient(data, clientId) {
@@ -20,24 +23,29 @@ export function projectsForClient(data, clientId) {
   return data.projects.filter((p) => p.clientId === clientId)
 }
 
-// Invoices and payments -> Clients (map connection 6).
-// POS sales linked to a client (connection 7) will also arrive here as
-// invoices of type "POS sale".
+// Invoices and payments -> Clients (map connection 6). Cancelled invoices
+// are left out. POS sales linked to a client (connection 7) will also
+// arrive here as invoices of type "POS sale".
 export function invoicesForClient(data, clientId) {
-  return data.invoices.filter((i) => i.clientId === clientId)
+  return data.invoices.filter((i) => i.clientId === clientId && !i.cancelled)
 }
 
 export function amountPaid(invoice) {
   return invoice.payments.reduce((sum, p) => sum + p.amount, 0)
 }
 
+// What's still owed. A cancelled invoice owes nothing.
 export function invoiceBalance(invoice) {
-  return invoice.amount - amountPaid(invoice)
+  return invoice.cancelled ? 0 : invoice.amount - amountPaid(invoice)
 }
 
+// Cancelled, Paid, Overdue (past the due date with money owed), Partly paid
+// or Unpaid.
 export function invoiceStatus(invoice) {
+  if (invoice.cancelled) return 'Cancelled'
   const paid = amountPaid(invoice)
   if (paid >= invoice.amount) return 'Paid'
+  if (invoice.dueDate && invoice.dueDate < todayIso()) return 'Overdue'
   if (paid > 0) return 'Partly paid'
   return 'Unpaid'
 }
@@ -130,7 +138,7 @@ export function materialStatusChanged(data, project, material, newStatus) {
 // Projects -> Invoices and payments (map connection 5). Invoices store the
 // project's ID, so this finds the advance, progress and final invoices.
 export function invoicesForProject(data, projectId) {
-  return data.invoices.filter((i) => i.projectId === projectId)
+  return data.invoices.filter((i) => i.projectId === projectId && !i.cancelled)
 }
 
 // --- POS --------------------------------------------------------------
@@ -160,8 +168,9 @@ export function saleReducesStock(data, sale) {
 }
 
 // POS -> Invoices and payments (map connection 9). NOT CONNECTED YET.
-// Called when a sale is completed. Should save it as an invoice of type
-// "POS sale" with its payment, so all money is in one place.
+// Called when a sale is completed. To connect, build the invoice with
+// posSaleAsInvoice (in the Invoices section below) and save it with
+// data.addInvoice, so all money is in one place.
 export function invoiceForSale() {
   return null
 }
@@ -229,6 +238,81 @@ export function costPriceFor(data, sku) {
 // from suppliers and purchase orders will record "In" movements.
 export function goodsReceived() {
   return null
+}
+
+// --- Invoices and payments -----------------------------------------------
+
+export function clientForInvoice(data, invoice) {
+  return data.clients.find((c) => c.id === invoice.clientId)
+}
+
+export function projectForInvoice(data, invoice) {
+  return data.projects.find((p) => p.id === invoice.projectId)
+}
+
+export function saleForInvoice(data, invoice) {
+  return data.sales.find((s) => s.id === invoice.saleId)
+}
+
+// An invoice belongs to the branch of its sale, or of the client.
+export function invoiceBranch(data, invoice) {
+  return saleForInvoice(data, invoice)?.branch ?? clientForInvoice(data, invoice)?.branch
+}
+
+// How much of a project has been billed. The quote total is the contract
+// value; advance, progress and final invoices together should reach it.
+export function projectBilling(data, projectId, exceptInvoiceId) {
+  const project = data.projects.find((p) => p.id === projectId)
+  const quote = project && data.quotations.find((q) => q.id === project.quoteId)
+  const quoteTotal = quote ? quoteTotals(quote).total : 0
+  const invoiced = invoicesForProject(data, projectId)
+    .filter((i) => i.id !== exceptInvoiceId)
+    .reduce((sum, i) => sum + i.amount, 0)
+  return { project, quote, quoteTotal, invoiced, remaining: quoteTotal - invoiced }
+}
+
+// READY, NOT CONNECTED. Turns a completed POS sale into a paid "POS sale"
+// invoice with one payment. invoiceForSale (POS section) should use it.
+export function posSaleAsInvoice(sale, invoiceId, paymentId) {
+  const total = saleTotals(sale).total
+  return {
+    id: invoiceId,
+    type: 'POS sale',
+    clientId: sale.clientId ?? '',
+    projectId: '',
+    saleId: sale.id,
+    date: sale.date,
+    dueDate: sale.date,
+    description: `Counter sale ${sale.id} at ${sale.branch}`,
+    amount: total,
+    cancelled: false,
+    payments: [
+      {
+        id: paymentId,
+        date: sale.date,
+        amount: total,
+        method: sale.payment.method,
+        reference: sale.payment.reference,
+        receivedBy: sale.cashier,
+      },
+    ],
+  }
+}
+
+// Invoices -> Dashboard (map connection 10). READY, NOT CONNECTED.
+// Money totals for a branch (or both): what's owed, what's overdue, and
+// what came in this month. The Invoices page uses it for its summary strip.
+export function moneyTotals(data, branch, allBranches) {
+  const month = todayIso().slice(0, 7)
+  const list = data.invoices.filter((i) => allBranches || invoiceBranch(data, i) === branch)
+  const live = list.filter((i) => !i.cancelled)
+  const sum = (arr, fn) => arr.reduce((s, x) => s + fn(x), 0)
+  return {
+    outstanding: sum(live, invoiceBalance),
+    overdue: sum(live.filter((i) => invoiceStatus(i) === 'Overdue'), invoiceBalance),
+    invoicedThisMonth: sum(live.filter((i) => i.date.startsWith(month)), (i) => i.amount),
+    receivedThisMonth: sum(live, (i) => sum(i.payments.filter((p) => p.date.startsWith(month)), (p) => p.amount)),
+  }
 }
 
 // Designers and installation teams. NOT CONNECTED YET. Once a Staff module

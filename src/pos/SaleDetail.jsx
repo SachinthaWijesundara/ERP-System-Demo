@@ -6,6 +6,7 @@ import { useData } from '../data/DataContext.jsx'
 import { formatDate, formatMoney } from '../utils/format.js'
 import { saleTotals, findCashUp } from './posFields.js'
 import Receipt from './Receipt.jsx'
+import { printElement } from '../utils/printElement.js'
 
 // The PDF library is large, so it only loads when someone downloads a receipt.
 async function downloadPdf(sale) {
@@ -29,7 +30,11 @@ export default function SaleDetail({ saleId, justCompleted, onBack, onNewSale })
       </button>
 
       <PageHeader title={`Sale ${sale.id}`} subtitle={`${formatDate(sale.date)}, ${sale.time} · ${sale.branch}`}>
-        <button type="button" className="btn" onClick={() => window.print()}>
+        <button
+          type="button"
+          className="btn"
+          onClick={() => printElement(document.getElementById('receipt'), { page: '80mm auto', margin: '4mm', title: sale.id })}
+        >
           <Printer size={14} strokeWidth={1.75} />
           Print receipt
         </button>
