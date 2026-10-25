@@ -1,11 +1,14 @@
-// Connectors between Clients and the other modules.
+// Connectors between the modules: Clients, Quotations, Projects, POS,
+// Inventory and Invoices.
 //
-// Each linked record stores the ID of the client it belongs to (`clientId`),
-// so a client never keeps its own copy of these lists. These functions look the
-// records up instead. When the Quotations, Projects, POS and Invoices modules
-// are built, their data plugs in here and the client pages pick it up as is.
+// Linked records store the ID of the record they belong to (a quote stores
+// its clientId, a project its quoteId), so nothing keeps a copy of another
+// module's list. These functions look the records up instead. Connections
+// marked NOT CONNECTED are ready to be switched on later.
 //
 // `data` is the object returned by useData().
+
+import { stockAt, canTakeOut } from '../inventory/inventoryFields.js'
 
 // Clients -> Quotations (map connection 1)
 export function quotationsForClient(data, clientId) {
@@ -160,6 +163,71 @@ export function saleReducesStock(data, sale) {
 // Called when a sale is completed. Should save it as an invoice of type
 // "POS sale" with its payment, so all money is in one place.
 export function invoiceForSale() {
+  return null
+}
+
+// --- Inventory --------------------------------------------------------
+// Inventory is the stock list. Other modules aren't wired to it yet; each
+// function below is ready to be called once they are.
+
+// Inventory -> Quotations (map connection 2). READY, NOT CONNECTED.
+// To connect, make productsForQuotes (above) return this. The quote editor
+// already fills in unit and price when one of these names is picked.
+export function inventoryAsQuoteProducts(data) {
+  return data.inventory.map((i) => ({
+    name: i.name,
+    description: `${i.sku}${i.description ? `, ${i.description}` : ''}`,
+    unit: i.unit,
+    sellingPrice: i.sellingPrice,
+  }))
+}
+
+// Inventory -> POS. READY, NOT CONNECTED. Items the counter can sell at a
+// branch, with what's available after project reservations. To connect,
+// make productsForPos (above) return this. Note POS sells vinyl by the box
+// of 24 sqft while Inventory counts sqft; convert when connecting.
+export function inventoryForPos(data, branch) {
+  return data.inventory.map((i) => ({
+    sku: i.sku,
+    name: i.name,
+    category: i.category,
+    unit: i.unit,
+    price: i.sellingPrice,
+    available: stockAt(i, branch).available,
+  }))
+}
+
+// POS -> Inventory, the reservation rule (map connection 8). READY, NOT
+// CONNECTED. Checkout should call this before completing a sale and refuse
+// any line that needs reserved stock. Returns one problem per short line.
+export function checkSaleAgainstStock(data, sale) {
+  return sale.items
+    .map((line) => {
+      const item = data.inventory.find((i) => i.sku === line.sku)
+      if (!item) return null
+      const check = canTakeOut(item, sale.branch, line.qty)
+      return check.ok ? null : { sku: line.sku, name: line.name, ...check }
+    })
+    .filter(Boolean)
+}
+
+// Projects -> Inventory (map connection 4). NOT CONNECTED YET. Today each
+// item keeps its own `reservations` list. Once connected, reservations should
+// come from project materials marked Reserved (they'll need a sku), and
+// marking a material Issued should record an "Out" movement here.
+export function reservationsForItem(data, item) {
+  return item.reservations.map((r) => ({ ...r, project: data.projects.find((p) => p.id === r.projectId) }))
+}
+
+// Inventory -> Projects: cost prices for the project's materials cost.
+// NOT CONNECTED YET; projects keep their own unitCost for now.
+export function costPriceFor(data, sku) {
+  return data.inventory.find((i) => i.sku === sku)?.costPrice ?? null
+}
+
+// Suppliers -> Inventory (phase 2). NOT BUILT. Goods received notes (GRN)
+// from suppliers and purchase orders will record "In" movements.
+export function goodsReceived() {
   return null
 }
 
