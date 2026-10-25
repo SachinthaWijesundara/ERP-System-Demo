@@ -8,7 +8,7 @@ import { emptyQuote, nextQuoteId } from '../quotations/quoteFields.js'
 import { todayIso } from '../utils/format.js'
 
 // Switches between the quotation list, one quotation, and the add/edit form.
-export default function Quotations({ query, branch, openId }) {
+export default function Quotations({ query, branch, openId, onOpenRecord }) {
   const data = useData()
   // `openId` opens one quote straight away, e.g. when clicked on a client page.
   const [view, setView] = useState(openId ? { mode: 'detail', id: openId } : { mode: 'list' })
@@ -22,6 +22,7 @@ export default function Quotations({ query, branch, openId }) {
         quoteId={view.id}
         onBack={() => setView({ mode: 'list' })}
         onEdit={() => setView({ mode: 'edit', id: view.id })}
+        onOpenRecord={onOpenRecord}
       />
     )
   }

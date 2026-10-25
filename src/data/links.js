@@ -67,14 +67,22 @@ export function quoteBranch(data, quote) {
   return clientForQuote(data, quote)?.branch
 }
 
-// Quotations <- Inventory (map connection 2). NOT CONNECTED YET.
-// Once the Inventory module exists, return its products here, e.g.
-//   return data.products
-// Each product needs { name, description, unit, sellingPrice }. The quote
-// editor already offers these as suggestions and fills in unit and price
-// when one is picked, so nothing else has to change.
+// Quotations <- Inventory (map connection 2). CONNECTED. The quote editor
+// suggests these; picking one fills in unit and price and stores the item's
+// SKU on the quote line. That SKU is the line's one link to Inventory.
 export function productsForQuotes(data) {
-  return data.products ?? []
+  return inventoryAsQuoteProducts(data)
+}
+
+// The Inventory item a quote line was picked from, or undefined for a
+// custom-made line (cabinets, counters) that isn't a stock item.
+export function inventoryItemForLine(data, line) {
+  return line.sku ? data.inventory.find((i) => i.sku === line.sku) : undefined
+}
+
+// The SKUs of every Inventory item used on a quote.
+export function inventorySkusForQuote(data, quote) {
+  return [...new Set(quote.items.map((line) => inventoryItemForLine(data, line)?.sku).filter(Boolean))]
 }
 
 // Quotations -> Projects (map connection 3). A project stores the ID of the
@@ -117,6 +125,7 @@ export function quotesReadyForProject(data, clientId, exceptProjectId) {
 // cost price, which will come from Inventory once it is connected.
 export function materialsFromQuote(quote) {
   return quote.items.map((i) => ({
+    sku: i.sku ?? '',
     product: i.product,
     description: i.description,
     qty: i.qty,
@@ -176,14 +185,14 @@ export function invoiceForSale() {
 }
 
 // --- Inventory --------------------------------------------------------
-// Inventory is the stock list. Other modules aren't wired to it yet; each
-// function below is ready to be called once they are.
+// Inventory is the stock list. Quotations use it (above); the other
+// connections below are ready to be switched on.
 
-// Inventory -> Quotations (map connection 2). READY, NOT CONNECTED.
-// To connect, make productsForQuotes (above) return this. The quote editor
-// already fills in unit and price when one of these names is picked.
+// Inventory -> Quotations (map connection 2). CONNECTED through
+// productsForQuotes above.
 export function inventoryAsQuoteProducts(data) {
   return data.inventory.map((i) => ({
+    sku: i.sku,
     name: i.name,
     description: `${i.sku}${i.description ? `, ${i.description}` : ''}`,
     unit: i.unit,
