@@ -3,6 +3,7 @@ import { ArrowLeft, Plus, X } from 'lucide-react'
 import PageHeader from '../components/PageHeader.jsx'
 import { useData } from '../data/DataContext.jsx'
 import { LEAD_SOURCES, STATUSES, SITE_LABELS, validateClient, cleanClient } from './clientFields.js'
+import { branches } from '../modules.js'
 
 function Field({ label, error, hint, wide, children }) {
   return (
@@ -77,6 +78,13 @@ export default function ClientForm({ initial, isNew, onCancel, onSave }) {
                 placeholder="e.g. Mrs. Nadeeka Perera"
                 aria-invalid={!!errorFor('name')}
               />
+            </Field>
+            <Field label="Branch" error={errorFor('branch')} hint="The branch that handles this client.">
+              <select value={form.branch} onChange={set('branch')} aria-invalid={!!errorFor('branch')}>
+                {branches.map((b) => (
+                  <option key={b}>{b}</option>
+                ))}
+              </select>
             </Field>
           </div>
         </section>

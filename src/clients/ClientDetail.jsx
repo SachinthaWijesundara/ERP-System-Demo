@@ -187,6 +187,8 @@ export default function ClientDetail({ clientId, onBack, onEdit }) {
               <dd className={balance > 0 ? 'is-owed' : ''}>
                 {invoices.length ? formatMoney(balance) : '—'}
               </dd>
+              <dt>Branch</dt>
+              <dd>{client.branch}</dd>
               <dt>Status</dt>
               <dd>{client.status}</dd>
               <dt>Lead source</dt>

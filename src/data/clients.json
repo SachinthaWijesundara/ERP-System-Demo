@@ -2,6 +2,7 @@
   {
     "id": "CL-0023",
     "name": "Chamari Silva",
+    "branch": "Matara",
     "phone": "072 567 8901",
     "email": "chamari.silva@yahoo.com",
     "sites": [
@@ -15,6 +16,7 @@
   {
     "id": "CL-0022",
     "name": "Dilani Wickramasinghe",
+    "branch": "Matara",
     "phone": "076 345 6789",
     "email": "dilani.w@gmail.com",
     "sites": [
@@ -28,6 +30,7 @@
   {
     "id": "CL-0021",
     "name": "Mrs. Nadeeka Perera",
+    "branch": "Nugegoda",
     "phone": "077 123 4567",
     "email": "nadeeka.perera@gmail.com",
     "sites": [
@@ -41,6 +44,7 @@
   {
     "id": "CL-0019",
     "name": "Lakmal Gunasekara",
+    "branch": "Nugegoda",
     "phone": "011 285 4321",
     "email": "lakmal@gunasekara.lk",
     "sites": [
@@ -54,6 +58,7 @@
   {
     "id": "CL-0018",
     "name": "Kasun Jayawardena",
+    "branch": "Nugegoda",
     "phone": "071 234 5678",
     "email": "kasun.j@outlook.com",
     "sites": [
@@ -67,6 +72,7 @@
   {
     "id": "CL-0015",
     "name": "Ruwan Fernando",
+    "branch": "Nugegoda",
     "phone": "070 456 7890",
     "email": "",
     "sites": [
@@ -81,6 +87,7 @@
   {
     "id": "CL-0012",
     "name": "Mrs. Shanthi de Silva",
+    "branch": "Matara",
     "phone": "041 222 3344",
     "email": "",
     "sites": [

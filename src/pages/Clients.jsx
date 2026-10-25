@@ -6,14 +6,14 @@ import ClientForm from '../clients/ClientForm.jsx'
 import { emptyClient, nextClientId } from '../clients/clientFields.js'
 
 // Switches between the client list, one client's page, and the add/edit form.
-export default function Clients({ query }) {
+export default function Clients({ query, branch }) {
   const data = useData()
   const [view, setView] = useState({ mode: 'list' })
 
-  // Typing in the search bar always brings the list back.
+  // Typing in the search bar or switching branch always brings the list back.
   useEffect(() => {
     setView({ mode: 'list' })
-  }, [query])
+  }, [query, branch])
 
   if (view.mode === 'detail') {
     return (
@@ -43,7 +43,7 @@ export default function Clients({ query }) {
   if (view.mode === 'new') {
     return (
       <ClientForm
-        initial={emptyClient(nextClientId(data.clients))}
+        initial={emptyClient(nextClientId(data.clients), branch)}
         isNew
         onCancel={() => setView({ mode: 'list' })}
         onSave={(saved) => {
@@ -57,6 +57,7 @@ export default function Clients({ query }) {
   return (
     <ClientList
       query={query}
+      branch={branch}
       onOpen={(id) => setView({ mode: 'detail', id })}
       onNew={() => setView({ mode: 'new' })}
     />

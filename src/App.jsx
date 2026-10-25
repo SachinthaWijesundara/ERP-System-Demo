@@ -4,12 +4,13 @@ import Topbar from './components/Topbar.jsx'
 import PageHeader from './components/PageHeader.jsx'
 import Dashboard from './pages/Dashboard.jsx'
 import Clients from './pages/Clients.jsx'
-import { modules } from './modules.js'
+import { modules, ALL_BRANCHES } from './modules.js'
 import { todayLong } from './utils/format.js'
 
 export default function App() {
   const [active, setActive] = useState('dashboard')
   const [query, setQuery] = useState('')
+  const [branch, setBranch] = useState(ALL_BRANCHES)
   // Bumped on every sidebar click so the page starts fresh, even when
   // clicking the module that is already open.
   const [visit, setVisit] = useState(0)
@@ -29,7 +30,7 @@ export default function App() {
 
   let page
   if (active === 'dashboard') page = <Dashboard />
-  else if (active === 'clients') page = <Clients query={query} />
+  else if (active === 'clients') page = <Clients query={query} branch={branch} />
   else
     page = (
       <>
@@ -40,7 +41,7 @@ export default function App() {
 
   return (
     <div className="app">
-      <Sidebar active={active} onSelect={openModule} />
+      <Sidebar active={active} onSelect={openModule} branch={branch} onBranchChange={setBranch} />
       <div className="main">
         <Topbar title={current.label} query={query} onSearch={search} />
         <main className="content" key={`${active}-${visit}`}>

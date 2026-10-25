@@ -6,6 +6,7 @@ import { useData } from '../data/DataContext.jsx'
 import { projectsForClient, invoicesForClient, balanceDue } from '../data/links.js'
 import { formatDate, formatMoney, todayIso } from '../utils/format.js'
 import { STATUSES } from './clientFields.js'
+import { ALL_BRANCHES } from '../modules.js'
 
 // True when the search text appears in the client's name, ID, phone or email,
 // or in the number or name of one of their projects.
@@ -23,18 +24,22 @@ function matches(data, client, query) {
   )
 }
 
-export default function ClientList({ query, onOpen, onNew }) {
+export default function ClientList({ query, branch, onOpen, onNew }) {
   const data = useData()
   const [status, setStatus] = useState('All')
   const today = todayIso()
 
-  const found = data.clients.filter((c) => matches(data, c, query))
+  const allBranches = branch === ALL_BRANCHES
+  const inBranch = allBranches ? data.clients : data.clients.filter((c) => c.branch === branch)
+  const found = inBranch.filter((c) => matches(data, c, query))
   const rows = status === 'All' ? found : found.filter((c) => c.status === status)
   const countFor = (s) => (s === 'All' ? found.length : found.filter((c) => c.status === s).length)
 
+  const subtitle = `${inBranch.length} clients and leads ${allBranches ? 'across both branches' : `at ${branch}`}`
+
   return (
     <>
-      <PageHeader title="Clients" subtitle={`${data.clients.length} clients and leads`}>
+      <PageHeader title="Clients" subtitle={subtitle}>
         <button type="button" className="btn btn-primary" onClick={onNew}>
           <Plus size={15} strokeWidth={2} />
           New client
@@ -67,6 +72,7 @@ export default function ClientList({ query, onOpen, onNew }) {
           <thead>
             <tr>
               <th>Client</th>
+              {allBranches && <th>Branch</th>}
               <th>Phone</th>
               <th>Site</th>
               <th>Lead source</th>
@@ -86,6 +92,7 @@ export default function ClientList({ query, onOpen, onNew }) {
                     <div className="cell-main">{c.name}</div>
                     <div className="cell-sub">{c.id}</div>
                   </td>
+                  {allBranches && <td>{c.branch}</td>}
                   <td>{c.phone}</td>
                   <td>
                     {c.sites[0]?.city}
@@ -105,7 +112,9 @@ export default function ClientList({ query, onOpen, onNew }) {
 
         {rows.length === 0 && (
           <div className="empty">
-            {query.trim() ? `No clients match “${query.trim()}”.` : 'No clients here yet.'}
+            {query.trim()
+              ? `No clients match “${query.trim()}”${allBranches ? '' : ` at ${branch}`}.`
+              : 'No clients here yet.'}
           </div>
         )}
       </div>

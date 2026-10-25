@@ -1,4 +1,6 @@
-export const LEAD_SOURCES = ['Walk-in', 'Facebook', 'Instagram', 'Referral', 'Website', 'Phone call', 'Other']
+import { branches } from '../modules.js'
+
+export const LEAD_SOURCES =['Walk-in', 'Facebook', 'Instagram', 'Referral', 'Website', 'Phone call', 'Other']
 
 // Lead: enquiring, no job yet. Active: has work going on. Past: work finished.
 export const STATUSES = ['Lead', 'Active', 'Past']
@@ -8,10 +10,13 @@ export const SITE_LABELS = ['Home', 'Apartment', 'Villa', 'Office', 'Shop', 'Oth
 const CLIENT_ID = /^CL-\d{4}$/
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
 
-export function emptyClient(id) {
+// A blank client for the New client form. It starts in the branch the
+// switcher is set to, or the first branch when showing all of them.
+export function emptyClient(id, branch) {
   return {
     id,
     name: '',
+    branch: branches.includes(branch) ? branch : branches[0],
     phone: '',
     email: '',
     sites: [{ label: 'Home', address: '', city: '' }],
@@ -57,6 +62,10 @@ export function validateClient(client, clients, isNew) {
 
   if (client.name.trim().length < 2) {
     errors.name = 'Enter the client’s name.'
+  }
+
+  if (!branches.includes(client.branch)) {
+    errors.branch = 'Choose the branch that handles this client.'
   }
 
   if (!client.phone.trim()) {
