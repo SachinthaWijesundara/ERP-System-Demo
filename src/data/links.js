@@ -315,8 +315,27 @@ export function moneyTotals(data, branch, allBranches) {
   }
 }
 
-// Designers and installation teams. NOT CONNECTED YET. Once a Staff module
-// exists, return its people here; the project form already suggests them.
+// --- Staff -------------------------------------------------------------
+
+// Staff -> every module. What one person has worked on. Other modules store
+// people by name today (a project's designer, a sale's cashier), so this
+// matches on name. Once Staff is connected, those modules should store the
+// person's staff ID instead, and these checks should compare IDs.
+export function workForStaff(data, person) {
+  const name = person.name
+  return {
+    designing: data.projects.filter((p) => p.designer === name),
+    installing: data.projects.filter((p) => p.team.includes(name)),
+    sales: data.sales.filter((s) => s.cashier === name),
+    payments: data.invoices.flatMap((i) => i.payments.filter((p) => p.receivedBy === name).map((p) => ({ ...p, invoiceId: i.id }))),
+    cashUps: data.cashUps.filter((c) => c.closedBy === name),
+    movements: data.movements.filter((m) => m.by === name),
+  }
+}
+
+// Designers and installation teams for the project form's name suggestions.
+// Reads the Staff list, which stays empty until an admin adds people in
+// User settings. Projects still store names, not staff IDs (see above).
 export function staffForProjects(data) {
   return data.staff ?? []
 }

@@ -8,6 +8,7 @@ import cashUpsSeed from './cashups.json'
 import posProducts from './posProducts.json'
 import inventorySeed from './inventory.json'
 import movementsSeed from './movements.json'
+import staffSeed from './staff.json'
 
 // One shared store for every module. The JSON files are the starting data;
 // changes made in the app live in memory and reset when the page reloads.
@@ -22,8 +23,10 @@ export function DataProvider({ children }) {
   const [cashUps, setCashUps] = useState(cashUpsSeed)
   const [inventory, setInventory] = useState(inventorySeed)
   const [movements, setMovements] = useState(movementsSeed)
+  const [staff, setStaff] = useState(staffSeed)
 
   const value = {
+    staff,
     inventory,
     movements,
     clients,
@@ -58,6 +61,15 @@ export function DataProvider({ children }) {
     addSale(sale) {
       setSales((list) => [sale, ...list])
     },
+    // Staff are added and changed only by an admin, from User settings.
+    // The Staff page itself is read-only.
+    addStaff(person) {
+      setStaff((list) => [...list, person])
+    },
+    updateStaff(person) {
+      setStaff((list) => list.map((p) => (p.id === person.id ? person : p)))
+    },
+
     addInvoice(invoice) {
       setInvoices((list) => [invoice, ...list])
     },

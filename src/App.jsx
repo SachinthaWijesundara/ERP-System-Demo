@@ -9,6 +9,7 @@ import Projects from './pages/Projects.jsx'
 import Pos from './pages/Pos.jsx'
 import Inventory from './pages/Inventory.jsx'
 import Invoices from './pages/Invoices.jsx'
+import Staff from './pages/Staff.jsx'
 import { modules, ALL_BRANCHES } from './modules.js'
 import { todayLong } from './utils/format.js'
 
@@ -35,6 +36,7 @@ export default function App() {
     pos: 'Search sales, items, customers',
     inventory: 'Search SKUs, items, categories',
     invoices: 'Search invoices, receipts, clients',
+    staff: 'Search staff, roles, phone numbers',
   }
 
   function search(text) {
@@ -50,6 +52,7 @@ export default function App() {
   else if (active === 'pos') page = <Pos query={query} branch={branch} />
   else if (active === 'inventory') page = <Inventory query={query} branch={branch} />
   else if (active === 'invoices') page = <Invoices query={query} branch={branch} />
+  else if (active === 'staff') page = <Staff query={query} branch={branch} />
   else
     page = (
       <>
