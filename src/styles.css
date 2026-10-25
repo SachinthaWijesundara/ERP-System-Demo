@@ -2695,6 +2695,19 @@ textarea {
   margin-left: auto;
 }
 
+.inline-add-pick {
+  grid-template-columns: minmax(200px, 1.6fr) 90px 1fr auto auto;
+  align-items: center;
+}
+
+.inline-unit {
+  white-space: nowrap;
+}
+
+.project-rule {
+  margin: -16px 0 16px;
+}
+
 /* Smaller screens */
 
 @media (max-width: 1100px) {

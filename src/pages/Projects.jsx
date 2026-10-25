@@ -8,7 +8,7 @@ import { emptyProject, nextProjectId } from '../projects/projectFields.js'
 import { todayIso } from '../utils/format.js'
 
 // Switches between the project list, one project, and the add/edit form.
-export default function Projects({ query, branch, openId }) {
+export default function Projects({ query, branch, openId, onOpenRecord }) {
   const data = useData()
   // `openId` opens one project straight away, e.g. when clicked on a client page.
   const [view, setView] = useState(openId ? { mode: 'detail', id: openId } : { mode: 'list' })
@@ -22,6 +22,7 @@ export default function Projects({ query, branch, openId }) {
         projectId={view.id}
         onBack={() => setView({ mode: 'list' })}
         onEdit={() => setView({ mode: 'edit', id: view.id })}
+        onOpenRecord={onOpenRecord}
       />
     )
   }

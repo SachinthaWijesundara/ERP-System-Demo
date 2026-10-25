@@ -253,8 +253,8 @@ export default function ItemDetail({ sku, branch, onBack, onEdit }) {
               </table>
             )}
             <p className="cell-sub reserve-note">
-              Reservations are kept here for now. Once Projects is connected, marking a material as Reserved on a
-              project will add it here, and marking it Issued will take it out of stock.
+              These come straight from the projects: marking a material Reserved on a project holds it here, and
+              marking it Issued takes it out of stock with an “Out” movement.
             </p>
           </Card>
 
@@ -272,7 +272,7 @@ export default function ItemDetail({ sku, branch, onBack, onEdit }) {
                 <FileText size={15} strokeWidth={1.75} />
                 <div>
                   <div className="links-title">Quotations</div>
-                  <div className="cell-sub">Not connected yet. Quote lines will pick this item with its unit and selling price.</div>
+                  <div className="cell-sub">Connected. Quote lines pick this item with its unit and selling price.</div>
                 </div>
               </li>
               <li>
@@ -286,7 +286,7 @@ export default function ItemDetail({ sku, branch, onBack, onEdit }) {
                 <Hammer size={15} strokeWidth={1.75} />
                 <div>
                   <div className="links-title">Projects</div>
-                  <div className="cell-sub">Not connected yet. Projects will reserve and then use stock.</div>
+                  <div className="cell-sub">Connected. Projects reserve this item and then use it.</div>
                 </div>
               </li>
               <li>

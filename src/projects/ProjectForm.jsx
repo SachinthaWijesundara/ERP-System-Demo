@@ -21,6 +21,11 @@ export default function ProjectForm({ initial, isNew, onCancel, onSave }) {
 
   const client = data.clients.find((c) => c.id === form.clientId)
   const readyQuotes = form.clientId ? quotesReadyForProject(data, form.clientId, initial.id) : []
+  // A project always comes from an approved quote, so a new one can only be
+  // for a registered client who has one. Editing keeps the saved client.
+  const pickableClients = isNew
+    ? data.clients.filter((c) => quotesReadyForProject(data, c.id).length > 0)
+    : data.clients.filter((c) => c.id === form.clientId)
   const staff = staffForProjects(data)
 
   const set = (key) => (e) => setForm({ ...form, [key]: e.target.value })
@@ -98,10 +103,14 @@ export default function ProjectForm({ initial, isNew, onCancel, onSave }) {
         <section className="form-section">
           <h2>Client, quote and site</h2>
           <div className="form-grid">
-            <Field label="Client" error={errorFor('clientId')}>
+            <Field
+              label="Client"
+              error={errorFor('clientId')}
+              hint={isNew ? 'Only registered clients with an approved quote are listed.' : undefined}
+            >
               <select value={form.clientId} onChange={chooseClient} disabled={!isNew} aria-invalid={invalid('clientId')}>
                 <option value="">Choose a client…</option>
-                {data.clients.map((c) => (
+                {pickableClients.map((c) => (
                   <option key={c.id} value={c.id}>
                     {c.id} · {c.name} ({c.branch})
                   </option>
@@ -149,8 +158,9 @@ export default function ProjectForm({ initial, isNew, onCancel, onSave }) {
           </div>
           {isNew && form.materials.length > 0 && (
             <p className="form-help form-help-after">
-              {form.materials.length === 1 ? '1 material' : `${form.materials.length} materials`} will be copied from the
-              quote into the project’s materials list.
+              {form.materials.length === 1 ? '1 inventory item' : `${form.materials.length} inventory items`} on the quote
+              will be copied into the project’s materials. Custom-made lines aren’t copied; add their boards and fittings
+              from Inventory on the project page.
             </p>
           )}
         </section>

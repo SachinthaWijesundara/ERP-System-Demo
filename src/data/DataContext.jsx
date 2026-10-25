@@ -1,4 +1,5 @@
-import { createContext, useContext, useState } from 'react'
+import { createContext, useContext, useMemo, useState } from 'react'
+import { reservationsFromProjects } from './links.js'
 import clientsSeed from './clients.json'
 import quotationsSeed from './quotations.json'
 import projectsSeed from './projects.json'
@@ -25,9 +26,18 @@ export function DataProvider({ children }) {
   const [movements, setMovements] = useState(movementsSeed)
   const [staff, setStaff] = useState(staffSeed)
 
+  // Each item's reservations come from project materials marked Reserved.
+  // They're worked out here for every page to read, never stored on the item.
+  const inventoryView = useMemo(
+    () => inventory.map((i) => ({ ...i, reservations: reservationsFromProjects(projects, clients, i.sku) })),
+    [inventory, projects, clients],
+  )
+  // eslint-disable-next-line no-unused-vars
+  const stored = ({ reservations, ...item }) => item
+
   const value = {
     staff,
-    inventory,
+    inventory: inventoryView,
     movements,
     clients,
     quotations,
@@ -82,10 +92,10 @@ export function DataProvider({ children }) {
     },
 
     addItem(item) {
-      setInventory((list) => [...list, item])
+      setInventory((list) => [...list, stored(item)])
     },
     updateItem(item) {
-      setInventory((list) => list.map((i) => (i.sku === item.sku ? item : i)))
+      setInventory((list) => list.map((i) => (i.sku === item.sku ? stored(item) : i)))
     },
     // Logs a stock movement and changes that branch's on-hand figure to match.
     recordMovement(movement, delta) {

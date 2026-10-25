@@ -16,8 +16,9 @@ const SKU = /^[A-Z0-9]+(-[A-Z0-9]+)+$/
 
 // --- Stock -------------------------------------------------------------
 
+// `item.reservations` is filled in from project materials by the data store.
 export function reservedAt(item, branch) {
-  return item.reservations.filter((r) => r.branch === branch).reduce((sum, r) => sum + r.qty, 0)
+  return (item.reservations ?? []).filter((r) => r.branch === branch).reduce((sum, r) => sum + r.qty, 0)
 }
 
 // On hand: physically in the store. Reserved: set aside for projects.
@@ -126,7 +127,6 @@ export function emptyItem() {
     sellingPrice: '',
     lowStockLevel: 10,
     stock: Object.fromEntries(branches.map((b) => [b, 0])),
-    reservations: [],
   }
 }
 

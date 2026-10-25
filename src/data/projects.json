@@ -50,9 +50,9 @@
       }
     },
     "materials": [
-      { "product": "Pantry cupboards", "description": "Melamine on 18 mm board, soft-close hinges", "qty": 8, "unit": "ft", "unitCost": 13000, "status": "Pending" },
-      { "product": "Built-in wardrobe", "description": "Sliding doors with mirror panel", "qty": 7, "unit": "ft", "unitCost": 15000, "status": "Pending" },
-      { "product": "Laminate sheet, white gloss", "description": "LAM-WGL-01, 8 × 4 ft, for the pantry doors", "qty": 20, "unit": "piece", "unitCost": 4800, "status": "Reserved" }
+      { "sku": "LAM-WGL-01", "qty": 20, "status": "Reserved" },
+      { "sku": "HD-SS-01", "qty": 10, "status": "Pending" },
+      { "sku": "LED-STR-5", "qty": 2, "status": "Pending" }
     ],
     "measurements": [
       { "area": "Pantry wall", "dimensions": "8 ft wide × 7 ft high", "value": 8, "unit": "ft" },
@@ -131,9 +131,9 @@
       }
     },
     "materials": [
-      { "product": "Vinyl plank", "description": "VNL-OAK-01, oak finish, 5 mm click-lock", "qty": 450, "unit": "sqft", "unitCost": 560, "status": "Issued" },
-      { "product": "Underlay", "description": "2 mm foam with moisture barrier", "qty": 450, "unit": "sqft", "unitCost": 80, "status": "Issued" },
-      { "product": "Skirting", "description": "PVC, oak to match", "qty": 40, "unit": "m", "unitCost": 550, "status": "Reserved" }
+      { "sku": "VNL-OAK-01", "qty": 450, "status": "Issued" },
+      { "sku": "UND-FOAM-2", "qty": 450, "status": "Issued" },
+      { "sku": "SKT-PVC-OAK", "qty": 40, "status": "Reserved" }
     ],
     "measurements": [
       { "area": "Living room", "dimensions": "25 ft × 18 ft", "value": 450, "unit": "sqft" },
@@ -207,9 +207,9 @@
       }
     },
     "materials": [
-      { "product": "Kitchen base cabinets", "description": "Melamine on 18 mm board", "qty": 12, "unit": "ft", "unitCost": 17000, "status": "Issued" },
-      { "product": "Kitchen wall cabinets", "description": "Melamine on 18 mm board", "qty": 10, "unit": "ft", "unitCost": 11000, "status": "Issued" },
-      { "product": "Quartz countertop", "description": "20 mm, white", "qty": 12, "unit": "ft", "unitCost": 6500, "status": "Issued" }
+      { "sku": "MEL-GRY-18", "qty": 24, "status": "Issued" },
+      { "sku": "QTZ-WHT-20", "qty": 12, "status": "Issued" },
+      { "sku": "HD-SS-01", "qty": 22, "status": "Issued" }
     ],
     "measurements": [
       { "area": "Kitchen, long wall", "dimensions": "12 ft run", "value": 12, "unit": "ft" },
@@ -267,8 +267,8 @@
       }
     },
     "materials": [
-      { "product": "Blackout curtains", "description": "Beige, lined, with rails", "qty": 3, "unit": "set", "unitCost": 21000, "status": "Issued" },
-      { "product": "Roller blinds", "description": "White, chain operated", "qty": 4, "unit": "piece", "unitCost": 6500, "status": "Issued" }
+      { "sku": "CUR-BLK-01", "qty": 3, "status": "Issued" },
+      { "sku": "BL-RLR-01", "qty": 4, "status": "Issued" }
     ],
     "measurements": [
       { "area": "Bedroom windows", "dimensions": "3 at 6 ft × 5 ft", "value": 3, "unit": "set" },

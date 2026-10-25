@@ -121,27 +121,71 @@ export function quotesReadyForProject(data, clientId, exceptProjectId) {
   return data.quotations.filter((q) => q.clientId === clientId && q.status === 'Approved' && !taken.has(q.id))
 }
 
-// Quote lines become the project's materials list. unitCost is the studio's
-// cost price, which will come from Inventory once it is connected.
+// A project's materials are Inventory items. Each material stores only the
+// item's SKU, the quantity and its status; name, unit and cost price are
+// always read from Inventory. Custom-made quote lines (cabinets, counters)
+// aren't materials; their boards and fittings are added from Inventory.
 export function materialsFromQuote(quote) {
-  return quote.items.map((i) => ({
-    sku: i.sku ?? '',
-    product: i.product,
-    description: i.description,
-    qty: i.qty,
-    unit: i.unit,
-    unitCost: 0,
-    status: 'Pending',
-  }))
+  return quote.items.filter((i) => i.sku).map((i) => ({ sku: i.sku, qty: i.qty, status: 'Pending' }))
 }
 
-// Projects -> Inventory (map connection 4). NOT CONNECTED YET.
-// When a material is reserved, Inventory should hold that stock for the
-// project so POS can't sell it; when issued, it should deduct it. The project
-// page calls this every time a material's status changes.
-export function materialStatusChanged(data, project, material, newStatus) {
-  // e.g. data.reserveStock(material.product, material.qty, project.id)
-  return { project, material, newStatus }
+// The Inventory item behind a project material.
+export function itemForMaterial(data, material) {
+  return data.inventory.find((i) => i.sku === material.sku)
+}
+
+// What a project's materials cost the studio, at Inventory cost prices.
+export function projectMaterialsCost(data, project) {
+  return project.materials.reduce((sum, m) => sum + m.qty * (itemForMaterial(data, m)?.costPrice ?? 0), 0)
+}
+
+// Inventory reservations, worked out from project materials marked Reserved.
+// This is the only place a reservation exists: Inventory doesn't keep its
+// own copy. A reservation is held at the branch of the project's client.
+export function reservationsFromProjects(projects, clients, sku) {
+  return projects.flatMap((p) =>
+    p.materials
+      .filter((m) => m.sku === sku && m.status === 'Reserved')
+      .map((m) => ({ projectId: p.id, branch: clients.find((c) => c.id === p.clientId)?.branch, qty: m.qty })),
+  )
+}
+
+// Projects -> Inventory (map connection 4). CONNECTED. Checks whether a
+// material can move to a new status and says what stock movement that makes:
+//   Reserved: needs that much available stock (reserved stock can't be used twice).
+//   Issued:   takes the stock out of the store (an "Out" movement).
+//   Back from Issued: the stock comes back in (an "In" movement).
+// Returns { ok, message, movement } where movement may be null.
+export function checkMaterialStatus(data, project, material, newStatus) {
+  const item = itemForMaterial(data, material)
+  const branch = clientForProject(data, project)?.branch
+  const old = material.status
+  if (!item || !branch || old === newStatus) return { ok: true, movement: null }
+
+  const { onHand, available } = stockAt(item, branch)
+  const qty = Number(material.qty)
+  // Stock this material already holds as a reservation is free for it to use.
+  const free = available + (old === 'Reserved' ? qty : 0)
+
+  if ((newStatus === 'Reserved' || newStatus === 'Issued') && old !== 'Issued' && qty > free) {
+    const heldElsewhere = onHand - free
+    return {
+      ok: false,
+      message:
+        heldElsewhere > 0
+          ? `Only ${Math.max(0, free)} ${item.unit} of ${item.name} is free at ${branch}: ${onHand} on hand, ${heldElsewhere} reserved for other projects.`
+          : `Only ${onHand} ${item.unit} of ${item.name} in stock at ${branch}, and this project needs ${qty}.`,
+    }
+  }
+
+  const base = { sku: item.sku, branch, date: todayIso(), by: project.designer || 'Studio', note: '' }
+  if (newStatus === 'Issued') {
+    return { ok: true, movement: { ...base, type: 'Out', qty, reference: `Issued to ${project.id}` } }
+  }
+  if (old === 'Issued') {
+    return { ok: true, movement: { ...base, type: 'In', qty, reference: `Returned from ${project.id}` } }
+  }
+  return { ok: true, movement: null }
 }
 
 // Projects -> Invoices and payments (map connection 5). Invoices store the
@@ -229,18 +273,22 @@ export function checkSaleAgainstStock(data, sale) {
     .filter(Boolean)
 }
 
-// Projects -> Inventory (map connection 4). NOT CONNECTED YET. Today each
-// item keeps its own `reservations` list. Once connected, reservations should
-// come from project materials marked Reserved (they'll need a sku), and
-// marking a material Issued should record an "Out" movement here.
+// The projects holding an item, for its Inventory page. `item.reservations`
+// is filled in by the data store from reservationsFromProjects (Projects
+// section), so this is a view of the projects' materials, not a second list.
 export function reservationsForItem(data, item) {
-  return item.reservations.map((r) => ({ ...r, project: data.projects.find((p) => p.id === r.projectId) }))
+  return (item.reservations ?? []).map((r) => ({ ...r, project: data.projects.find((p) => p.id === r.projectId) }))
 }
 
 // Inventory -> Projects: cost prices for the project's materials cost.
-// NOT CONNECTED YET; projects keep their own unitCost for now.
+// CONNECTED through projectMaterialsCost (Projects section).
 export function costPriceFor(data, sku) {
   return data.inventory.find((i) => i.sku === sku)?.costPrice ?? null
+}
+
+// Every project using an item, with how much and in what state.
+export function projectsUsingItem(data, sku) {
+  return data.projects.flatMap((p) => p.materials.filter((m) => m.sku === sku).map((m) => ({ project: p, material: m })))
 }
 
 // Suppliers -> Inventory (phase 2). NOT BUILT. Goods received notes (GRN)
@@ -340,6 +388,13 @@ export function workForStaff(data, person) {
     cashUps: data.cashUps.filter((c) => c.closedBy === name),
     movements: data.movements.filter((m) => m.by === name),
   }
+}
+
+// The registered staff member with this name, if there is one. Projects
+// store the designer and team by name, so this is how a name on a project
+// links to that person's Staff page.
+export function staffByName(data, name) {
+  return name ? data.staff.find((p) => p.name === name) : undefined
 }
 
 // Designers and installation teams for the project form's name suggestions.
