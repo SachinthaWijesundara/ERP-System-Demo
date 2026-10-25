@@ -2708,6 +2708,70 @@ textarea {
   margin: -16px 0 16px;
 }
 
+/* Warranty */
+
+.badge-warranty-active {
+  background: #e7f1e9;
+  color: #2e6a3e;
+}
+
+.badge-warranty-expired {
+  background: var(--placeholder);
+  color: var(--text-muted);
+}
+
+.warranty-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 16px;
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--sidebar);
+  color: var(--text-muted);
+}
+
+.warranty-banner svg {
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.warranty-banner strong {
+  color: var(--text);
+}
+
+.warranty-banner.is-active {
+  border-color: #cfe3d4;
+  background: #f1f8f3;
+  color: #2e6a3e;
+}
+
+.warranty-banner.is-active strong {
+  color: #2e6a3e;
+}
+
+/* POS tiles show stock; items with none free are greyed out */
+
+.product-stock {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.product-tile.is-out {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.product-tile.is-out:hover {
+  border-color: var(--border);
+  background: var(--surface);
+}
+
+.cart-error {
+  margin: 6px 0 0;
+}
+
 /* Smaller screens */
 
 @media (max-width: 1100px) {

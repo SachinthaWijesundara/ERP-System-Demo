@@ -28,6 +28,7 @@ import {
 } from './projectFields.js'
 import StageTracker from './StageTracker.jsx'
 import StagePanel from './StagePanel.jsx'
+import WarrantyStatus from './WarrantyStatus.jsx'
 import { MaterialsCard, MeasurementsCard, PhotosCard, NotesCard } from './ProjectRecords.jsx'
 
 function Fact({ label, children, tone }) {
@@ -117,6 +118,8 @@ export default function ProjectDetail({ projectId, onBack, onEdit, onOpenRecord 
         </div>
         <StageTracker project={project} selected={selected} onSelect={setSelected} />
       </section>
+
+      <WarrantyStatus project={project} />
 
       <div className="detail-grid">
         <div className="detail-main">

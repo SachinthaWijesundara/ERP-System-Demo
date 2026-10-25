@@ -15,7 +15,7 @@ const TABS = { items: 'Items', movements: 'Movement log' }
 
 // `openId` opens one item straight away (a product clicked on a quote).
 // `openFilter` ({ skus, label }) shows only some items, e.g. those on a quote.
-export default function Inventory({ query, branch, openId, openFilter }) {
+export default function Inventory({ query, branch, openId, openFilter, onOpenRecord }) {
   const data = useData()
   const [view, setView] = useState(openId ? { mode: 'detail', sku: openId } : { mode: 'items' })
   const [filter, setFilter] = useState(openFilter ?? null)
@@ -30,6 +30,7 @@ export default function Inventory({ query, branch, openId, openFilter }) {
         branch={branch}
         onBack={() => setView({ mode: 'items' })}
         onEdit={() => setView({ mode: 'edit', sku: view.sku })}
+        onOpenRecord={onOpenRecord}
       />
     )
   }

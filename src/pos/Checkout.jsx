@@ -3,7 +3,7 @@ import { ArrowLeft, Minus, Plus, X, Search } from 'lucide-react'
 import PageHeader from '../components/PageHeader.jsx'
 import Field from '../components/Field.jsx'
 import { useData } from '../data/DataContext.jsx'
-import { productsForPos } from '../data/links.js'
+import { productsForPos, checkSaleAgainstStock } from '../data/links.js'
 import { formatMoney, todayIso } from '../utils/format.js'
 import { UNITS } from '../quotations/quoteFields.js'
 import { branches } from '../modules.js'
@@ -22,7 +22,6 @@ import {
 // The counter screen: pick items on the left, take payment on the right.
 export default function Checkout({ branch, onCancel, onComplete }) {
   const data = useData()
-  const products = productsForPos(data)
   const startBranch = branches.includes(branch) ? branch : ''
 
   const [sale, setSale] = useState(() => ({
@@ -39,8 +38,17 @@ export default function Checkout({ branch, onCancel, onComplete }) {
   const [filter, setFilter] = useState('')
   const [submitted, setSubmitted] = useState(false)
 
+  // Showroom items are the Inventory items, with what's free at this branch.
+  const products = productsForPos(data, sale.branch)
+
   const closedDay = !!(sale.branch && findCashUp(data.cashUps, sale.branch, sale.date))
   const errors = validateSale(sale, data.sales, closedDay)
+  // The reservation rule: a line can't use stock held for a project. These
+  // show straight away under the line, and block the sale.
+  const stockProblems = Object.fromEntries(
+    (sale.branch ? checkSaleAgainstStock(data, sale) : []).map((p) => [p.sku, p.message]),
+  )
+  if (Object.keys(stockProblems).length) errors.stock = 'Some items don’t have enough free stock at this branch.'
   const errorFor = (key) => (submitted ? errors[key] : undefined)
   const t = saleTotals(sale)
 
@@ -90,15 +98,31 @@ export default function Checkout({ branch, onCancel, onComplete }) {
           </header>
           <div className="card-body">
             <div className="product-grid">
-              {shown.map((p) => (
-                <button key={p.sku} type="button" className="product-tile" onClick={() => addProduct(p)}>
-                  <span className="product-cat">{p.category}</span>
-                  <span className="product-name">{p.name}</span>
-                  <span className="product-price">
-                    {formatMoney(p.price)} <span className="cell-sub">/ {p.unit}</span>
-                  </span>
-                </button>
-              ))}
+              {shown.map((p) => {
+                const soldOut = p.available !== null && p.available <= 0
+                return (
+                  <button
+                    key={p.sku}
+                    type="button"
+                    className={`product-tile${soldOut ? ' is-out' : ''}`}
+                    onClick={() => addProduct(p)}
+                    disabled={soldOut}
+                  >
+                    <span className="product-cat">{p.category}</span>
+                    <span className="product-name">{p.name}</span>
+                    <span className="product-price">
+                      {formatMoney(p.price)} <span className="cell-sub">/ {p.unit}</span>
+                    </span>
+                    <span className="product-stock">
+                      {p.available === null
+                        ? 'Choose a branch to see stock'
+                        : soldOut
+                          ? 'None free at this branch'
+                          : `${p.available.toLocaleString('en-LK')} ${p.unit} free`}
+                    </span>
+                  </button>
+                )
+              })}
             </div>
             {shown.length === 0 && <p className="card-empty">Nothing matches “{filter}”.</p>}
             <button type="button" className="btn btn-ghost" onClick={addCustomItem}>
@@ -211,6 +235,7 @@ export default function Checkout({ branch, onCancel, onComplete }) {
                       </label>
                       <span className="cart-amount">{formatMoney(lineTotal(item))}</span>
                     </div>
+                    {item.sku && stockProblems[item.sku] && <p className="field-error cart-error">{stockProblems[item.sku]}</p>}
                   </li>
                 ))}
               </ul>

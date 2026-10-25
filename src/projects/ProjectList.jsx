@@ -6,10 +6,11 @@ import ProgressBar from '../components/ProgressBar.jsx'
 import { useData } from '../data/DataContext.jsx'
 import { clientForProject, projectBranch, quotesReadyForProject } from '../data/links.js'
 import { formatDate, todayIso } from '../utils/format.js'
-import { currentStageLabel, isCompleted, progressOf } from './projectFields.js'
+import { currentStageLabel, isCompleted, progressOf, warrantyInfo } from './projectFields.js'
+import { WarrantyCell } from './WarrantyStatus.jsx'
 import { ALL_BRANCHES } from '../modules.js'
 
-const FILTERS = ['All', 'Active', 'Completed']
+const FILTERS = ['All', 'Active', 'Completed', 'Under warranty']
 
 // True when the search text appears in the project's number or name, its
 // source quote, the client's name or ID, or the designer's name.
@@ -29,7 +30,11 @@ export default function ProjectList({ query, branch, onOpen, onNew }) {
   const allBranches = branch === ALL_BRANCHES
   const inBranch = allBranches ? data.projects : data.projects.filter((p) => projectBranch(data, p) === branch)
   const found = inBranch.filter((p) => matches(data, p, query))
-  const keep = (p, f) => f === 'All' || (f === 'Completed') === isCompleted(p)
+  const keep = (p, f) => {
+    if (f === 'All') return true
+    if (f === 'Under warranty') return warrantyInfo(p, today)?.active === true
+    return (f === 'Completed') === isCompleted(p)
+  }
   const rows = found.filter((p) => keep(p, filter))
   const countFor = (f) => found.filter((p) => keep(p, f)).length
 
@@ -87,6 +92,7 @@ export default function ProjectList({ query, branch, onOpen, onNew }) {
               <th>Progress</th>
               <th>Designer</th>
               <th>Due</th>
+              <th>Warranty</th>
             </tr>
           </thead>
           <tbody>
@@ -115,6 +121,9 @@ export default function ProjectList({ query, branch, onOpen, onNew }) {
                   </td>
                   <td>{p.designer || '—'}</td>
                   <td className={late ? 'is-overdue' : ''}>{formatDate(p.dueDate)}</td>
+                  <td>
+                    <WarrantyCell project={p} />
+                  </td>
                 </tr>
               )
             })}

@@ -3,7 +3,14 @@ import { CheckCircle2, Plus, X } from 'lucide-react'
 import Field from '../components/Field.jsx'
 import FileGallery, { UploadButton, filesToRecords } from '../components/FileGallery.jsx'
 import { formatDate, formatMoney, todayIso } from '../utils/format.js'
-import { STAGES, STAGE_STATUSES, DESIGN_FILE_KINDS, completeStage, installationCost } from './projectFields.js'
+import {
+  STAGES,
+  STAGE_STATUSES,
+  DESIGN_FILE_KINDS,
+  completeStage,
+  installationCost,
+  warrantyInfo,
+} from './projectFields.js'
 
 const APPROVAL_METHODS = [
   'Signed approval letter',
@@ -242,7 +249,15 @@ function Installation({ stage, set, project }) {
   )
 }
 
-function Handover({ stage, set, client, onComplete }) {
+// Under the warranty field: when it ends, once the handover is done and dated.
+function warrantyHint(project) {
+  const w = warrantyInfo(project, todayIso())
+  if (!w) return 'Starts on the actual handover date.'
+  if (!w.expires) return 'No warranty.'
+  return `${w.active ? 'Active, ends' : 'Expired on'} ${formatDate(w.expires)}.`
+}
+
+function Handover({ stage, set, client, project, onComplete }) {
   const setItem = (i, patch) => set({ checklist: stage.checklist.map((c, j) => (j === i ? { ...c, ...patch } : c)) })
   const doneCount = stage.checklist.filter((c) => c.done).length
   return (
@@ -257,7 +272,7 @@ function Handover({ stage, set, client, onComplete }) {
         <Field label="Received by">
           <input value={stage.receivedBy} onChange={(e) => set({ receivedBy: e.target.value })} placeholder={client?.name ?? 'Client’s name'} />
         </Field>
-        <Field label="Warranty (months)">
+        <Field label="Warranty (months)" hint={warrantyHint(project)}>
           <input type="number" min="0" className="num" value={stage.warrantyMonths} onChange={(e) => set({ warrantyMonths: e.target.value })} />
         </Field>
       </div>

@@ -51,8 +51,8 @@
     },
     "materials": [
       { "sku": "LAM-WGL-01", "qty": 20, "status": "Reserved" },
-      { "sku": "HD-SS-01", "qty": 10, "status": "Pending" },
-      { "sku": "LED-STR-5", "qty": 2, "status": "Pending" }
+      { "sku": "HD-SS-01", "qty": 10, "status": "Reserved" },
+      { "sku": "LED-STR-5", "qty": 2, "status": "Reserved" }
     ],
     "measurements": [
       { "area": "Pantry wall", "dimensions": "8 ft wide × 7 ft high", "value": 8, "unit": "ft" },

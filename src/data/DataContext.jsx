@@ -6,7 +6,6 @@ import projectsSeed from './projects.json'
 import invoicesSeed from './invoices.json'
 import salesSeed from './sales.json'
 import cashUpsSeed from './cashups.json'
-import posProducts from './posProducts.json'
 import inventorySeed from './inventory.json'
 import movementsSeed from './movements.json'
 import staffSeed from './staff.json'
@@ -45,7 +44,6 @@ export function DataProvider({ children }) {
     invoices,
     sales,
     cashUps,
-    posProducts,
 
     addClient(client) {
       setClients((list) => [client, ...list])

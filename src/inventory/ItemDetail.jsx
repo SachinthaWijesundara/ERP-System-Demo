@@ -4,9 +4,18 @@ import PageHeader from '../components/PageHeader.jsx'
 import Card, { CardEmpty } from '../components/Card.jsx'
 import Badge from '../components/Badge.jsx'
 import Field from '../components/Field.jsx'
+import Link from '../components/RecordLink.jsx'
 import { useData } from '../data/DataContext.jsx'
-import { reservationsForItem } from '../data/links.js'
-import { formatMoney, todayIso } from '../utils/format.js'
+import {
+  reservationsForItem,
+  projectsUsingItem,
+  quotationsUsingItem,
+  salesOfItem,
+  clientForProject,
+  clientForQuote,
+} from '../data/links.js'
+import { formatDate, formatMoney, todayIso } from '../utils/format.js'
+import { lineTotal } from '../pos/posFields.js'
 import { branches, ALL_BRANCHES } from '../modules.js'
 import {
   MOVEMENT_TYPES,
@@ -21,8 +30,8 @@ import {
 } from './inventoryFields.js'
 import MovementTable from './MovementTable.jsx'
 
-// "Can the counter sell this?" Shows the reservation rule in action. POS
-// will run the same check (canTakeOut) once it's connected to Inventory.
+// "Can the counter sell this?" Shows the reservation rule in action. POS runs
+// the same check (canTakeOut) at checkout.
 function SellCheck({ item, startBranch }) {
   const [branch, setBranch] = useState(startBranch)
   const [qty, setQty] = useState('')
@@ -48,8 +57,8 @@ function SellCheck({ item, startBranch }) {
         </div>
       ) : (
         <p className="cell-sub">
-          Reserved stock is held for projects, so a sale can only use what’s available. POS will apply this rule once
-          it’s connected.
+          Reserved stock is held for projects, so a sale can only use what’s available. POS checks this at the
+          counter.
         </p>
       )}
     </Card>
@@ -141,7 +150,8 @@ function RecordMovement({ item, startBranch }) {
   )
 }
 
-export default function ItemDetail({ sku, branch, onBack, onEdit }) {
+// `onOpenRecord(module, id)` jumps to a project, quotation or sale.
+export default function ItemDetail({ sku, branch, onBack, onEdit, onOpenRecord }) {
   const data = useData()
   const item = data.inventory.find((i) => i.sku === sku)
   if (!item) return null
@@ -149,6 +159,12 @@ export default function ItemDetail({ sku, branch, onBack, onEdit }) {
   const startBranch = branch === ALL_BRANCHES ? branches[0] : branch
   const reservations = reservationsForItem(data, item)
   const movements = data.movements.filter((m) => m.sku === item.sku)
+  // Where this item is used. Each of these records points at the item by its
+  // SKU; nothing is stored on the item itself.
+  const inProjects = projectsUsingItem(data, item.sku)
+  const inQuotes = quotationsUsingItem(data, item.sku)
+  const inSales = salesOfItem(data, item.sku)
+  const open = (module, id) => () => onOpenRecord(module, id)
 
   return (
     <>
@@ -240,7 +256,9 @@ export default function ItemDetail({ sku, branch, onBack, onEdit }) {
                   {reservations.map((r, i) => (
                     <tr key={i}>
                       <td>
-                        <div className="cell-main">{r.project?.name ?? r.projectId}</div>
+                        <div className="cell-main">
+                          <Link onClick={open('projects', r.projectId)}>{r.project?.name ?? r.projectId}</Link>
+                        </div>
                         <div className="cell-sub">{r.projectId}</div>
                       </td>
                       <td>{r.branch}</td>
@@ -258,6 +276,116 @@ export default function ItemDetail({ sku, branch, onBack, onEdit }) {
             </p>
           </Card>
 
+          <Card title="Used in projects" count={inProjects.length}>
+            {inProjects.length === 0 ? (
+              <CardEmpty>No project uses this item yet.</CardEmpty>
+            ) : (
+              <table className="table table-compact table-static">
+                <thead>
+                  <tr>
+                    <th>Project</th>
+                    <th>Client</th>
+                    <th className="num">Qty</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {inProjects.map(({ project, material }) => (
+                    <tr key={project.id}>
+                      <td>
+                        <div className="cell-main">
+                          <Link onClick={open('projects', project.id)}>{project.name}</Link>
+                        </div>
+                        <div className="cell-sub">{project.id}</div>
+                      </td>
+                      <td>{clientForProject(data, project)?.name}</td>
+                      <td className="num">
+                        {material.qty} {item.unit}
+                      </td>
+                      <td>
+                        <Badge>{material.status}</Badge>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+          </Card>
+
+          <Card title="On quotations" count={inQuotes.length}>
+            {inQuotes.length === 0 ? (
+              <CardEmpty>No quotation has a line for this item yet.</CardEmpty>
+            ) : (
+              <table className="table table-compact table-static">
+                <thead>
+                  <tr>
+                    <th>Quotation</th>
+                    <th>Client</th>
+                    <th className="num">Qty</th>
+                    <th className="num">Price quoted</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {inQuotes.map(({ quote, line }) => (
+                    <tr key={quote.id}>
+                      <td>
+                        <div className="cell-main">
+                          <Link onClick={open('quotations', quote.id)}>{quote.id}</Link>
+                        </div>
+                        <div className="cell-sub">{quote.title}</div>
+                      </td>
+                      <td>{clientForQuote(data, quote)?.name}</td>
+                      <td className="num">
+                        {line.qty} {line.unit}
+                      </td>
+                      <td className="num">{formatMoney(line.price)}</td>
+                      <td>
+                        <Badge>{quote.status}</Badge>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+          </Card>
+
+          <Card title="Counter sales" count={inSales.length}>
+            {inSales.length === 0 ? (
+              <CardEmpty>Not sold at the counter yet.</CardEmpty>
+            ) : (
+              <table className="table table-compact table-static">
+                <thead>
+                  <tr>
+                    <th>Sale</th>
+                    <th>Branch</th>
+                    <th className="num">Qty</th>
+                    <th className="num">Amount</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {inSales.map(({ sale, line }) => (
+                    <tr key={sale.id}>
+                      <td>
+                        <div className="cell-main">
+                          <Link onClick={open('pos', sale.id)}>{sale.id}</Link>
+                        </div>
+                        <div className="cell-sub">
+                          {formatDate(sale.date)} · {sale.cashier}
+                        </div>
+                      </td>
+                      <td>{sale.branch}</td>
+                      <td className="num">
+                        {line.qty} {line.unit}
+                      </td>
+                      <td className="num">{formatMoney(lineTotal(line))}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+          </Card>
+
           <Card title="Movement log" count={movements.length}>
             <MovementTable movements={movements} compact />
           </Card>
@@ -271,22 +399,24 @@ export default function ItemDetail({ sku, branch, onBack, onEdit }) {
               <li>
                 <FileText size={15} strokeWidth={1.75} />
                 <div>
-                  <div className="links-title">Quotations</div>
-                  <div className="cell-sub">Connected. Quote lines pick this item with its unit and selling price.</div>
-                </div>
-              </li>
-              <li>
-                <ShoppingBag size={15} strokeWidth={1.75} />
-                <div>
-                  <div className="links-title">POS</div>
-                  <div className="cell-sub">Not connected yet. Sales will reduce stock and can’t use reserved stock.</div>
+                  <div className="links-title">Quotations · {inQuotes.length}</div>
+                  <div className="cell-sub">Quote lines pick this item at its unit and selling price.</div>
                 </div>
               </li>
               <li>
                 <Hammer size={15} strokeWidth={1.75} />
                 <div>
-                  <div className="links-title">Projects</div>
-                  <div className="cell-sub">Connected. Projects reserve this item and then use it.</div>
+                  <div className="links-title">Projects · {inProjects.length}</div>
+                  <div className="cell-sub">Projects reserve this item, then issue it to site.</div>
+                </div>
+              </li>
+              <li>
+                <ShoppingBag size={15} strokeWidth={1.75} />
+                <div>
+                  <div className="links-title">
+                    POS · {inSales.length} {inSales.length === 1 ? 'sale' : 'sales'}
+                  </div>
+                  <div className="cell-sub">The counter sells only what’s free after reservations; each sale is an “Out” movement.</div>
                 </div>
               </li>
               <li>

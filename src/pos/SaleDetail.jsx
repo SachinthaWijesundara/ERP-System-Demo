@@ -2,6 +2,7 @@ import { ArrowLeft, Printer, Download, User, Package, Receipt as ReceiptIcon, Ch
 import PageHeader from '../components/PageHeader.jsx'
 import Card from '../components/Card.jsx'
 import Badge from '../components/Badge.jsx'
+import Link from '../components/RecordLink.jsx'
 import { useData } from '../data/DataContext.jsx'
 import { formatDate, formatMoney } from '../utils/format.js'
 import { saleTotals, findCashUp } from './posFields.js'
@@ -14,7 +15,7 @@ async function downloadPdf(sale) {
   downloadReceiptPdf(sale)
 }
 
-export default function SaleDetail({ saleId, justCompleted, onBack, onNewSale }) {
+export default function SaleDetail({ saleId, justCompleted, onBack, onNewSale, onOpenRecord }) {
   const data = useData()
   const sale = data.sales.find((s) => s.id === saleId)
   if (!sale) return null
@@ -105,7 +106,17 @@ export default function SaleDetail({ saleId, justCompleted, onBack, onNewSale })
                 <Package size={15} strokeWidth={1.75} />
                 <div>
                   <div className="links-title">Inventory</div>
-                  <div className="cell-sub">Not connected yet. Each sale will reduce stock at the {sale.branch} branch.</div>
+                  {sale.items
+                    .filter((line) => line.sku)
+                    .map((line) => (
+                      <div key={line.sku}>
+                        <Link onClick={() => onOpenRecord('inventory', line.sku)}>{line.name}</Link>{' '}
+                        <span className="cell-sub">
+                          −{line.qty} {line.unit}
+                        </span>
+                      </div>
+                    ))}
+                  <div className="cell-sub">Sold items leave the {sale.branch} store as “Out” movements.</div>
                 </div>
               </li>
               <li>

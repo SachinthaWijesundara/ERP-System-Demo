@@ -195,14 +195,12 @@ export function invoicesForProject(data, projectId) {
 }
 
 // --- POS --------------------------------------------------------------
-// None of these are connected yet. Each one marks where POS will link to
-// another module, and says what it should do once that module is ready.
 
-// Items the counter can sell. For now POS has its own small showroom list
-// (posProducts.json). Once Inventory exists, return its products for the
-// branch, with stock on hand, so POS can't sell what's reserved for projects.
-export function productsForPos(data) {
-  return data.posProducts
+// Items the counter can sell: the Inventory items, with what's available at
+// the branch (on hand less project reservations). CONNECTED. POS has no
+// product list of its own; a sale line stores the item's SKU.
+export function productsForPos(data, branch) {
+  return inventoryForPos(data, branch)
 }
 
 // POS <- Clients (map connection 7, optional). NOT CONNECTED YET.
@@ -213,11 +211,22 @@ export function clientForSale() {
   return null
 }
 
-// POS -> Inventory (map connection 8). NOT CONNECTED YET.
-// Called when a sale is completed. Should reduce stock at the sale's branch
-// for every item sold.
-export function saleReducesStock(data, sale) {
-  return sale
+// POS -> Inventory (map connection 8). CONNECTED. The stock movements a
+// completed sale makes: one "Out" per Inventory item sold, at the sale's
+// branch. Custom lines (no SKU) don't touch stock.
+export function stockMovementsForSale(sale) {
+  return sale.items
+    .filter((line) => line.sku)
+    .map((line) => ({
+      date: sale.date,
+      sku: line.sku,
+      branch: sale.branch,
+      type: 'Out',
+      qty: line.qty,
+      reference: `POS sale ${sale.id}`,
+      by: sale.cashier,
+      note: '',
+    }))
 }
 
 // POS -> Invoices and payments (map connection 9). NOT CONNECTED YET.
@@ -229,8 +238,8 @@ export function invoiceForSale() {
 }
 
 // --- Inventory --------------------------------------------------------
-// Inventory is the stock list. Quotations use it (above); the other
-// connections below are ready to be switched on.
+// Inventory is the stock list. Quotations, Projects and POS all point at its
+// items by SKU; the functions below look those links up from either side.
 
 // Inventory -> Quotations (map connection 2). CONNECTED through
 // productsForQuotes above.
@@ -244,10 +253,8 @@ export function inventoryAsQuoteProducts(data) {
   }))
 }
 
-// Inventory -> POS. READY, NOT CONNECTED. Items the counter can sell at a
-// branch, with what's available after project reservations. To connect,
-// make productsForPos (above) return this. Note POS sells vinyl by the box
-// of 24 sqft while Inventory counts sqft; convert when connecting.
+// Inventory -> POS. Items the counter can sell at a branch, with what's
+// available after project reservations (null when no branch is chosen).
 export function inventoryForPos(data, branch) {
   return data.inventory.map((i) => ({
     sku: i.sku,
@@ -255,13 +262,13 @@ export function inventoryForPos(data, branch) {
     category: i.category,
     unit: i.unit,
     price: i.sellingPrice,
-    available: stockAt(i, branch).available,
+    available: branch ? stockAt(i, branch).available : null,
   }))
 }
 
-// POS -> Inventory, the reservation rule (map connection 8). READY, NOT
-// CONNECTED. Checkout should call this before completing a sale and refuse
-// any line that needs reserved stock. Returns one problem per short line.
+// POS -> Inventory, the reservation rule (map connection 8). CONNECTED.
+// Checkout runs this before completing a sale and refuses any line that
+// would need stock reserved for a project. Returns one problem per short line.
 export function checkSaleAgainstStock(data, sale) {
   return sale.items
     .map((line) => {
@@ -289,6 +296,16 @@ export function costPriceFor(data, sku) {
 // Every project using an item, with how much and in what state.
 export function projectsUsingItem(data, sku) {
   return data.projects.flatMap((p) => p.materials.filter((m) => m.sku === sku).map((m) => ({ project: p, material: m })))
+}
+
+// Every quotation with a line for this item.
+export function quotationsUsingItem(data, sku) {
+  return data.quotations.flatMap((q) => q.items.filter((line) => line.sku === sku).map((line) => ({ quote: q, line })))
+}
+
+// Every counter sale of this item, newest first.
+export function salesOfItem(data, sku) {
+  return data.sales.flatMap((s) => s.items.filter((line) => line.sku === sku).map((line) => ({ sale: s, line })))
 }
 
 // Suppliers -> Inventory (phase 2). NOT BUILT. Goods received notes (GRN)
