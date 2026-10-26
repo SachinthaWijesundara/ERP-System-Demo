@@ -125,7 +125,8 @@ export function downloadInvoicePdf(invoice, { client, project, branch }) {
 }
 
 // A5 receipt for one payment, downloaded as e.g. PAY-0091.pdf.
-export function downloadPaymentReceipt(invoice, payment, { client, branch }) {
+// `nameOf(staffId)` gives the name of the staff member who took the payment.
+export function downloadPaymentReceipt(invoice, payment, { client, branch, nameOf }) {
   const doc = new jsPDF({ unit: 'mm', format: 'a5' })
   const M = 14
   const right = doc.internal.pageSize.getWidth() - M
@@ -149,7 +150,7 @@ export function downloadPaymentReceipt(invoice, payment, { client, branch }) {
   row('For invoice', `${invoice.id} (${invoice.type})`)
   row('Method', payment.method)
   if (payment.reference) row('Reference', payment.reference)
-  row('Received by', payment.receivedBy)
+  row('Received by', nameOf(payment.receivedById))
 
   y += 2
   doc.setDrawColor(...INK).setLineWidth(0.4).line(M, y, right, y)

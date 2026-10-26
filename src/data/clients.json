@@ -1,17 +1,93 @@
 [
   {
+    "id": "CL-0027",
+    "name": "Harsha Weerasinghe",
+    "branch": "Matara",
+    "phone": "071 998 7766",
+    "email": "",
+    "sites": [
+      {
+        "label": "Shop",
+        "address": "15 Anagarika Dharmapala Mawatha",
+        "city": "Matara"
+      }
+    ],
+    "leadSource": "Walk-in",
+    "status": "Lead",
+    "followUp": "2026-10-29",
+    "notes": "Roller blinds for the shop front."
+  },
+  {
+    "id": "CL-0026",
+    "name": "Priyanka Rajapaksha",
+    "branch": "Nugegoda",
+    "phone": "078 112 2334",
+    "email": "priyanka.r@gmail.com",
+    "sites": [
+      {
+        "label": "Apartment",
+        "address": "B-4/2 Havelock City",
+        "city": "Colombo 5"
+      }
+    ],
+    "leadSource": "Instagram",
+    "status": "Lead",
+    "followUp": "2026-10-31",
+    "notes": "Bedroom wallpaper and curtains. Comparing with another studio."
+  },
+  {
+    "id": "CL-0025",
+    "name": "Asanka Herath",
+    "branch": "Nugegoda",
+    "phone": "077 889 1234",
+    "email": "asanka.herath@gmail.com",
+    "sites": [
+      {
+        "label": "Home",
+        "address": "56 Pagoda Road",
+        "city": "Nugegoda"
+      }
+    ],
+    "leadSource": "Referral",
+    "status": "Active",
+    "followUp": "2026-10-28",
+    "notes": "Home office and main bedroom. Site visit booked."
+  },
+  {
+    "id": "CL-0024",
+    "name": "Ocean Breeze Café",
+    "branch": "Matara",
+    "phone": "041 223 7788",
+    "email": "hello@oceanbreeze.lk",
+    "sites": [
+      {
+        "label": "Shop",
+        "address": "102 Galle Road",
+        "city": "Matara"
+      }
+    ],
+    "leadSource": "Phone call",
+    "status": "Active",
+    "followUp": "2026-10-27",
+    "notes": "Café seating area. Quote approved; work starts once the advance is paid."
+  },
+  {
     "id": "CL-0023",
     "name": "Chamari Silva",
     "branch": "Matara",
     "phone": "072 567 8901",
     "email": "chamari.silva@yahoo.com",
     "sites": [
-      { "label": "Villa", "address": "3 Mirissa Road", "city": "Weligama" }
+      {
+        "label": "Villa",
+        "address": "3 Mirissa Road",
+        "city": "Weligama"
+      }
     ],
     "leadSource": "Instagram",
     "status": "Lead",
     "followUp": "2026-11-02",
-    "notes": "Wants a site visit for a full villa interior. Budget not confirmed yet."
+    "notes": "Full villa interior. Budget not confirmed yet."
   },
   {
     "id": "CL-0022",
@@ -20,12 +96,16 @@
     "phone": "076 345 6789",
     "email": "dilani.w@gmail.com",
     "sites": [
-      { "label": "Home", "address": "45 Beach Road", "city": "Matara" }
+      {
+        "label": "Home",
+        "address": "45 Beach Road",
+        "city": "Matara"
+      }
     ],
     "leadSource": "Walk-in",
-    "status": "Lead",
+    "status": "Active",
     "followUp": "2026-10-28",
-    "notes": "Asked about wall panelling for the living room. Gave a rough price range at the Matara showroom."
+    "notes": "Living room wall panelling. Chose the walnut panel at the Matara showroom."
   },
   {
     "id": "CL-0021",
@@ -34,7 +114,11 @@
     "phone": "077 123 4567",
     "email": "nadeeka.perera@gmail.com",
     "sites": [
-      { "label": "Home", "address": "14 Lake Road", "city": "Negombo" }
+      {
+        "label": "Home",
+        "address": "14 Lake Road",
+        "city": "Negombo"
+      }
     ],
     "leadSource": "Facebook",
     "status": "Active",
@@ -48,12 +132,16 @@
     "phone": "011 285 4321",
     "email": "lakmal@gunasekara.lk",
     "sites": [
-      { "label": "Office", "address": "77 Old Kesbewa Road", "city": "Nugegoda" }
+      {
+        "label": "Office",
+        "address": "77 Old Kesbewa Road",
+        "city": "Nugegoda"
+      }
     ],
     "leadSource": "Website",
     "status": "Active",
     "followUp": "2026-11-05",
-    "notes": "Office reception and two cabins. Asked for a revised quote with laminate instead of veneer."
+    "notes": "Office reception and two cabins. Turned down the veneer quote; a laminate version is being prepared."
   },
   {
     "id": "CL-0018",
@@ -62,7 +150,11 @@
     "phone": "071 234 5678",
     "email": "kasun.j@outlook.com",
     "sites": [
-      { "label": "Apartment", "address": "22/3 Stanley Thilakaratne Mawatha", "city": "Nugegoda" }
+      {
+        "label": "Apartment",
+        "address": "22/3 Stanley Thilakaratne Mawatha",
+        "city": "Nugegoda"
+      }
     ],
     "leadSource": "Referral",
     "status": "Active",
@@ -76,13 +168,21 @@
     "phone": "070 456 7890",
     "email": "",
     "sites": [
-      { "label": "Home", "address": "8 Temple Road", "city": "Maharagama" },
-      { "label": "Office", "address": "120 High Level Road", "city": "Nugegoda" }
+      {
+        "label": "Home",
+        "address": "8 Temple Road",
+        "city": "Maharagama"
+      },
+      {
+        "label": "Office",
+        "address": "120 High Level Road",
+        "city": "Nugegoda"
+      }
     ],
     "leadSource": "Facebook",
     "status": "Past",
-    "followUp": "",
-    "notes": "Kitchen cabinets completed in March 2026. Final invoice still has a balance."
+    "followUp": "2026-10-29",
+    "notes": "Kitchen cabinets finished in March 2026. LKR 120,000 of the final invoice is still owed; call before the end of the month."
   },
   {
     "id": "CL-0012",
@@ -91,11 +191,15 @@
     "phone": "041 222 3344",
     "email": "",
     "sites": [
-      { "label": "Home", "address": "19 Esplanade Road", "city": "Matara" }
+      {
+        "label": "Home",
+        "address": "19 Esplanade Road",
+        "city": "Matara"
+      }
     ],
     "leadSource": "Walk-in",
     "status": "Past",
     "followUp": "",
-    "notes": "Curtains and blinds for three bedrooms, 2025. Happy with the work."
+    "notes": "Curtains and blinds for three bedrooms in 2025. Happy with the work."
   }
 ]

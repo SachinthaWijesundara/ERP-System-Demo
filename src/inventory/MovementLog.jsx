@@ -1,11 +1,12 @@
 import { useState } from 'react'
 import { useData } from '../data/DataContext.jsx'
+import { staffName } from '../components/StaffLink.jsx'
 import { ALL_BRANCHES } from '../modules.js'
 import { MOVEMENT_TYPES } from './inventoryFields.js'
 import MovementTable from './MovementTable.jsx'
 
 // Every stock movement across all items, newest first.
-export default function MovementLog({ query, branch }) {
+export default function MovementLog({ query, branch, onOpenRecord }) {
   const data = useData()
   const [type, setType] = useState('All')
 
@@ -14,7 +15,7 @@ export default function MovementLog({ query, branch }) {
     if (branch !== ALL_BRANCHES && m.branch !== branch) return false
     if (!q) return true
     const item = data.inventory.find((i) => i.sku === m.sku)
-    return [m.id, m.sku, m.reference, m.by, m.note, item?.name ?? ''].some((t) => t.toLowerCase().includes(q))
+    return [m.id, m.sku, m.reference, staffName(data, m.byId), m.note, item?.name ?? ''].some((t) => t.toLowerCase().includes(q))
   })
   const rows = type === 'All' ? found : found.filter((m) => m.type === type)
 
@@ -32,7 +33,7 @@ export default function MovementLog({ query, branch }) {
         {q && <span className="toolbar-note">Results for “{query.trim()}”</span>}
       </div>
       <div className="table-wrap">
-        <MovementTable movements={rows} items={data.inventory} />
+        <MovementTable movements={rows} items={data.inventory} onOpenRecord={onOpenRecord} />
       </div>
     </>
   )

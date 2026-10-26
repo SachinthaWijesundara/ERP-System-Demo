@@ -6,12 +6,6 @@ export const INVENTORY_UNITS = ['sqft', 'sqm', 'm', 'ft', 'box', 'roll', 'litre'
 // issued to a project, used). Adjustment: a correction after a count, damage.
 export const MOVEMENT_TYPES = ['In', 'Out', 'Adjustment']
 
-// Storekeepers at each branch, until there's a Staff module and logins.
-export const DEMO_STOREKEEPERS = {
-  Matara: 'Pradeep Wijeratne',
-  Nugegoda: 'Roshan Jayalath',
-}
-
 const SKU = /^[A-Z0-9]+(-[A-Z0-9]+)+$/
 
 // --- Stock -------------------------------------------------------------
@@ -110,7 +104,6 @@ export function validateMovement(movement, item) {
     else if (onHand + qty < reserved) errors.qty = `That would leave less than the ${reserved} reserved for projects.`
   }
   if (!movement.reference.trim()) errors.reference = 'Say what it was, e.g. GRN-1043 or Stock count.'
-  if (!movement.by.trim()) errors.by = 'Enter who did it.'
   return errors
 }
 

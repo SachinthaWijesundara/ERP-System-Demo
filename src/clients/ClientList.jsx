@@ -3,6 +3,8 @@ import { Plus } from 'lucide-react'
 import PageHeader from '../components/PageHeader.jsx'
 import Badge from '../components/Badge.jsx'
 import { useData } from '../data/DataContext.jsx'
+import { useAuth } from '../auth/AuthContext.jsx'
+import { visibleClients } from '../auth/visibility.js'
 import { projectsForClient, invoicesForClient, balanceDue } from '../data/links.js'
 import { formatDate, formatMoney, todayIso } from '../utils/format.js'
 import { STATUSES } from './clientFields.js'
@@ -24,26 +26,36 @@ function matches(data, client, query) {
   )
 }
 
+// Without "see every client", only the clients of someone's own projects and
+// quotes are listed. Balances need "see balances and payment history".
 export default function ClientList({ query, branch, onOpen, onNew }) {
   const data = useData()
+  const auth = useAuth()
   const [status, setStatus] = useState('All')
   const today = todayIso()
+  const own = !auth.can('clients.all')
+  const showBalance = auth.can('clients.balances')
+  const mine = visibleClients(data, auth)
 
   const allBranches = branch === ALL_BRANCHES
-  const inBranch = allBranches ? data.clients : data.clients.filter((c) => c.branch === branch)
+  const inBranch = allBranches ? mine : mine.filter((c) => c.branch === branch)
   const found = inBranch.filter((c) => matches(data, c, query))
   const rows = status === 'All' ? found : found.filter((c) => c.status === status)
   const countFor = (s) => (s === 'All' ? found.length : found.filter((c) => c.status === s).length)
 
-  const subtitle = `${inBranch.length} clients and leads ${allBranches ? 'across both branches' : `at ${branch}`}`
+  const subtitle = own
+    ? `${inBranch.length} clients from your projects and quotations`
+    : `${inBranch.length} clients and leads ${allBranches ? 'across both branches' : `at ${branch}`}`
 
   return (
     <>
-      <PageHeader title="Clients" subtitle={subtitle}>
-        <button type="button" className="btn btn-primary" onClick={onNew}>
-          <Plus size={15} strokeWidth={2} />
-          New client
-        </button>
+      <PageHeader title={own ? 'My clients' : 'Clients'} subtitle={subtitle}>
+        {auth.can('clients.create') && (
+          <button type="button" className="btn btn-primary" onClick={onNew}>
+            <Plus size={15} strokeWidth={2} />
+            New client
+          </button>
+        )}
       </PageHeader>
 
       <div className="toolbar">
@@ -78,7 +90,7 @@ export default function ClientList({ query, branch, onOpen, onNew }) {
               <th>Lead source</th>
               <th>Status</th>
               <th>Follow-up</th>
-              <th className="num">Balance due</th>
+              {showBalance && <th className="num">Balance due</th>}
             </tr>
           </thead>
           <tbody>
@@ -103,7 +115,7 @@ export default function ClientList({ query, branch, onOpen, onNew }) {
                     <Badge>{c.status}</Badge>
                   </td>
                   <td className={overdue ? 'is-overdue' : ''}>{c.followUp ? formatDate(c.followUp) : '—'}</td>
-                  <td className="num">{hasInvoices ? formatMoney(balance) : '—'}</td>
+                  {showBalance && <td className="num">{hasInvoices ? formatMoney(balance) : '—'}</td>}
                 </tr>
               )
             })}

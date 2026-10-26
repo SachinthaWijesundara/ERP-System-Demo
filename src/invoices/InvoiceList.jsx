@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import Badge from '../components/Badge.jsx'
 import { useData } from '../data/DataContext.jsx'
+import { useAuth } from '../auth/AuthContext.jsx'
 import {
   clientForInvoice,
   projectForInvoice,
@@ -33,8 +34,10 @@ function matches(data, invoice, query) {
   ].some((t) => t.toLowerCase().includes(q))
 }
 
+// The money totals strip needs "see money totals".
 export default function InvoiceList({ query, branch, onOpen }) {
   const data = useData()
+  const auth = useAuth()
   const [status, setStatus] = useState('All')
 
   const allBranches = branch === ALL_BRANCHES
@@ -46,6 +49,7 @@ export default function InvoiceList({ query, branch, onOpen }) {
 
   return (
     <>
+      {auth.can('invoices.totals') && (
       <section className="pos-strip">
         <div>
           <div className="fact-label">Outstanding</div>
@@ -66,6 +70,7 @@ export default function InvoiceList({ query, branch, onOpen }) {
           <div className="pos-strip-value">{formatMoney(totals.receivedThisMonth)}</div>
         </div>
       </section>
+      )}
 
       <div className="toolbar">
         <div className="tabs">

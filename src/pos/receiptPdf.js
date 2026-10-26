@@ -11,7 +11,8 @@ const LINE = 4.6
 const plain = (text) => String(text).replace(/•/g, '*').replace(/−/g, '-')
 
 // Builds a till-roll PDF of the sale and downloads it as e.g. SL-0312.pdf.
-export function downloadReceiptPdf(sale) {
+// `cashierName` is the registered staff member who rang the sale up.
+export function downloadReceiptPdf(sale, cashierName) {
   const t = saleTotals(sale)
 
   const right = WIDTH - M
@@ -49,7 +50,7 @@ export function downloadReceiptPdf(sale) {
   doc.setFontSize(8)
   row('Receipt', sale.id)
   row('Date', `${formatDate(sale.date)}, ${sale.time}`)
-  row('Cashier', sale.cashier)
+  row('Cashier', cashierName)
   if (sale.customer?.name) row('Customer', sale.customer.name)
   y += 1
   rule()

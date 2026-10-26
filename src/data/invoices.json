@@ -1,186 +1,1685 @@
 [
   {
-    "id": "INV-0061",
+    "id": "INV-0212",
     "type": "POS sale",
     "quoteId": "",
-    "saleId": "SL-0312",
-    "date": "2026-10-25",
-    "dueDate": "2026-10-25",
-    "description": "Counter sale SL-0312 at Nugegoda",
-    "amount": 8700,
-    "draft": false,
-    "cancelled": false,
-    "payments": [
-      { "id": "PAY-0105", "date": "2026-10-25", "amount": 8700, "method": "Cash", "reference": "", "receivedBy": "Kavindu Silva" }
-    ]
-  },
-  {
-    "id": "INV-0060",
-    "type": "POS sale",
-    "quoteId": "",
-    "saleId": "SL-0311",
-    "date": "2026-10-25",
-    "dueDate": "2026-10-25",
-    "description": "Counter sale SL-0311 at Matara",
-    "amount": 15700,
-    "draft": false,
-    "cancelled": false,
-    "payments": [
-      { "id": "PAY-0104", "date": "2026-10-25", "amount": 15700, "method": "Card", "reference": "VISA •••• 3307", "receivedBy": "Ishara Madushani" }
-    ]
-  },
-  {
-    "id": "INV-0059",
-    "type": "POS sale",
-    "quoteId": "",
-    "saleId": "SL-0310",
-    "date": "2026-10-25",
-    "dueDate": "2026-10-25",
-    "description": "Counter sale SL-0310 at Nugegoda",
-    "amount": 13600,
-    "draft": false,
-    "cancelled": false,
-    "payments": [
-      { "id": "PAY-0103", "date": "2026-10-25", "amount": 13600, "method": "Cash", "reference": "", "receivedBy": "Kavindu Silva" }
-    ]
-  },
-  {
-    "id": "INV-0058",
-    "type": "POS sale",
-    "quoteId": "",
-    "saleId": "SL-0309",
-    "date": "2026-10-24",
-    "dueDate": "2026-10-24",
-    "description": "Counter sale SL-0309 at Nugegoda",
-    "amount": 22800,
-    "draft": false,
-    "cancelled": false,
-    "payments": [
-      { "id": "PAY-0102", "date": "2026-10-24", "amount": 22800, "method": "Card", "reference": "VISA •••• 0072", "receivedBy": "Kavindu Silva" }
-    ]
-  },
-  {
-    "id": "INV-0057",
-    "type": "POS sale",
-    "quoteId": "",
-    "saleId": "SL-0306",
-    "date": "2026-10-24",
-    "dueDate": "2026-10-24",
-    "description": "Counter sale SL-0306 at Matara",
-    "amount": 15600,
-    "draft": false,
-    "cancelled": false,
-    "payments": [
-      { "id": "PAY-0101", "date": "2026-10-24", "amount": 15600, "method": "Card", "reference": "MASTERCARD •••• 1190", "receivedBy": "Ishara Madushani" }
-    ]
-  },
-  {
-    "id": "INV-0056",
-    "type": "POS sale",
-    "quoteId": "",
-    "saleId": "SL-0308",
-    "date": "2026-10-24",
-    "dueDate": "2026-10-24",
-    "description": "Counter sale SL-0308 at Nugegoda",
-    "amount": 9500,
-    "draft": false,
-    "cancelled": false,
-    "payments": [
-      { "id": "PAY-0100", "date": "2026-10-24", "amount": 9500, "method": "Cash", "reference": "", "receivedBy": "Kavindu Silva" }
-    ]
-  },
-  {
-    "id": "INV-0055",
-    "type": "POS sale",
-    "quoteId": "",
-    "saleId": "SL-0307",
-    "date": "2026-10-24",
-    "dueDate": "2026-10-24",
-    "description": "Counter sale SL-0307 at Nugegoda",
-    "amount": 35100,
-    "draft": false,
-    "cancelled": false,
-    "payments": [
-      { "id": "PAY-0099", "date": "2026-10-24", "amount": 35100, "method": "Bank transfer", "reference": "COM 24-10 / 5530", "receivedBy": "Kavindu Silva" }
-    ]
-  },
-  {
-    "id": "INV-0054",
-    "type": "POS sale",
-    "quoteId": "",
-    "saleId": "SL-0305",
-    "date": "2026-10-24",
-    "dueDate": "2026-10-24",
-    "description": "Counter sale SL-0305 at Matara",
-    "amount": 10800,
-    "draft": false,
-    "cancelled": false,
-    "payments": [
-      { "id": "PAY-0098", "date": "2026-10-24", "amount": 10800, "method": "Cash", "reference": "", "receivedBy": "Ishara Madushani" }
-    ]
-  },
-  {
-    "id": "INV-0053",
-    "type": "POS sale",
-    "quoteId": "",
-    "saleId": "SL-0304",
-    "date": "2026-10-23",
-    "dueDate": "2026-10-23",
-    "description": "Counter sale SL-0304 at Nugegoda",
-    "amount": 8700,
-    "draft": false,
-    "cancelled": false,
-    "payments": [
-      { "id": "PAY-0097", "date": "2026-10-23", "amount": 8700, "method": "Cash", "reference": "", "receivedBy": "Kavindu Silva" }
-    ]
-  },
-  {
-    "id": "INV-0052",
-    "type": "POS sale",
-    "quoteId": "",
-    "saleId": "SL-0302",
-    "date": "2026-10-23",
-    "dueDate": "2026-10-23",
-    "description": "Counter sale SL-0302 at Matara",
+    "saleId": "SL-0298",
+    "date": "2026-10-26",
+    "dueDate": "2026-10-26",
+    "description": "Counter sale SL-0298 at Nugegoda",
     "amount": 31400,
     "draft": false,
     "cancelled": false,
     "payments": [
-      { "id": "PAY-0096", "date": "2026-10-23", "amount": 31400, "method": "Card", "reference": "VISA •••• 4821", "receivedBy": "Ishara Madushani" }
+      {
+        "id": "PAY-0207",
+        "date": "2026-10-26",
+        "amount": 31400,
+        "method": "Card",
+        "reference": "VISA •••• 5807",
+        "receivedById": "ST-0004"
+      }
     ]
   },
   {
-    "id": "INV-0051",
+    "id": "INV-0211",
     "type": "POS sale",
     "quoteId": "",
-    "saleId": "SL-0303",
-    "date": "2026-10-23",
-    "dueDate": "2026-10-23",
-    "description": "Counter sale SL-0303 at Nugegoda",
-    "amount": 58140,
+    "saleId": "SL-0297",
+    "date": "2026-10-26",
+    "dueDate": "2026-10-26",
+    "description": "Counter sale SL-0297 at Nugegoda",
+    "amount": 15600,
     "draft": false,
     "cancelled": false,
     "payments": [
-      { "id": "PAY-0095", "date": "2026-10-23", "amount": 58140, "method": "Bank transfer", "reference": "BOC 23-10 / 7781", "receivedBy": "Kavindu Silva" }
+      {
+        "id": "PAY-0206",
+        "date": "2026-10-26",
+        "amount": 15600,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0004"
+      }
     ]
   },
   {
-    "id": "INV-0050",
+    "id": "INV-0210",
     "type": "POS sale",
     "quoteId": "",
-    "saleId": "SL-0301",
-    "date": "2026-10-23",
-    "dueDate": "2026-10-23",
-    "description": "Counter sale SL-0301 at Matara",
-    "amount": 18000,
+    "saleId": "SL-0296",
+    "date": "2026-10-26",
+    "dueDate": "2026-10-26",
+    "description": "Counter sale SL-0296 at Matara",
+    "amount": 102000,
     "draft": false,
     "cancelled": false,
     "payments": [
-      { "id": "PAY-0094", "date": "2026-10-23", "amount": 18000, "method": "Cash", "reference": "", "receivedBy": "Ishara Madushani" }
+      {
+        "id": "PAY-0205",
+        "date": "2026-10-26",
+        "amount": 102000,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0003"
+      }
     ]
   },
   {
-    "id": "INV-0048",
+    "id": "INV-0209",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0295",
+    "date": "2026-10-24",
+    "dueDate": "2026-10-24",
+    "description": "Counter sale SL-0295 at Matara",
+    "amount": 6460,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0204",
+        "date": "2026-10-24",
+        "amount": 6460,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0208",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0294",
+    "date": "2026-10-24",
+    "dueDate": "2026-10-24",
+    "description": "Counter sale SL-0294 at Nugegoda",
+    "amount": 1450,
+    "draft": false,
+    "cancelled": true,
+    "payments": [
+      {
+        "id": "PAY-0203",
+        "date": "2026-10-24",
+        "amount": 1450,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0004"
+      }
+    ]
+  },
+  {
+    "id": "INV-0207",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0293",
+    "date": "2026-10-24",
+    "dueDate": "2026-10-24",
+    "description": "Counter sale SL-0293 at Nugegoda",
+    "amount": 6840,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0202",
+        "date": "2026-10-24",
+        "amount": 6840,
+        "method": "Card",
+        "reference": "VISA •••• 9647",
+        "receivedById": "ST-0004"
+      }
+    ]
+  },
+  {
+    "id": "INV-0206",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0292",
+    "date": "2026-10-24",
+    "dueDate": "2026-10-24",
+    "description": "Counter sale SL-0292 at Matara",
+    "amount": 4133,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0201",
+        "date": "2026-10-24",
+        "amount": 4133,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0002"
+      }
+    ]
+  },
+  {
+    "id": "INV-0205",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0291",
+    "date": "2026-10-23",
+    "dueDate": "2026-10-23",
+    "description": "Counter sale SL-0291 at Nugegoda",
+    "amount": 4400,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0200",
+        "date": "2026-10-23",
+        "amount": 4400,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0004"
+      }
+    ]
+  },
+  {
+    "id": "INV-0204",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0290",
+    "date": "2026-10-23",
+    "dueDate": "2026-10-23",
+    "description": "Counter sale SL-0290 at Nugegoda",
+    "amount": 6600,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0199",
+        "date": "2026-10-23",
+        "amount": 6600,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0004"
+      }
+    ]
+  },
+  {
+    "id": "INV-0203",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0289",
+    "date": "2026-10-23",
+    "dueDate": "2026-10-23",
+    "description": "Counter sale SL-0289 at Nugegoda",
+    "amount": 12500,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0198",
+        "date": "2026-10-23",
+        "amount": 12500,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0002"
+      }
+    ]
+  },
+  {
+    "id": "INV-0202",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0288",
+    "date": "2026-10-23",
+    "dueDate": "2026-10-23",
+    "description": "Counter sale SL-0288 at Matara",
+    "amount": 33000,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0197",
+        "date": "2026-10-23",
+        "amount": 33000,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0201",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0287",
+    "date": "2026-10-22",
+    "dueDate": "2026-10-22",
+    "description": "Counter sale SL-0287 at Matara",
+    "amount": 24800,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0196",
+        "date": "2026-10-22",
+        "amount": 24800,
+        "method": "Card",
+        "reference": "Mastercard •••• 1553",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0200",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0286",
+    "date": "2026-10-22",
+    "dueDate": "2026-10-22",
+    "description": "Counter sale SL-0286 at Nugegoda",
+    "amount": 6270,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0195",
+        "date": "2026-10-22",
+        "amount": 6270,
+        "method": "Bank transfer",
+        "reference": "Sampath 10-22 / 6543",
+        "receivedById": "ST-0004"
+      }
+    ]
+  },
+  {
+    "id": "INV-0199",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0285",
+    "date": "2026-10-22",
+    "dueDate": "2026-10-22",
+    "description": "Counter sale SL-0285 at Matara",
+    "amount": 13600,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0194",
+        "date": "2026-10-22",
+        "amount": 13600,
+        "method": "Card",
+        "reference": "VISA •••• 5161",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0198",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0284",
+    "date": "2026-10-22",
+    "dueDate": "2026-10-22",
+    "description": "Counter sale SL-0284 at Nugegoda",
+    "amount": 52200,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0193",
+        "date": "2026-10-22",
+        "amount": 52200,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0004"
+      }
+    ]
+  },
+  {
+    "id": "INV-0197",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0283",
+    "date": "2026-10-22",
+    "dueDate": "2026-10-22",
+    "description": "Counter sale SL-0283 at Matara",
+    "amount": 43700,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0192",
+        "date": "2026-10-22",
+        "amount": 43700,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0196",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0282",
+    "date": "2026-10-21",
+    "dueDate": "2026-10-21",
+    "description": "Counter sale SL-0282 at Nugegoda",
+    "amount": 20400,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0190",
+        "date": "2026-10-21",
+        "amount": 20400,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0004"
+      }
+    ]
+  },
+  {
+    "id": "INV-0195",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0281",
+    "date": "2026-10-21",
+    "dueDate": "2026-10-21",
+    "description": "Counter sale SL-0281 at Matara",
+    "amount": 10800,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0189",
+        "date": "2026-10-21",
+        "amount": 10800,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0194",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0280",
+    "date": "2026-10-21",
+    "dueDate": "2026-10-21",
+    "description": "Counter sale SL-0280 at Nugegoda",
+    "amount": 13600,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0188",
+        "date": "2026-10-21",
+        "amount": 13600,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0004"
+      }
+    ]
+  },
+  {
+    "id": "INV-0193",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0279",
+    "date": "2026-10-21",
+    "dueDate": "2026-10-21",
+    "description": "Counter sale SL-0279 at Matara",
+    "amount": 2200,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0187",
+        "date": "2026-10-21",
+        "amount": 2200,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0192",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0278",
+    "date": "2026-10-21",
+    "dueDate": "2026-10-21",
+    "description": "Counter sale SL-0278 at Matara",
+    "amount": 13500,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0186",
+        "date": "2026-10-21",
+        "amount": 13500,
+        "method": "Card",
+        "reference": "Mastercard •••• 7858",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0191",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0277",
+    "date": "2026-10-21",
+    "dueDate": "2026-10-21",
+    "description": "Counter sale SL-0277 at Nugegoda",
+    "amount": 11600,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0185",
+        "date": "2026-10-21",
+        "amount": 11600,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0004"
+      }
+    ]
+  },
+  {
+    "id": "INV-0190",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0276",
+    "date": "2026-10-20",
+    "dueDate": "2026-10-20",
+    "description": "Counter sale SL-0276 at Matara",
+    "amount": 20400,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0184",
+        "date": "2026-10-20",
+        "amount": 20400,
+        "method": "Bank transfer",
+        "reference": "Sampath 10-20 / 7068",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0189",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0275",
+    "date": "2026-10-20",
+    "dueDate": "2026-10-20",
+    "description": "Counter sale SL-0275 at Matara",
+    "amount": 6800,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0183",
+        "date": "2026-10-20",
+        "amount": 6800,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0188",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0274",
+    "date": "2026-10-20",
+    "dueDate": "2026-10-20",
+    "description": "Counter sale SL-0274 at Nugegoda",
+    "amount": 13600,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0182",
+        "date": "2026-10-20",
+        "amount": 13600,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0004"
+      }
+    ]
+  },
+  {
+    "id": "INV-0187",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0273",
+    "date": "2026-10-20",
+    "dueDate": "2026-10-20",
+    "description": "Counter sale SL-0273 at Nugegoda",
+    "amount": 11600,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0181",
+        "date": "2026-10-20",
+        "amount": 11600,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0004"
+      }
+    ]
+  },
+  {
+    "id": "INV-0186",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0272",
+    "date": "2026-10-20",
+    "dueDate": "2026-10-20",
+    "description": "Counter sale SL-0272 at Matara",
+    "amount": 40800,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0180",
+        "date": "2026-10-20",
+        "amount": 40800,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0002"
+      }
+    ]
+  },
+  {
+    "id": "INV-0185",
+    "type": "Advance",
+    "quoteId": "QT-0018",
+    "saleId": "",
+    "date": "2026-10-20",
+    "dueDate": "2026-10-27",
+    "description": "Advance payment: 50% of quotation QT-0018 (LKR 360,000)",
+    "amount": 180000,
+    "draft": false,
+    "cancelled": false,
+    "payments": []
+  },
+  {
+    "id": "INV-0184",
+    "type": "Final",
+    "quoteId": "QT-0019",
+    "saleId": "",
+    "date": "",
+    "dueDate": "",
+    "description": "",
+    "amount": 0,
+    "draft": true,
+    "cancelled": false,
+    "payments": []
+  },
+  {
+    "id": "INV-0183",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0271",
+    "date": "2026-10-19",
+    "dueDate": "2026-10-19",
+    "description": "Counter sale SL-0271 at Nugegoda",
+    "amount": 2900,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0179",
+        "date": "2026-10-19",
+        "amount": 2900,
+        "method": "Card",
+        "reference": "Mastercard •••• 9803",
+        "receivedById": "ST-0004"
+      }
+    ]
+  },
+  {
+    "id": "INV-0182",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0270",
+    "date": "2026-10-19",
+    "dueDate": "2026-10-19",
+    "description": "Counter sale SL-0270 at Matara",
+    "amount": 11600,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0178",
+        "date": "2026-10-19",
+        "amount": 11600,
+        "method": "Card",
+        "reference": "VISA •••• 3257",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0181",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0269",
+    "date": "2026-10-19",
+    "dueDate": "2026-10-19",
+    "description": "Counter sale SL-0269 at Nugegoda",
+    "amount": 6800,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0177",
+        "date": "2026-10-19",
+        "amount": 6800,
+        "method": "Card",
+        "reference": "VISA •••• 6490",
+        "receivedById": "ST-0004"
+      }
+    ]
+  },
+  {
+    "id": "INV-0180",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0268",
+    "date": "2026-10-19",
+    "dueDate": "2026-10-19",
+    "description": "Counter sale SL-0268 at Matara",
+    "amount": 5800,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0176",
+        "date": "2026-10-19",
+        "amount": 5800,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0002"
+      }
+    ]
+  },
+  {
+    "id": "INV-0179",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0267",
+    "date": "2026-10-19",
+    "dueDate": "2026-10-19",
+    "description": "Counter sale SL-0267 at Matara",
+    "amount": 4400,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0175",
+        "date": "2026-10-19",
+        "amount": 4400,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0178",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0266",
+    "date": "2026-10-19",
+    "dueDate": "2026-10-19",
+    "description": "Counter sale SL-0266 at Nugegoda",
+    "amount": 7600,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0174",
+        "date": "2026-10-19",
+        "amount": 7600,
+        "method": "Card",
+        "reference": "VISA •••• 3146",
+        "receivedById": "ST-0004"
+      }
+    ]
+  },
+  {
+    "id": "INV-0177",
+    "type": "Advance",
+    "quoteId": "QT-0019",
+    "saleId": "",
+    "date": "2026-10-18",
+    "dueDate": "2026-10-25",
+    "description": "Advance payment: 50% of quotation QT-0019 (LKR 165,000)",
+    "amount": 82500,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0173",
+        "date": "2026-10-19",
+        "amount": 82500,
+        "method": "Card",
+        "reference": "Mastercard •••• 1408",
+        "receivedById": "ST-0004"
+      }
+    ]
+  },
+  {
+    "id": "INV-0176",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0265",
+    "date": "2026-10-17",
+    "dueDate": "2026-10-17",
+    "description": "Counter sale SL-0265 at Matara",
+    "amount": 45160,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0172",
+        "date": "2026-10-17",
+        "amount": 45160,
+        "method": "Bank transfer",
+        "reference": "Commercial 10-17 / 8953",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0175",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0264",
+    "date": "2026-10-17",
+    "dueDate": "2026-10-17",
+    "description": "Counter sale SL-0264 at Matara",
+    "amount": 5608,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0171",
+        "date": "2026-10-17",
+        "amount": 5608,
+        "method": "Card",
+        "reference": "Mastercard •••• 2059",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0174",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0263",
+    "date": "2026-10-17",
+    "dueDate": "2026-10-17",
+    "description": "Counter sale SL-0263 at Nugegoda",
+    "amount": 12500,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0170",
+        "date": "2026-10-17",
+        "amount": 12500,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0004"
+      }
+    ]
+  },
+  {
+    "id": "INV-0173",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0262",
+    "date": "2026-10-17",
+    "dueDate": "2026-10-17",
+    "description": "Counter sale SL-0262 at Matara",
+    "amount": 61200,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0169",
+        "date": "2026-10-17",
+        "amount": 61200,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0172",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0261",
+    "date": "2026-10-16",
+    "dueDate": "2026-10-16",
+    "description": "Counter sale SL-0261 at Matara",
+    "amount": 14400,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0168",
+        "date": "2026-10-16",
+        "amount": 14400,
+        "method": "Card",
+        "reference": "Mastercard •••• 3239",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0171",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0260",
+    "date": "2026-10-16",
+    "dueDate": "2026-10-16",
+    "description": "Counter sale SL-0260 at Matara",
+    "amount": 45030,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0167",
+        "date": "2026-10-16",
+        "amount": 45030,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0170",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0259",
+    "date": "2026-10-16",
+    "dueDate": "2026-10-16",
+    "description": "Counter sale SL-0259 at Nugegoda",
+    "amount": 5700,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0166",
+        "date": "2026-10-16",
+        "amount": 5700,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0002"
+      }
+    ]
+  },
+  {
+    "id": "INV-0169",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0258",
+    "date": "2026-10-16",
+    "dueDate": "2026-10-16",
+    "description": "Counter sale SL-0258 at Nugegoda",
+    "amount": 27200,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0165",
+        "date": "2026-10-16",
+        "amount": 27200,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0002"
+      }
+    ]
+  },
+  {
+    "id": "INV-0168",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0257",
+    "date": "2026-10-16",
+    "dueDate": "2026-10-16",
+    "description": "Counter sale SL-0257 at Matara",
+    "amount": 2900,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0164",
+        "date": "2026-10-16",
+        "amount": 2900,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0167",
+    "type": "Final",
+    "quoteId": "QT-0014",
+    "saleId": "",
+    "date": "",
+    "dueDate": "",
+    "description": "",
+    "amount": 0,
+    "draft": true,
+    "cancelled": false,
+    "payments": []
+  },
+  {
+    "id": "INV-0166",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0256",
+    "date": "2026-10-15",
+    "dueDate": "2026-10-15",
+    "description": "Counter sale SL-0256 at Nugegoda",
+    "amount": 5800,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0163",
+        "date": "2026-10-15",
+        "amount": 5800,
+        "method": "Card",
+        "reference": "Mastercard •••• 1569",
+        "receivedById": "ST-0004"
+      }
+    ]
+  },
+  {
+    "id": "INV-0165",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0255",
+    "date": "2026-10-15",
+    "dueDate": "2026-10-15",
+    "description": "Counter sale SL-0255 at Matara",
+    "amount": 16400,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0162",
+        "date": "2026-10-15",
+        "amount": 16400,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0164",
+    "type": "Progress",
+    "quoteId": "QT-0012",
+    "saleId": "",
+    "date": "2026-10-15",
+    "dueDate": "2026-10-22",
+    "description": "Progress payment: materials delivered to site",
+    "amount": 120000,
+    "draft": false,
+    "cancelled": false,
+    "payments": []
+  },
+  {
+    "id": "INV-0163",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0254",
+    "date": "2026-10-14",
+    "dueDate": "2026-10-14",
+    "description": "Counter sale SL-0254 at Nugegoda",
+    "amount": 16210,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0160",
+        "date": "2026-10-14",
+        "amount": 16210,
+        "method": "Bank transfer",
+        "reference": "BOC 10-14 / 6474",
+        "receivedById": "ST-0004"
+      }
+    ]
+  },
+  {
+    "id": "INV-0162",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0253",
+    "date": "2026-10-14",
+    "dueDate": "2026-10-14",
+    "description": "Counter sale SL-0253 at Matara",
+    "amount": 69900,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0159",
+        "date": "2026-10-14",
+        "amount": 69900,
+        "method": "Card",
+        "reference": "Mastercard •••• 8672",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0161",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0252",
+    "date": "2026-10-14",
+    "dueDate": "2026-10-14",
+    "description": "Counter sale SL-0252 at Nugegoda",
+    "amount": 40600,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0158",
+        "date": "2026-10-14",
+        "amount": 40600,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0004"
+      }
+    ]
+  },
+  {
+    "id": "INV-0160",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0251",
+    "date": "2026-10-14",
+    "dueDate": "2026-10-14",
+    "description": "Counter sale SL-0251 at Nugegoda",
+    "amount": 11600,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0157",
+        "date": "2026-10-14",
+        "amount": 11600,
+        "method": "Card",
+        "reference": "Mastercard •••• 7746",
+        "receivedById": "ST-0004"
+      }
+    ]
+  },
+  {
+    "id": "INV-0159",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0250",
+    "date": "2026-10-14",
+    "dueDate": "2026-10-14",
+    "description": "Counter sale SL-0250 at Matara",
+    "amount": 2200,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0156",
+        "date": "2026-10-14",
+        "amount": 2200,
+        "method": "Card",
+        "reference": "Mastercard •••• 9645",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0158",
+    "type": "Advance",
+    "quoteId": "QT-0014",
+    "saleId": "",
+    "date": "2026-10-14",
+    "dueDate": "2026-10-21",
+    "description": "Advance payment: 50% of quotation QT-0014 (LKR 385,000)",
+    "amount": 192500,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0161",
+        "date": "2026-10-15",
+        "amount": 100000,
+        "method": "Bank transfer",
+        "reference": "BOC 10-15 / 2291",
+        "receivedById": "ST-0004"
+      },
+      {
+        "id": "PAY-0191",
+        "date": "2026-10-22",
+        "amount": 92500,
+        "method": "Card",
+        "reference": "VISA •••• 7720",
+        "receivedById": "ST-0002"
+      }
+    ]
+  },
+  {
+    "id": "INV-0157",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0249",
+    "date": "2026-10-13",
+    "dueDate": "2026-10-13",
+    "description": "Counter sale SL-0249 at Matara",
+    "amount": 4750,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0155",
+        "date": "2026-10-13",
+        "amount": 4750,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0156",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0248",
+    "date": "2026-10-13",
+    "dueDate": "2026-10-13",
+    "description": "Counter sale SL-0248 at Nugegoda",
+    "amount": 1450,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0154",
+        "date": "2026-10-13",
+        "amount": 1450,
+        "method": "Card",
+        "reference": "Mastercard •••• 8653",
+        "receivedById": "ST-0004"
+      }
+    ]
+  },
+  {
+    "id": "INV-0155",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0247",
+    "date": "2026-10-13",
+    "dueDate": "2026-10-13",
+    "description": "Counter sale SL-0247 at Nugegoda",
+    "amount": 5800,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0153",
+        "date": "2026-10-13",
+        "amount": 5800,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0004"
+      }
+    ]
+  },
+  {
+    "id": "INV-0154",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0246",
+    "date": "2026-10-13",
+    "dueDate": "2026-10-13",
+    "description": "Counter sale SL-0246 at Matara",
+    "amount": 13500,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0152",
+        "date": "2026-10-13",
+        "amount": 13500,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0153",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0245",
+    "date": "2026-10-13",
+    "dueDate": "2026-10-13",
+    "description": "Counter sale SL-0245 at Nugegoda",
+    "amount": 30620,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0151",
+        "date": "2026-10-13",
+        "amount": 30620,
+        "method": "Card",
+        "reference": "VISA •••• 8094",
+        "receivedById": "ST-0004"
+      }
+    ]
+  },
+  {
+    "id": "INV-0152",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0244",
+    "date": "2026-10-13",
+    "dueDate": "2026-10-13",
+    "description": "Counter sale SL-0244 at Matara",
+    "amount": 13600,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0150",
+        "date": "2026-10-13",
+        "amount": 13600,
+        "method": "Card",
+        "reference": "VISA •••• 3424",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0151",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0243",
+    "date": "2026-10-09",
+    "dueDate": "2026-10-09",
+    "description": "Counter sale SL-0243 at Nugegoda",
+    "amount": 20400,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0149",
+        "date": "2026-10-09",
+        "amount": 20400,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0004"
+      }
+    ]
+  },
+  {
+    "id": "INV-0150",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0242",
+    "date": "2026-10-09",
+    "dueDate": "2026-10-09",
+    "description": "Counter sale SL-0242 at Matara",
+    "amount": 13500,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0148",
+        "date": "2026-10-09",
+        "amount": 13500,
+        "method": "Card",
+        "reference": "Mastercard •••• 1761",
+        "receivedById": "ST-0002"
+      }
+    ]
+  },
+  {
+    "id": "INV-0149",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0241",
+    "date": "2026-10-09",
+    "dueDate": "2026-10-09",
+    "description": "Counter sale SL-0241 at Nugegoda",
+    "amount": 26900,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0147",
+        "date": "2026-10-09",
+        "amount": 26900,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0004"
+      }
+    ]
+  },
+  {
+    "id": "INV-0148",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0240",
+    "date": "2026-10-09",
+    "dueDate": "2026-10-09",
+    "description": "Counter sale SL-0240 at Matara",
+    "amount": 15600,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0146",
+        "date": "2026-10-09",
+        "amount": 15600,
+        "method": "Card",
+        "reference": "VISA •••• 9563",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0147",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0239",
+    "date": "2026-10-08",
+    "dueDate": "2026-10-08",
+    "description": "Counter sale SL-0239 at Nugegoda",
+    "amount": 8700,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0145",
+        "date": "2026-10-08",
+        "amount": 8700,
+        "method": "Card",
+        "reference": "VISA •••• 6822",
+        "receivedById": "ST-0002"
+      }
+    ]
+  },
+  {
+    "id": "INV-0146",
+    "type": "Final",
+    "quoteId": "QT-0016",
+    "saleId": "",
+    "date": "",
+    "dueDate": "",
+    "description": "",
+    "amount": 0,
+    "draft": true,
+    "cancelled": false,
+    "payments": []
+  },
+  {
+    "id": "INV-0145",
+    "type": "Advance",
+    "quoteId": "QT-0016",
+    "saleId": "",
+    "date": "2026-10-07",
+    "dueDate": "2026-10-14",
+    "description": "Advance payment: 50% of quotation QT-0016 (LKR 167,200)",
+    "amount": 83600,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0144",
+        "date": "2026-10-08",
+        "amount": 83600,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0144",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0238",
+    "date": "2026-10-06",
+    "dueDate": "2026-10-06",
+    "description": "Counter sale SL-0238 at Matara",
+    "amount": 16500,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0143",
+        "date": "2026-10-06",
+        "amount": 16500,
+        "method": "Card",
+        "reference": "VISA •••• 3052",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0143",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0237",
+    "date": "2026-10-05",
+    "dueDate": "2026-10-05",
+    "description": "Counter sale SL-0237 at Matara",
+    "amount": 55465,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0142",
+        "date": "2026-10-05",
+        "amount": 55465,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0142",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0236",
+    "date": "2026-10-01",
+    "dueDate": "2026-10-01",
+    "description": "Counter sale SL-0236 at Nugegoda",
+    "amount": 35220,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0141",
+        "date": "2026-10-01",
+        "amount": 35220,
+        "method": "Card",
+        "reference": "VISA •••• 5217",
+        "receivedById": "ST-0004"
+      }
+    ]
+  },
+  {
+    "id": "INV-0141",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0235",
+    "date": "2026-09-30",
+    "dueDate": "2026-09-30",
+    "description": "Counter sale SL-0235 at Matara",
+    "amount": 13500,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0140",
+        "date": "2026-09-30",
+        "amount": 13500,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0140",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0234",
+    "date": "2026-09-30",
+    "dueDate": "2026-09-30",
+    "description": "Counter sale SL-0234 at Matara",
+    "amount": 19920,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0139",
+        "date": "2026-09-30",
+        "amount": 19920,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0139",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0233",
+    "date": "2026-09-29",
+    "dueDate": "2026-09-29",
+    "description": "Counter sale SL-0233 at Matara",
+    "amount": 6800,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0138",
+        "date": "2026-09-29",
+        "amount": 6800,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0138",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0232",
+    "date": "2026-09-29",
+    "dueDate": "2026-09-29",
+    "description": "Counter sale SL-0232 at Matara",
+    "amount": 20700,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0137",
+        "date": "2026-09-29",
+        "amount": 20700,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0002"
+      }
+    ]
+  },
+  {
+    "id": "INV-0137",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0231",
+    "date": "2026-09-29",
+    "dueDate": "2026-09-29",
+    "description": "Counter sale SL-0231 at Nugegoda",
+    "amount": 25000,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0136",
+        "date": "2026-09-29",
+        "amount": 25000,
+        "method": "Bank transfer",
+        "reference": "BOC 09-29 / 6048",
+        "receivedById": "ST-0004"
+      }
+    ]
+  },
+  {
+    "id": "INV-0136",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0230",
+    "date": "2026-09-26",
+    "dueDate": "2026-09-26",
+    "description": "Counter sale SL-0230 at Matara",
+    "amount": 23700,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0135",
+        "date": "2026-09-26",
+        "amount": 23700,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0135",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0229",
+    "date": "2026-09-26",
+    "dueDate": "2026-09-26",
+    "description": "Counter sale SL-0229 at Matara",
+    "amount": 6400,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0134",
+        "date": "2026-09-26",
+        "amount": 6400,
+        "method": "Card",
+        "reference": "Mastercard •••• 4687",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0134",
     "type": "Final",
     "quoteId": "QT-0012",
     "saleId": "",
@@ -193,35 +1692,29 @@
     "payments": []
   },
   {
-    "id": "INV-0049",
-    "type": "Final",
-    "quoteId": "QT-0014",
-    "saleId": "",
-    "date": "",
-    "dueDate": "",
-    "description": "",
-    "amount": 0,
-    "draft": true,
-    "cancelled": false,
-    "payments": []
-  },
-  {
-    "id": "INV-0047",
-    "type": "Advance",
-    "quoteId": "QT-0014",
-    "saleId": "",
-    "date": "2026-10-20",
-    "dueDate": "2026-11-03",
-    "description": "Advance payment: 50% of quotation QT-0014 (LKR 385,000)",
-    "amount": 192500,
+    "id": "INV-0133",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0228",
+    "date": "2026-09-25",
+    "dueDate": "2026-09-25",
+    "description": "Counter sale SL-0228 at Matara",
+    "amount": 20520,
     "draft": false,
     "cancelled": false,
     "payments": [
-      { "id": "PAY-0093", "date": "2026-10-22", "amount": 100000, "method": "Bank transfer", "reference": "HNB 22-10 / 4410", "receivedBy": "Kavindu Silva" }
+      {
+        "id": "PAY-0133",
+        "date": "2026-09-25",
+        "amount": 20520,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0003"
+      }
     ]
   },
   {
-    "id": "INV-0045",
+    "id": "INV-0132",
     "type": "Advance",
     "quoteId": "QT-0012",
     "saleId": "",
@@ -232,67 +1725,2916 @@
     "draft": false,
     "cancelled": false,
     "payments": [
-      { "id": "PAY-0091", "date": "2026-09-25", "amount": 260000, "method": "Bank transfer", "reference": "BOC 25-09 / 1187", "receivedBy": "Kavindu Silva" }
+      {
+        "id": "PAY-0132",
+        "date": "2026-09-25",
+        "amount": 260000,
+        "method": "Bank transfer",
+        "reference": "Commercial 09-25 / 3307",
+        "receivedById": "ST-0004"
+      }
+    ]
+  },
+  {
+    "id": "INV-0131",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0227",
+    "date": "2026-09-19",
+    "dueDate": "2026-09-19",
+    "description": "Counter sale SL-0227 at Matara",
+    "amount": 20400,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0131",
+        "date": "2026-09-19",
+        "amount": 20400,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0130",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0226",
+    "date": "2026-09-19",
+    "dueDate": "2026-09-19",
+    "description": "Counter sale SL-0226 at Matara",
+    "amount": 15600,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0130",
+        "date": "2026-09-19",
+        "amount": 15600,
+        "method": "Card",
+        "reference": "VISA •••• 4032",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0129",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0225",
+    "date": "2026-09-18",
+    "dueDate": "2026-09-18",
+    "description": "Counter sale SL-0225 at Nugegoda",
+    "amount": 6600,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0129",
+        "date": "2026-09-18",
+        "amount": 6600,
+        "method": "Card",
+        "reference": "VISA •••• 4346",
+        "receivedById": "ST-0004"
+      }
+    ]
+  },
+  {
+    "id": "INV-0128",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0224",
+    "date": "2026-09-17",
+    "dueDate": "2026-09-17",
+    "description": "Counter sale SL-0224 at Nugegoda",
+    "amount": 11400,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0128",
+        "date": "2026-09-17",
+        "amount": 11400,
+        "method": "Card",
+        "reference": "Mastercard •••• 1170",
+        "receivedById": "ST-0004"
+      }
+    ]
+  },
+  {
+    "id": "INV-0127",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0223",
+    "date": "2026-09-15",
+    "dueDate": "2026-09-15",
+    "description": "Counter sale SL-0223 at Matara",
+    "amount": 2900,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0127",
+        "date": "2026-09-15",
+        "amount": 2900,
+        "method": "Card",
+        "reference": "VISA •••• 3294",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0126",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0222",
+    "date": "2026-09-15",
+    "dueDate": "2026-09-15",
+    "description": "Counter sale SL-0222 at Matara",
+    "amount": 25500,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0126",
+        "date": "2026-09-15",
+        "amount": 25500,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0125",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0221",
+    "date": "2026-09-14",
+    "dueDate": "2026-09-14",
+    "description": "Counter sale SL-0221 at Matara",
+    "amount": 15600,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0125",
+        "date": "2026-09-14",
+        "amount": 15600,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0124",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0220",
+    "date": "2026-09-14",
+    "dueDate": "2026-09-14",
+    "description": "Counter sale SL-0220 at Matara",
+    "amount": 7600,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0124",
+        "date": "2026-09-14",
+        "amount": 7600,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0123",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0219",
+    "date": "2026-09-12",
+    "dueDate": "2026-09-12",
+    "description": "Counter sale SL-0219 at Matara",
+    "amount": 6600,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0123",
+        "date": "2026-09-12",
+        "amount": 6600,
+        "method": "Card",
+        "reference": "Mastercard •••• 7963",
+        "receivedById": "ST-0002"
+      }
+    ]
+  },
+  {
+    "id": "INV-0122",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0218",
+    "date": "2026-09-12",
+    "dueDate": "2026-09-12",
+    "description": "Counter sale SL-0218 at Matara",
+    "amount": 5800,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0122",
+        "date": "2026-09-12",
+        "amount": 5800,
+        "method": "Card",
+        "reference": "VISA •••• 4645",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0121",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0217",
+    "date": "2026-09-11",
+    "dueDate": "2026-09-11",
+    "description": "Counter sale SL-0217 at Matara",
+    "amount": 7600,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0121",
+        "date": "2026-09-11",
+        "amount": 7600,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0120",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0216",
+    "date": "2026-09-09",
+    "dueDate": "2026-09-09",
+    "description": "Counter sale SL-0216 at Nugegoda",
+    "amount": 13900,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0120",
+        "date": "2026-09-09",
+        "amount": 13900,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0004"
+      }
+    ]
+  },
+  {
+    "id": "INV-0119",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0215",
+    "date": "2026-09-07",
+    "dueDate": "2026-09-07",
+    "description": "Counter sale SL-0215 at Matara",
+    "amount": 7200,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0119",
+        "date": "2026-09-07",
+        "amount": 7200,
+        "method": "Bank transfer",
+        "reference": "Commercial 09-07 / 7895",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0118",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0214",
+    "date": "2026-09-07",
+    "dueDate": "2026-09-07",
+    "description": "Counter sale SL-0214 at Nugegoda",
+    "amount": 33000,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0118",
+        "date": "2026-09-07",
+        "amount": 33000,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0004"
+      }
+    ]
+  },
+  {
+    "id": "INV-0117",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0213",
+    "date": "2026-09-07",
+    "dueDate": "2026-09-07",
+    "description": "Counter sale SL-0213 at Matara",
+    "amount": 1450,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0117",
+        "date": "2026-09-07",
+        "amount": 1450,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0116",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0212",
+    "date": "2026-09-07",
+    "dueDate": "2026-09-07",
+    "description": "Counter sale SL-0212 at Nugegoda",
+    "amount": 10800,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0116",
+        "date": "2026-09-07",
+        "amount": 10800,
+        "method": "Card",
+        "reference": "Mastercard •••• 9056",
+        "receivedById": "ST-0004"
+      }
+    ]
+  },
+  {
+    "id": "INV-0115",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0211",
+    "date": "2026-09-05",
+    "dueDate": "2026-09-05",
+    "description": "Counter sale SL-0211 at Matara",
+    "amount": 65000,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0115",
+        "date": "2026-09-05",
+        "amount": 65000,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0114",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0210",
+    "date": "2026-09-05",
+    "dueDate": "2026-09-05",
+    "description": "Counter sale SL-0210 at Matara",
+    "amount": 10830,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0114",
+        "date": "2026-09-05",
+        "amount": 10830,
+        "method": "Bank transfer",
+        "reference": "BOC 09-05 / 7541",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0113",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0209",
+    "date": "2026-09-05",
+    "dueDate": "2026-09-05",
+    "description": "Counter sale SL-0209 at Nugegoda",
+    "amount": 20150,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0113",
+        "date": "2026-09-05",
+        "amount": 20150,
+        "method": "Card",
+        "reference": "VISA •••• 3070",
+        "receivedById": "ST-0004"
+      }
+    ]
+  },
+  {
+    "id": "INV-0112",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0208",
+    "date": "2026-09-04",
+    "dueDate": "2026-09-04",
+    "description": "Counter sale SL-0208 at Matara",
+    "amount": 2200,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0112",
+        "date": "2026-09-04",
+        "amount": 2200,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0111",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0207",
+    "date": "2026-09-04",
+    "dueDate": "2026-09-04",
+    "description": "Counter sale SL-0207 at Matara",
+    "amount": 7800,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0111",
+        "date": "2026-09-04",
+        "amount": 7800,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0110",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0206",
+    "date": "2026-09-03",
+    "dueDate": "2026-09-03",
+    "description": "Counter sale SL-0206 at Nugegoda",
+    "amount": 44600,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0110",
+        "date": "2026-09-03",
+        "amount": 44600,
+        "method": "Card",
+        "reference": "Mastercard •••• 5726",
+        "receivedById": "ST-0004"
+      }
+    ]
+  },
+  {
+    "id": "INV-0109",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0205",
+    "date": "2026-09-01",
+    "dueDate": "2026-09-01",
+    "description": "Counter sale SL-0205 at Matara",
+    "amount": 5800,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0109",
+        "date": "2026-09-01",
+        "amount": 5800,
+        "method": "Card",
+        "reference": "Mastercard •••• 5902",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0108",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0204",
+    "date": "2026-09-01",
+    "dueDate": "2026-09-01",
+    "description": "Counter sale SL-0204 at Matara",
+    "amount": 7410,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0108",
+        "date": "2026-09-01",
+        "amount": 7410,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0107",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0203",
+    "date": "2026-09-01",
+    "dueDate": "2026-09-01",
+    "description": "Counter sale SL-0203 at Nugegoda",
+    "amount": 29100,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0107",
+        "date": "2026-09-01",
+        "amount": 29100,
+        "method": "Bank transfer",
+        "reference": "Commercial 09-01 / 9491",
+        "receivedById": "ST-0004"
+      }
+    ]
+  },
+  {
+    "id": "INV-0106",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0202",
+    "date": "2026-08-31",
+    "dueDate": "2026-08-31",
+    "description": "Counter sale SL-0202 at Matara",
+    "amount": 6800,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0106",
+        "date": "2026-08-31",
+        "amount": 6800,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0002"
+      }
+    ]
+  },
+  {
+    "id": "INV-0105",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0201",
+    "date": "2026-08-29",
+    "dueDate": "2026-08-29",
+    "description": "Counter sale SL-0201 at Nugegoda",
+    "amount": 58140,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0105",
+        "date": "2026-08-29",
+        "amount": 58140,
+        "method": "Card",
+        "reference": "VISA •••• 9170",
+        "receivedById": "ST-0004"
+      }
+    ]
+  },
+  {
+    "id": "INV-0104",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0200",
+    "date": "2026-08-29",
+    "dueDate": "2026-08-29",
+    "description": "Counter sale SL-0200 at Matara",
+    "amount": 11600,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0104",
+        "date": "2026-08-29",
+        "amount": 11600,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0103",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0199",
+    "date": "2026-08-28",
+    "dueDate": "2026-08-28",
+    "description": "Counter sale SL-0199 at Matara",
+    "amount": 6200,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0103",
+        "date": "2026-08-28",
+        "amount": 6200,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0102",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0198",
+    "date": "2026-08-28",
+    "dueDate": "2026-08-28",
+    "description": "Counter sale SL-0198 at Matara",
+    "amount": 19450,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0102",
+        "date": "2026-08-28",
+        "amount": 19450,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0101",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0197",
+    "date": "2026-08-26",
+    "dueDate": "2026-08-26",
+    "description": "Counter sale SL-0197 at Matara",
+    "amount": 29820,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0101",
+        "date": "2026-08-26",
+        "amount": 29820,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0100",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0196",
+    "date": "2026-08-20",
+    "dueDate": "2026-08-20",
+    "description": "Counter sale SL-0196 at Matara",
+    "amount": 27120,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0100",
+        "date": "2026-08-20",
+        "amount": 27120,
+        "method": "Card",
+        "reference": "Mastercard •••• 3699",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0099",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0195",
+    "date": "2026-08-20",
+    "dueDate": "2026-08-20",
+    "description": "Counter sale SL-0195 at Matara",
+    "amount": 18800,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0099",
+        "date": "2026-08-20",
+        "amount": 18800,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0098",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0194",
+    "date": "2026-08-19",
+    "dueDate": "2026-08-19",
+    "description": "Counter sale SL-0194 at Matara",
+    "amount": 8578,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0098",
+        "date": "2026-08-19",
+        "amount": 8578,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0097",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0193",
+    "date": "2026-08-19",
+    "dueDate": "2026-08-19",
+    "description": "Counter sale SL-0193 at Matara",
+    "amount": 37400,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0097",
+        "date": "2026-08-19",
+        "amount": 37400,
+        "method": "Card",
+        "reference": "Mastercard •••• 1899",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0096",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0192",
+    "date": "2026-08-18",
+    "dueDate": "2026-08-18",
+    "description": "Counter sale SL-0192 at Nugegoda",
+    "amount": 5800,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0096",
+        "date": "2026-08-18",
+        "amount": 5800,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0004"
+      }
+    ]
+  },
+  {
+    "id": "INV-0095",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0191",
+    "date": "2026-08-18",
+    "dueDate": "2026-08-18",
+    "description": "Counter sale SL-0191 at Nugegoda",
+    "amount": 21250,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0095",
+        "date": "2026-08-18",
+        "amount": 21250,
+        "method": "Card",
+        "reference": "VISA •••• 4600",
+        "receivedById": "ST-0004"
+      }
+    ]
+  },
+  {
+    "id": "INV-0094",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0190",
+    "date": "2026-08-17",
+    "dueDate": "2026-08-17",
+    "description": "Counter sale SL-0190 at Matara",
+    "amount": 6080,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0094",
+        "date": "2026-08-17",
+        "amount": 6080,
+        "method": "Bank transfer",
+        "reference": "BOC 08-17 / 3844",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0093",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0189",
+    "date": "2026-08-17",
+    "dueDate": "2026-08-17",
+    "description": "Counter sale SL-0189 at Matara",
+    "amount": 13600,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0093",
+        "date": "2026-08-17",
+        "amount": 13600,
+        "method": "Card",
+        "reference": "Mastercard •••• 4468",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0092",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0188",
+    "date": "2026-08-17",
+    "dueDate": "2026-08-17",
+    "description": "Counter sale SL-0188 at Nugegoda",
+    "amount": 5800,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0092",
+        "date": "2026-08-17",
+        "amount": 5800,
+        "method": "Bank transfer",
+        "reference": "Sampath 08-17 / 1064",
+        "receivedById": "ST-0004"
+      }
+    ]
+  },
+  {
+    "id": "INV-0091",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0187",
+    "date": "2026-08-15",
+    "dueDate": "2026-08-15",
+    "description": "Counter sale SL-0187 at Matara",
+    "amount": 83010,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0091",
+        "date": "2026-08-15",
+        "amount": 83010,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0090",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0186",
+    "date": "2026-08-15",
+    "dueDate": "2026-08-15",
+    "description": "Counter sale SL-0186 at Matara",
+    "amount": 9600,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0090",
+        "date": "2026-08-15",
+        "amount": 9600,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0089",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0185",
+    "date": "2026-08-13",
+    "dueDate": "2026-08-13",
+    "description": "Counter sale SL-0185 at Matara",
+    "amount": 8000,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0089",
+        "date": "2026-08-13",
+        "amount": 8000,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0088",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0184",
+    "date": "2026-08-13",
+    "dueDate": "2026-08-13",
+    "description": "Counter sale SL-0184 at Matara",
+    "amount": 6600,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0088",
+        "date": "2026-08-13",
+        "amount": 6600,
+        "method": "Card",
+        "reference": "VISA •••• 7695",
+        "receivedById": "ST-0002"
+      }
+    ]
+  },
+  {
+    "id": "INV-0087",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0183",
+    "date": "2026-08-11",
+    "dueDate": "2026-08-11",
+    "description": "Counter sale SL-0183 at Matara",
+    "amount": 5800,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0087",
+        "date": "2026-08-11",
+        "amount": 5800,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0086",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0182",
+    "date": "2026-08-11",
+    "dueDate": "2026-08-11",
+    "description": "Counter sale SL-0182 at Nugegoda",
+    "amount": 37500,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0086",
+        "date": "2026-08-11",
+        "amount": 37500,
+        "method": "Card",
+        "reference": "VISA •••• 7066",
+        "receivedById": "ST-0002"
+      }
+    ]
+  },
+  {
+    "id": "INV-0085",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0181",
+    "date": "2026-08-11",
+    "dueDate": "2026-08-11",
+    "description": "Counter sale SL-0181 at Matara",
+    "amount": 4750,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0085",
+        "date": "2026-08-11",
+        "amount": 4750,
+        "method": "Card",
+        "reference": "Mastercard •••• 5586",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0084",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0180",
+    "date": "2026-08-06",
+    "dueDate": "2026-08-06",
+    "description": "Counter sale SL-0180 at Matara",
+    "amount": 3800,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0084",
+        "date": "2026-08-06",
+        "amount": 3800,
+        "method": "Bank transfer",
+        "reference": "BOC 08-06 / 9160",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0083",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0179",
+    "date": "2026-08-06",
+    "dueDate": "2026-08-06",
+    "description": "Counter sale SL-0179 at Matara",
+    "amount": 30100,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0083",
+        "date": "2026-08-06",
+        "amount": 30100,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0082",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0178",
+    "date": "2026-08-04",
+    "dueDate": "2026-08-04",
+    "description": "Counter sale SL-0178 at Matara",
+    "amount": 34600,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0082",
+        "date": "2026-08-04",
+        "amount": 34600,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0081",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0177",
+    "date": "2026-08-03",
+    "dueDate": "2026-08-03",
+    "description": "Counter sale SL-0177 at Nugegoda",
+    "amount": 13600,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0081",
+        "date": "2026-08-03",
+        "amount": 13600,
+        "method": "Card",
+        "reference": "Mastercard •••• 7947",
+        "receivedById": "ST-0002"
+      }
+    ]
+  },
+  {
+    "id": "INV-0080",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0176",
+    "date": "2026-07-30",
+    "dueDate": "2026-07-30",
+    "description": "Counter sale SL-0176 at Nugegoda",
+    "amount": 11600,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0080",
+        "date": "2026-07-30",
+        "amount": 11600,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0004"
+      }
+    ]
+  },
+  {
+    "id": "INV-0079",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0175",
+    "date": "2026-07-29",
+    "dueDate": "2026-07-29",
+    "description": "Counter sale SL-0175 at Nugegoda",
+    "amount": 7600,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0079",
+        "date": "2026-07-29",
+        "amount": 7600,
+        "method": "Card",
+        "reference": "Mastercard •••• 4933",
+        "receivedById": "ST-0004"
+      }
+    ]
+  },
+  {
+    "id": "INV-0078",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0174",
+    "date": "2026-07-29",
+    "dueDate": "2026-07-29",
+    "description": "Counter sale SL-0174 at Nugegoda",
+    "amount": 14700,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0078",
+        "date": "2026-07-29",
+        "amount": 14700,
+        "method": "Card",
+        "reference": "VISA •••• 2660",
+        "receivedById": "ST-0004"
+      }
+    ]
+  },
+  {
+    "id": "INV-0077",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0173",
+    "date": "2026-07-28",
+    "dueDate": "2026-07-28",
+    "description": "Counter sale SL-0173 at Matara",
+    "amount": 34320,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0077",
+        "date": "2026-07-28",
+        "amount": 34320,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0076",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0172",
+    "date": "2026-07-28",
+    "dueDate": "2026-07-28",
+    "description": "Counter sale SL-0172 at Matara",
+    "amount": 8700,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0076",
+        "date": "2026-07-28",
+        "amount": 8700,
+        "method": "Card",
+        "reference": "Mastercard •••• 9878",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0075",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0171",
+    "date": "2026-07-25",
+    "dueDate": "2026-07-25",
+    "description": "Counter sale SL-0171 at Nugegoda",
+    "amount": 18600,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0075",
+        "date": "2026-07-25",
+        "amount": 18600,
+        "method": "Card",
+        "reference": "VISA •••• 1904",
+        "receivedById": "ST-0004"
+      }
+    ]
+  },
+  {
+    "id": "INV-0074",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0170",
+    "date": "2026-07-25",
+    "dueDate": "2026-07-25",
+    "description": "Counter sale SL-0170 at Nugegoda",
+    "amount": 23533,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0074",
+        "date": "2026-07-25",
+        "amount": 23533,
+        "method": "Bank transfer",
+        "reference": "Commercial 07-25 / 5547",
+        "receivedById": "ST-0004"
+      }
+    ]
+  },
+  {
+    "id": "INV-0073",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0169",
+    "date": "2026-07-21",
+    "dueDate": "2026-07-21",
+    "description": "Counter sale SL-0169 at Nugegoda",
+    "amount": 12500,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0073",
+        "date": "2026-07-21",
+        "amount": 12500,
+        "method": "Card",
+        "reference": "VISA •••• 3275",
+        "receivedById": "ST-0004"
+      }
+    ]
+  },
+  {
+    "id": "INV-0072",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0168",
+    "date": "2026-07-18",
+    "dueDate": "2026-07-18",
+    "description": "Counter sale SL-0168 at Nugegoda",
+    "amount": 30100,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0072",
+        "date": "2026-07-18",
+        "amount": 30100,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0004"
+      }
+    ]
+  },
+  {
+    "id": "INV-0071",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0167",
+    "date": "2026-07-17",
+    "dueDate": "2026-07-17",
+    "description": "Counter sale SL-0167 at Matara",
+    "amount": 8050,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0071",
+        "date": "2026-07-17",
+        "amount": 8050,
+        "method": "Card",
+        "reference": "VISA •••• 1701",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0070",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0166",
+    "date": "2026-07-17",
+    "dueDate": "2026-07-17",
+    "description": "Counter sale SL-0166 at Matara",
+    "amount": 13940,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0070",
+        "date": "2026-07-17",
+        "amount": 13940,
+        "method": "Card",
+        "reference": "Mastercard •••• 4198",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0069",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0165",
+    "date": "2026-07-17",
+    "dueDate": "2026-07-17",
+    "description": "Counter sale SL-0165 at Nugegoda",
+    "amount": 27300,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0069",
+        "date": "2026-07-17",
+        "amount": 27300,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0004"
+      }
+    ]
+  },
+  {
+    "id": "INV-0068",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0164",
+    "date": "2026-07-13",
+    "dueDate": "2026-07-13",
+    "description": "Counter sale SL-0164 at Nugegoda",
+    "amount": 23900,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0068",
+        "date": "2026-07-13",
+        "amount": 23900,
+        "method": "Bank transfer",
+        "reference": "Sampath 07-13 / 7694",
+        "receivedById": "ST-0004"
+      }
+    ]
+  },
+  {
+    "id": "INV-0067",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0163",
+    "date": "2026-07-13",
+    "dueDate": "2026-07-13",
+    "description": "Counter sale SL-0163 at Nugegoda",
+    "amount": 5800,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0067",
+        "date": "2026-07-13",
+        "amount": 5800,
+        "method": "Card",
+        "reference": "VISA •••• 2887",
+        "receivedById": "ST-0004"
+      }
+    ]
+  },
+  {
+    "id": "INV-0066",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0162",
+    "date": "2026-07-10",
+    "dueDate": "2026-07-10",
+    "description": "Counter sale SL-0162 at Nugegoda",
+    "amount": 6840,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0066",
+        "date": "2026-07-10",
+        "amount": 6840,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0004"
+      }
+    ]
+  },
+  {
+    "id": "INV-0065",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0161",
+    "date": "2026-07-10",
+    "dueDate": "2026-07-10",
+    "description": "Counter sale SL-0161 at Nugegoda",
+    "amount": 13600,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0065",
+        "date": "2026-07-10",
+        "amount": 13600,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0004"
+      }
+    ]
+  },
+  {
+    "id": "INV-0064",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0160",
+    "date": "2026-07-08",
+    "dueDate": "2026-07-08",
+    "description": "Counter sale SL-0160 at Matara",
+    "amount": 20400,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0064",
+        "date": "2026-07-08",
+        "amount": 20400,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0063",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0159",
+    "date": "2026-07-08",
+    "dueDate": "2026-07-08",
+    "description": "Counter sale SL-0159 at Matara",
+    "amount": 41700,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0063",
+        "date": "2026-07-08",
+        "amount": 41700,
+        "method": "Card",
+        "reference": "VISA •••• 5252",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0062",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0158",
+    "date": "2026-07-07",
+    "dueDate": "2026-07-07",
+    "description": "Counter sale SL-0158 at Nugegoda",
+    "amount": 11500,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0062",
+        "date": "2026-07-07",
+        "amount": 11500,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0002"
+      }
+    ]
+  },
+  {
+    "id": "INV-0061",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0157",
+    "date": "2026-07-06",
+    "dueDate": "2026-07-06",
+    "description": "Counter sale SL-0157 at Matara",
+    "amount": 19200,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0061",
+        "date": "2026-07-06",
+        "amount": 19200,
+        "method": "Bank transfer",
+        "reference": "Sampath 07-06 / 1431",
+        "receivedById": "ST-0002"
+      }
+    ]
+  },
+  {
+    "id": "INV-0060",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0156",
+    "date": "2026-07-02",
+    "dueDate": "2026-07-02",
+    "description": "Counter sale SL-0156 at Matara",
+    "amount": 18200,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0060",
+        "date": "2026-07-02",
+        "amount": 18200,
+        "method": "Card",
+        "reference": "Mastercard •••• 1152",
+        "receivedById": "ST-0002"
+      }
+    ]
+  },
+  {
+    "id": "INV-0059",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0155",
+    "date": "2026-07-01",
+    "dueDate": "2026-07-01",
+    "description": "Counter sale SL-0155 at Matara",
+    "amount": 2850,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0059",
+        "date": "2026-07-01",
+        "amount": 2850,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0058",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0154",
+    "date": "2026-06-30",
+    "dueDate": "2026-06-30",
+    "description": "Counter sale SL-0154 at Nugegoda",
+    "amount": 11600,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0058",
+        "date": "2026-06-30",
+        "amount": 11600,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0004"
+      }
+    ]
+  },
+  {
+    "id": "INV-0057",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0153",
+    "date": "2026-06-30",
+    "dueDate": "2026-06-30",
+    "description": "Counter sale SL-0153 at Nugegoda",
+    "amount": 24500,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0057",
+        "date": "2026-06-30",
+        "amount": 24500,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0004"
+      }
+    ]
+  },
+  {
+    "id": "INV-0056",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0152",
+    "date": "2026-06-30",
+    "dueDate": "2026-06-30",
+    "description": "Counter sale SL-0152 at Matara",
+    "amount": 61200,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0056",
+        "date": "2026-06-30",
+        "amount": 61200,
+        "method": "Card",
+        "reference": "Mastercard •••• 4097",
+        "receivedById": "ST-0002"
+      }
+    ]
+  },
+  {
+    "id": "INV-0055",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0151",
+    "date": "2026-06-26",
+    "dueDate": "2026-06-26",
+    "description": "Counter sale SL-0151 at Nugegoda",
+    "amount": 32950,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0055",
+        "date": "2026-06-26",
+        "amount": 32950,
+        "method": "Bank transfer",
+        "reference": "Sampath 06-26 / 7953",
+        "receivedById": "ST-0004"
+      }
+    ]
+  },
+  {
+    "id": "INV-0054",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0150",
+    "date": "2026-06-25",
+    "dueDate": "2026-06-25",
+    "description": "Counter sale SL-0150 at Matara",
+    "amount": 8700,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0054",
+        "date": "2026-06-25",
+        "amount": 8700,
+        "method": "Bank transfer",
+        "reference": "BOC 06-25 / 2908",
+        "receivedById": "ST-0002"
+      }
+    ]
+  },
+  {
+    "id": "INV-0053",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0149",
+    "date": "2026-06-25",
+    "dueDate": "2026-06-25",
+    "description": "Counter sale SL-0149 at Matara",
+    "amount": 4180,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0053",
+        "date": "2026-06-25",
+        "amount": 4180,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0052",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0148",
+    "date": "2026-06-23",
+    "dueDate": "2026-06-23",
+    "description": "Counter sale SL-0148 at Nugegoda",
+    "amount": 6800,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0052",
+        "date": "2026-06-23",
+        "amount": 6800,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0002"
+      }
+    ]
+  },
+  {
+    "id": "INV-0051",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0147",
+    "date": "2026-06-22",
+    "dueDate": "2026-06-22",
+    "description": "Counter sale SL-0147 at Matara",
+    "amount": 6080,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0051",
+        "date": "2026-06-22",
+        "amount": 6080,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0050",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0146",
+    "date": "2026-06-20",
+    "dueDate": "2026-06-20",
+    "description": "Counter sale SL-0146 at Nugegoda",
+    "amount": 48780,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0050",
+        "date": "2026-06-20",
+        "amount": 48780,
+        "method": "Card",
+        "reference": "VISA •••• 9660",
+        "receivedById": "ST-0004"
+      }
+    ]
+  },
+  {
+    "id": "INV-0049",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0145",
+    "date": "2026-06-20",
+    "dueDate": "2026-06-20",
+    "description": "Counter sale SL-0145 at Matara",
+    "amount": 6600,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0049",
+        "date": "2026-06-20",
+        "amount": 6600,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0048",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0144",
+    "date": "2026-06-20",
+    "dueDate": "2026-06-20",
+    "description": "Counter sale SL-0144 at Nugegoda",
+    "amount": 5800,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0048",
+        "date": "2026-06-20",
+        "amount": 5800,
+        "method": "Card",
+        "reference": "Mastercard •••• 3684",
+        "receivedById": "ST-0004"
+      }
+    ]
+  },
+  {
+    "id": "INV-0047",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0143",
+    "date": "2026-06-18",
+    "dueDate": "2026-06-18",
+    "description": "Counter sale SL-0143 at Matara",
+    "amount": 15800,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0047",
+        "date": "2026-06-18",
+        "amount": 15800,
+        "method": "Card",
+        "reference": "Mastercard •••• 1190",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0046",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0142",
+    "date": "2026-06-17",
+    "dueDate": "2026-06-17",
+    "description": "Counter sale SL-0142 at Nugegoda",
+    "amount": 11875,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0046",
+        "date": "2026-06-17",
+        "amount": 11875,
+        "method": "Card",
+        "reference": "Mastercard •••• 3100",
+        "receivedById": "ST-0004"
+      }
+    ]
+  },
+  {
+    "id": "INV-0045",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0141",
+    "date": "2026-06-17",
+    "dueDate": "2026-06-17",
+    "description": "Counter sale SL-0141 at Nugegoda",
+    "amount": 3800,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0045",
+        "date": "2026-06-17",
+        "amount": 3800,
+        "method": "Card",
+        "reference": "Mastercard •••• 5329",
+        "receivedById": "ST-0004"
+      }
+    ]
+  },
+  {
+    "id": "INV-0044",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0140",
+    "date": "2026-06-16",
+    "dueDate": "2026-06-16",
+    "description": "Counter sale SL-0140 at Nugegoda",
+    "amount": 7200,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0044",
+        "date": "2026-06-16",
+        "amount": 7200,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0004"
+      }
+    ]
+  },
+  {
+    "id": "INV-0043",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0139",
+    "date": "2026-06-13",
+    "dueDate": "2026-06-13",
+    "description": "Counter sale SL-0139 at Matara",
+    "amount": 19400,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0043",
+        "date": "2026-06-13",
+        "amount": 19400,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0002"
+      }
+    ]
+  },
+  {
+    "id": "INV-0042",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0138",
+    "date": "2026-06-13",
+    "dueDate": "2026-06-13",
+    "description": "Counter sale SL-0138 at Nugegoda",
+    "amount": 14400,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0042",
+        "date": "2026-06-13",
+        "amount": 14400,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0004"
+      }
+    ]
+  },
+  {
+    "id": "INV-0041",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0137",
+    "date": "2026-06-13",
+    "dueDate": "2026-06-13",
+    "description": "Counter sale SL-0137 at Matara",
+    "amount": 13500,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0041",
+        "date": "2026-06-13",
+        "amount": 13500,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0040",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0136",
+    "date": "2026-06-13",
+    "dueDate": "2026-06-13",
+    "description": "Counter sale SL-0136 at Nugegoda",
+    "amount": 7600,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0040",
+        "date": "2026-06-13",
+        "amount": 7600,
+        "method": "Bank transfer",
+        "reference": "Sampath 06-13 / 2007",
+        "receivedById": "ST-0004"
+      }
+    ]
+  },
+  {
+    "id": "INV-0039",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0135",
+    "date": "2026-06-12",
+    "dueDate": "2026-06-12",
+    "description": "Counter sale SL-0135 at Nugegoda",
+    "amount": 7900,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0039",
+        "date": "2026-06-12",
+        "amount": 7900,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0002"
+      }
+    ]
+  },
+  {
+    "id": "INV-0038",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0134",
+    "date": "2026-06-12",
+    "dueDate": "2026-06-12",
+    "description": "Counter sale SL-0134 at Nugegoda",
+    "amount": 42200,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0038",
+        "date": "2026-06-12",
+        "amount": 42200,
+        "method": "Bank transfer",
+        "reference": "BOC 06-12 / 8222",
+        "receivedById": "ST-0004"
+      }
+    ]
+  },
+  {
+    "id": "INV-0037",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0133",
+    "date": "2026-06-11",
+    "dueDate": "2026-06-11",
+    "description": "Counter sale SL-0133 at Nugegoda",
+    "amount": 9150,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0037",
+        "date": "2026-06-11",
+        "amount": 9150,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0002"
+      }
+    ]
+  },
+  {
+    "id": "INV-0036",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0132",
+    "date": "2026-06-11",
+    "dueDate": "2026-06-11",
+    "description": "Counter sale SL-0132 at Nugegoda",
+    "amount": 17800,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0036",
+        "date": "2026-06-11",
+        "amount": 17800,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0004"
+      }
+    ]
+  },
+  {
+    "id": "INV-0035",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0131",
+    "date": "2026-06-08",
+    "dueDate": "2026-06-08",
+    "description": "Counter sale SL-0131 at Matara",
+    "amount": 54400,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0035",
+        "date": "2026-06-08",
+        "amount": 54400,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0034",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0130",
+    "date": "2026-06-05",
+    "dueDate": "2026-06-05",
+    "description": "Counter sale SL-0130 at Matara",
+    "amount": 15010,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0034",
+        "date": "2026-06-05",
+        "amount": 15010,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0002"
+      }
+    ]
+  },
+  {
+    "id": "INV-0033",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0129",
+    "date": "2026-06-05",
+    "dueDate": "2026-06-05",
+    "description": "Counter sale SL-0129 at Matara",
+    "amount": 9000,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0033",
+        "date": "2026-06-05",
+        "amount": 9000,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0032",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0128",
+    "date": "2026-06-04",
+    "dueDate": "2026-06-04",
+    "description": "Counter sale SL-0128 at Nugegoda",
+    "amount": 7200,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0032",
+        "date": "2026-06-04",
+        "amount": 7200,
+        "method": "Card",
+        "reference": "VISA •••• 3576",
+        "receivedById": "ST-0004"
+      }
     ]
   },
   {
     "id": "INV-0031",
-    "type": "Final",
-    "quoteId": "QT-0009",
-    "saleId": "",
-    "date": "2026-03-20",
-    "dueDate": "2026-04-03",
-    "description": "Final payment: balance of quotation QT-0009 (LKR 640,000)",
-    "amount": 320000,
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0127",
+    "date": "2026-06-04",
+    "dueDate": "2026-06-04",
+    "description": "Counter sale SL-0127 at Matara",
+    "amount": 11880,
     "draft": false,
     "cancelled": false,
     "payments": [
-      { "id": "PAY-0060", "date": "2026-03-22", "amount": 200000, "method": "Cash", "reference": "", "receivedBy": "Kavindu Silva" }
+      {
+        "id": "PAY-0031",
+        "date": "2026-06-04",
+        "amount": 11880,
+        "method": "Card",
+        "reference": "VISA •••• 2626",
+        "receivedById": "ST-0003"
+      }
     ]
   },
   {
     "id": "INV-0030",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0126",
+    "date": "2026-06-02",
+    "dueDate": "2026-06-02",
+    "description": "Counter sale SL-0126 at Nugegoda",
+    "amount": 27100,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0030",
+        "date": "2026-06-02",
+        "amount": 27100,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0004"
+      }
+    ]
+  },
+  {
+    "id": "INV-0029",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0125",
+    "date": "2026-06-02",
+    "dueDate": "2026-06-02",
+    "description": "Counter sale SL-0125 at Nugegoda",
+    "amount": 2900,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0029",
+        "date": "2026-06-02",
+        "amount": 2900,
+        "method": "Bank transfer",
+        "reference": "Commercial 06-02 / 3823",
+        "receivedById": "ST-0002"
+      }
+    ]
+  },
+  {
+    "id": "INV-0028",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0124",
+    "date": "2026-06-01",
+    "dueDate": "2026-06-01",
+    "description": "Counter sale SL-0124 at Matara",
+    "amount": 9000,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0028",
+        "date": "2026-06-01",
+        "amount": 9000,
+        "method": "Card",
+        "reference": "VISA •••• 8358",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0027",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0123",
+    "date": "2026-06-01",
+    "dueDate": "2026-06-01",
+    "description": "Counter sale SL-0123 at Matara",
+    "amount": 3040,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0027",
+        "date": "2026-06-01",
+        "amount": 3040,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0026",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0122",
+    "date": "2026-05-28",
+    "dueDate": "2026-05-28",
+    "description": "Counter sale SL-0122 at Matara",
+    "amount": 22150,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0026",
+        "date": "2026-05-28",
+        "amount": 22150,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0025",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0121",
+    "date": "2026-05-28",
+    "dueDate": "2026-05-28",
+    "description": "Counter sale SL-0121 at Matara",
+    "amount": 13500,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0025",
+        "date": "2026-05-28",
+        "amount": 13500,
+        "method": "Bank transfer",
+        "reference": "Sampath 05-28 / 1141",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0024",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0120",
+    "date": "2026-05-22",
+    "dueDate": "2026-05-22",
+    "description": "Counter sale SL-0120 at Matara",
+    "amount": 15600,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0024",
+        "date": "2026-05-22",
+        "amount": 15600,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0023",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0119",
+    "date": "2026-05-22",
+    "dueDate": "2026-05-22",
+    "description": "Counter sale SL-0119 at Matara",
+    "amount": 3600,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0023",
+        "date": "2026-05-22",
+        "amount": 3600,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0022",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0118",
+    "date": "2026-05-20",
+    "dueDate": "2026-05-20",
+    "description": "Counter sale SL-0118 at Matara",
+    "amount": 16200,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0022",
+        "date": "2026-05-20",
+        "amount": 16200,
+        "method": "Card",
+        "reference": "Mastercard •••• 9743",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0021",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0117",
+    "date": "2026-05-20",
+    "dueDate": "2026-05-20",
+    "description": "Counter sale SL-0117 at Matara",
+    "amount": 3200,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0021",
+        "date": "2026-05-20",
+        "amount": 3200,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0020",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0116",
+    "date": "2026-05-18",
+    "dueDate": "2026-05-18",
+    "description": "Counter sale SL-0116 at Matara",
+    "amount": 13000,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0020",
+        "date": "2026-05-18",
+        "amount": 13000,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0019",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0115",
+    "date": "2026-05-16",
+    "dueDate": "2026-05-16",
+    "description": "Counter sale SL-0115 at Nugegoda",
+    "amount": 1378,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0019",
+        "date": "2026-05-16",
+        "amount": 1378,
+        "method": "Bank transfer",
+        "reference": "Commercial 05-16 / 6776",
+        "receivedById": "ST-0004"
+      }
+    ]
+  },
+  {
+    "id": "INV-0018",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0114",
+    "date": "2026-05-15",
+    "dueDate": "2026-05-15",
+    "description": "Counter sale SL-0114 at Nugegoda",
+    "amount": 5800,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0018",
+        "date": "2026-05-15",
+        "amount": 5800,
+        "method": "Card",
+        "reference": "VISA •••• 6771",
+        "receivedById": "ST-0004"
+      }
+    ]
+  },
+  {
+    "id": "INV-0017",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0113",
+    "date": "2026-05-11",
+    "dueDate": "2026-05-11",
+    "description": "Counter sale SL-0113 at Matara",
+    "amount": 40000,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0017",
+        "date": "2026-05-11",
+        "amount": 40000,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0016",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0112",
+    "date": "2026-05-11",
+    "dueDate": "2026-05-11",
+    "description": "Counter sale SL-0112 at Matara",
+    "amount": 14400,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0016",
+        "date": "2026-05-11",
+        "amount": 14400,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0015",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0111",
+    "date": "2026-05-11",
+    "dueDate": "2026-05-11",
+    "description": "Counter sale SL-0111 at Nugegoda",
+    "amount": 10800,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0015",
+        "date": "2026-05-11",
+        "amount": 10800,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0004"
+      }
+    ]
+  },
+  {
+    "id": "INV-0014",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0110",
+    "date": "2026-05-09",
+    "dueDate": "2026-05-09",
+    "description": "Counter sale SL-0110 at Matara",
+    "amount": 10800,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0014",
+        "date": "2026-05-09",
+        "amount": 10800,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0013",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0109",
+    "date": "2026-05-06",
+    "dueDate": "2026-05-06",
+    "description": "Counter sale SL-0109 at Matara",
+    "amount": 8700,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0013",
+        "date": "2026-05-06",
+        "amount": 8700,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0012",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0108",
+    "date": "2026-05-04",
+    "dueDate": "2026-05-04",
+    "description": "Counter sale SL-0108 at Nugegoda",
+    "amount": 40800,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0012",
+        "date": "2026-05-04",
+        "amount": 40800,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0004"
+      }
+    ]
+  },
+  {
+    "id": "INV-0011",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0107",
+    "date": "2026-05-04",
+    "dueDate": "2026-05-04",
+    "description": "Counter sale SL-0107 at Matara",
+    "amount": 44600,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0011",
+        "date": "2026-05-04",
+        "amount": 44600,
+        "method": "Card",
+        "reference": "VISA •••• 1399",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0010",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0106",
+    "date": "2026-05-02",
+    "dueDate": "2026-05-02",
+    "description": "Counter sale SL-0106 at Nugegoda",
+    "amount": 45750,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0010",
+        "date": "2026-05-02",
+        "amount": 45750,
+        "method": "Card",
+        "reference": "Mastercard •••• 3169",
+        "receivedById": "ST-0004"
+      }
+    ]
+  },
+  {
+    "id": "INV-0009",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0105",
+    "date": "2026-05-02",
+    "dueDate": "2026-05-02",
+    "description": "Counter sale SL-0105 at Matara",
+    "amount": 3600,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0009",
+        "date": "2026-05-02",
+        "amount": 3600,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0008",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0104",
+    "date": "2026-05-02",
+    "dueDate": "2026-05-02",
+    "description": "Counter sale SL-0104 at Matara",
+    "amount": 24188,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0008",
+        "date": "2026-05-02",
+        "amount": 24188,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0003"
+      }
+    ]
+  },
+  {
+    "id": "INV-0007",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0103",
+    "date": "2026-05-02",
+    "dueDate": "2026-05-02",
+    "description": "Counter sale SL-0103 at Nugegoda",
+    "amount": 61200,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0007",
+        "date": "2026-05-02",
+        "amount": 61200,
+        "method": "Card",
+        "reference": "Mastercard •••• 6261",
+        "receivedById": "ST-0004"
+      }
+    ]
+  },
+  {
+    "id": "INV-0006",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0102",
+    "date": "2026-05-01",
+    "dueDate": "2026-05-01",
+    "description": "Counter sale SL-0102 at Nugegoda",
+    "amount": 5800,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0006",
+        "date": "2026-05-01",
+        "amount": 5800,
+        "method": "Card",
+        "reference": "VISA •••• 8998",
+        "receivedById": "ST-0004"
+      }
+    ]
+  },
+  {
+    "id": "INV-0005",
+    "type": "POS sale",
+    "quoteId": "",
+    "saleId": "SL-0101",
+    "date": "2026-05-01",
+    "dueDate": "2026-05-01",
+    "description": "Counter sale SL-0101 at Nugegoda",
+    "amount": 6400,
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0005",
+        "date": "2026-05-01",
+        "amount": 6400,
+        "method": "Bank transfer",
+        "reference": "Commercial 05-01 / 3898",
+        "receivedById": "ST-0004"
+      }
+    ]
+  },
+  {
+    "id": "INV-0004",
+    "type": "Final",
+    "quoteId": "QT-0009",
+    "saleId": "",
+    "date": "2026-03-19",
+    "dueDate": "2026-03-26",
+    "draft": false,
+    "cancelled": false,
+    "payments": [
+      {
+        "id": "PAY-0004",
+        "date": "2026-03-25",
+        "amount": 200000,
+        "method": "Cheque",
+        "reference": "HNB 004512",
+        "receivedById": "ST-0004"
+      }
+    ],
+    "lines": [
+      {
+        "description": "Quotation QT-0009: Kitchen cabinets",
+        "amount": 640000
+      },
+      {
+        "description": "Less advance invoice INV-0003",
+        "amount": -320000
+      }
+    ],
+    "amount": 320000,
+    "description": "Final payment for PRJ-0004 · Fernando kitchen"
+  },
+  {
+    "id": "INV-0003",
     "type": "Advance",
     "quoteId": "QT-0009",
     "saleId": "",
-    "date": "2026-01-15",
-    "dueDate": "2026-01-22",
+    "date": "2026-01-14",
+    "dueDate": "2026-01-21",
     "description": "Advance payment: 50% of quotation QT-0009 (LKR 640,000)",
     "amount": 320000,
     "draft": false,
     "cancelled": false,
     "payments": [
-      { "id": "PAY-0058", "date": "2026-01-16", "amount": 320000, "method": "Bank transfer", "reference": "COM 16-01 / 2290", "receivedBy": "Kavindu Silva" }
+      {
+        "id": "PAY-0003",
+        "date": "2026-01-15",
+        "amount": 320000,
+        "method": "Bank transfer",
+        "reference": "Sampath 01-15 / 8812",
+        "receivedById": "ST-0004"
+      }
     ]
   },
   {
-    "id": "INV-0029",
+    "id": "INV-0002",
     "type": "Final",
     "quoteId": "QT-0008",
     "saleId": "",
     "date": "2025-06-28",
     "dueDate": "2025-07-05",
-    "description": "Final payment: balance of quotation QT-0008 (LKR 172,000)",
-    "amount": 86000,
     "draft": false,
     "cancelled": false,
     "payments": [
-      { "id": "PAY-0055", "date": "2025-06-30", "amount": 86000, "method": "Cheque", "reference": "Cheque 004512 · Sampath Bank", "receivedBy": "Ishara Madushani" }
-    ]
+      {
+        "id": "PAY-0002",
+        "date": "2025-07-02",
+        "amount": 86000,
+        "method": "Bank transfer",
+        "reference": "BOC 07-02 / 4410",
+        "receivedById": "ST-0003"
+      }
+    ],
+    "lines": [
+      {
+        "description": "Quotation QT-0008: Bedroom curtains and blinds",
+        "amount": 172000
+      },
+      {
+        "description": "Less advance invoice INV-0001",
+        "amount": -86000
+      }
+    ],
+    "amount": 86000,
+    "description": "Final payment for PRJ-0003 · De Silva bedroom curtains"
   },
   {
-    "id": "INV-0028",
+    "id": "INV-0001",
     "type": "Advance",
     "quoteId": "QT-0008",
     "saleId": "",
-    "date": "2025-06-10",
-    "dueDate": "2025-06-17",
+    "date": "2025-06-05",
+    "dueDate": "2025-06-12",
     "description": "Advance payment: 50% of quotation QT-0008 (LKR 172,000)",
     "amount": 86000,
     "draft": false,
     "cancelled": false,
     "payments": [
-      { "id": "PAY-0050", "date": "2025-06-11", "amount": 86000, "method": "Cash", "reference": "", "receivedBy": "Ishara Madushani" }
+      {
+        "id": "PAY-0001",
+        "date": "2025-06-06",
+        "amount": 86000,
+        "method": "Cash",
+        "reference": "",
+        "receivedById": "ST-0003"
+      }
     ]
   }
 ]

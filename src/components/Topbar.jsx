@@ -1,8 +1,9 @@
 import { useEffect, useRef } from 'react'
 import { Search, ChevronRight } from 'lucide-react'
 import Notifications from './Notifications.jsx'
+import UserMenu from './UserMenu.jsx'
 
-export default function Topbar({ title, query, onSearch, placeholder, onOpenRecord }) {
+export default function Topbar({ title, query, onSearch, placeholder, showSearch, onOpenRecord }) {
   const searchRef = useRef(null)
 
   // Ctrl+K (Cmd+K on Mac) jumps to the search bar.
@@ -26,19 +27,21 @@ export default function Topbar({ title, query, onSearch, placeholder, onOpenReco
       </div>
 
       <div className="topbar-actions">
-        <label className="search">
-          <Search size={15} strokeWidth={1.75} />
-          <input
-            ref={searchRef}
-            type="search"
-            placeholder={placeholder}
-            value={query}
-            onChange={(e) => onSearch(e.target.value)}
-          />
-          {!query && <kbd>Ctrl K</kbd>}
-        </label>
+        {showSearch && (
+          <label className="search">
+            <Search size={15} strokeWidth={1.75} />
+            <input
+              ref={searchRef}
+              type="search"
+              placeholder={placeholder}
+              value={query}
+              onChange={(e) => onSearch(e.target.value)}
+            />
+            {!query && <kbd>Ctrl K</kbd>}
+          </label>
+        )}
         <Notifications onOpenRecord={onOpenRecord} />
-        <div className="avatar" aria-hidden="true" />
+        <UserMenu onOpenRecord={onOpenRecord} />
       </div>
     </header>
   )

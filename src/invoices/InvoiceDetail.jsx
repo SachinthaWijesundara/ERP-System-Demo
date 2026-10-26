@@ -5,7 +5,9 @@ import Card from '../components/Card.jsx'
 import Badge from '../components/Badge.jsx'
 import Field from '../components/Field.jsx'
 import Link from '../components/RecordLink.jsx'
+import StaffLink, { staffName } from '../components/StaffLink.jsx'
 import { useData } from '../data/DataContext.jsx'
+import { useAuth } from '../auth/AuthContext.jsx'
 import {
   clientForInvoice,
   quoteForInvoice,
@@ -19,7 +21,6 @@ import {
 } from '../data/links.js'
 import { formatMoney, todayIso } from '../utils/format.js'
 import { printElement } from '../utils/printElement.js'
-import { DEMO_CASHIERS } from '../pos/posFields.js'
 import { PAYMENT_METHODS, nextPaymentId, validatePayment } from './invoiceFields.js'
 import InvoiceDocument from './InvoiceDocument.jsx'
 
@@ -30,14 +31,16 @@ async function pdf(kind, ...args) {
   else mod.downloadPaymentReceipt(...args)
 }
 
-function RecordPayment({ invoice, branch }) {
+// A payment is put down to whoever is logged in.
+function RecordPayment({ invoice }) {
   const data = useData()
+  const auth = useAuth()
   const blank = () => ({
     date: todayIso(),
     amount: invoiceBalance(invoice),
     method: 'Bank transfer',
     reference: '',
-    receivedBy: DEMO_CASHIERS[branch] ?? '',
+    receivedById: auth.user.id,
   })
   const [form, setForm] = useState(blank)
   const [submitted, setSubmitted] = useState(false)
@@ -56,7 +59,7 @@ function RecordPayment({ invoice, branch }) {
       amount: Number(form.amount),
       method: form.method,
       reference: form.method === 'Cash' ? '' : form.reference.trim(),
-      receivedBy: form.receivedBy.trim(),
+      receivedById: auth.user.id,
     }
     data.updateInvoice({ ...invoice, payments: [...invoice.payments, payment] })
     setSaved(payment.id)
@@ -94,8 +97,8 @@ function RecordPayment({ invoice, branch }) {
             <input value={form.reference} onChange={(e) => patch({ reference: e.target.value })} aria-invalid={!!errorFor('reference')} />
           </Field>
         )}
-        <Field label="Received by" error={errorFor('receivedBy')}>
-          <input value={form.receivedBy} onChange={(e) => patch({ receivedBy: e.target.value })} aria-invalid={!!errorFor('receivedBy')} />
+        <Field label="Received by" error={errorFor('receivedBy')} hint="Whoever is logged in.">
+          <div className="field-static">{auth.user.name}</div>
         </Field>
       </div>
       <div className="movement-foot">
@@ -108,9 +111,11 @@ function RecordPayment({ invoice, branch }) {
   )
 }
 
-// `onOpenRecord(module, id)` jumps to the client, quote, project or sale.
+// `onOpenRecord(module, id)` jumps to the client, quote, project, sale or
+// staff member. Recording payments and cancelling need their own permission.
 export default function InvoiceDetail({ invoiceId, justRaised, onBack, onOpenRecord }) {
   const data = useData()
+  const auth = useAuth()
   const [confirmCancel, setConfirmCancel] = useState(false)
   const invoice = data.invoices.find((i) => i.id === invoiceId)
   if (!invoice) return null
@@ -125,10 +130,10 @@ export default function InvoiceDetail({ invoiceId, justRaised, onBack, onOpenRec
   // Advance, final and POS invoices are made by the system and are never
   // removed; only a hand-raised progress invoice with no payments can be.
   const automatic = invoice.type !== 'Progress'
-  const canCancel = !automatic && !invoice.cancelled && invoice.payments.length === 0
+  const canCancel = auth.can('invoices.cancel') && !automatic && !invoice.cancelled && invoice.payments.length === 0
   const open = (module, id) => () => onOpenRecord(module, id)
 
-  const ctx = { client, project, branch }
+  const ctx = { client, project, branch, nameOf: (id) => staffName(data, id) }
 
   return (
     <>
@@ -170,7 +175,11 @@ export default function InvoiceDetail({ invoiceId, justRaised, onBack, onOpenRec
 
       <div className="detail-grid">
         <div className="detail-main">
-          <InvoiceDocument invoice={invoice} onReceipt={(p) => pdf('receipt', invoice, p, ctx)} onOpenRecord={onOpenRecord} />
+          <InvoiceDocument
+            invoice={invoice}
+            onReceipt={auth.can('invoices.payments') ? (p) => pdf('receipt', invoice, p, ctx) : undefined}
+            onOpenRecord={onOpenRecord}
+          />
         </div>
 
         <aside className="detail-side">
@@ -191,8 +200,8 @@ export default function InvoiceDetail({ invoiceId, justRaised, onBack, onOpenRec
             </dl>
           </Card>
 
-          {!invoice.cancelled && !invoice.draft && invoiceBalance(invoice) > 0 && (
-            <RecordPayment invoice={invoice} branch={branch} />
+          {auth.can('invoices.payments') && !invoice.cancelled && !invoice.draft && invoiceBalance(invoice) > 0 && (
+            <RecordPayment invoice={invoice} />
           )}
 
           {billing?.quote && (
@@ -238,7 +247,9 @@ export default function InvoiceDetail({ invoiceId, justRaised, onBack, onOpenRec
                         {sale.id} · {sale.branch}
                       </Link>
                     </div>
-                    <div className="cell-sub">Paid at the counter by {sale.cashier}.</div>
+                    <div className="cell-sub">
+                      Paid at the counter, cashier <StaffLink id={sale.cashierId} onOpenRecord={onOpenRecord} />.
+                    </div>
                   </div>
                 </li>
               ) : (
@@ -280,7 +291,13 @@ export default function InvoiceDetail({ invoiceId, justRaised, onBack, onOpenRec
                 <LayoutGrid size={15} strokeWidth={1.75} />
                 <div>
                   <div className="links-title">Dashboard</div>
-                  <div className="cell-sub">Not connected yet. Outstanding, overdue and received totals will feed the dashboard.</div>
+                  <div className="cell-sub">
+                    {auth.can('dashboard.view') && auth.can('dashboard.money') ? (
+                      <Link onClick={() => onOpenRecord('dashboard')}>Counts in the dashboard’s money figures</Link>
+                    ) : (
+                      'Counts in the dashboard’s money figures.'
+                    )}
+                  </div>
                 </div>
               </li>
             </ul>

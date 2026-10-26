@@ -1,12 +1,16 @@
 import { formatDate, formatMoney } from '../utils/format.js'
+import { useData } from '../data/DataContext.jsx'
+import { staffName } from '../components/StaffLink.jsx'
 import { lineTotal, saleTotals } from './posFields.js'
 
 // The receipt as it prints: narrow, like a till roll. The same layout is used
 // on screen, for printing, and (in receiptPdf.js) for the PDF download.
 export default function Receipt({ sale }) {
+  const data = useData()
   const t = saleTotals(sale)
   return (
     <div className="receipt" id="receipt">
+      {sale.voided && <div className="receipt-void">VOID · {formatDate(sale.voided.on)}</div>}
       <div className="receipt-head">
         <div className="receipt-brand">IMMENSE HOME</div>
         <div>Interior studio · {sale.branch} branch</div>
@@ -20,7 +24,7 @@ export default function Receipt({ sale }) {
           {formatDate(sale.date)}, {sale.time}
         </dd>
         <dt>Cashier</dt>
-        <dd>{sale.cashier}</dd>
+        <dd>{staffName(data, sale.cashierId)}</dd>
         {sale.customer?.name && (
           <>
             <dt>Customer</dt>

@@ -8,14 +8,14 @@ import StaffDetail from '../staff/StaffDetail.jsx'
 
 // The studio's people. View-only: there is deliberately no "add" button.
 // `openId` opens one person straight away, e.g. a designer clicked on a project.
-export default function Staff({ query, branch, openId }) {
+export default function Staff({ query, branch, openId, onOpenRecord }) {
   const data = useData()
   const [view, setView] = useState(openId ? { mode: 'detail', id: openId } : { mode: 'list' })
 
   useOnChange([query, branch], () => setView({ mode: 'list' }))
 
   if (view.mode === 'detail') {
-    return <StaffDetail staffId={view.id} onBack={() => setView({ mode: 'list' })} />
+    return <StaffDetail staffId={view.id} onBack={() => setView({ mode: 'list' })} onOpenRecord={onOpenRecord} />
   }
 
   const active = data.staff.filter((p) => p.status === 'Active').length

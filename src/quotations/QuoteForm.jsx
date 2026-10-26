@@ -2,7 +2,10 @@ import { useState } from 'react'
 import { ArrowLeft, Plus, X } from 'lucide-react'
 import PageHeader from '../components/PageHeader.jsx'
 import Field from '../components/Field.jsx'
+import StaffLink from '../components/StaffLink.jsx'
 import { useData } from '../data/DataContext.jsx'
+import { useAuth } from '../auth/AuthContext.jsx'
+import { visibleClients } from '../auth/visibility.js'
 import { productsForQuotes } from '../data/links.js'
 import { quoteApprovalLock } from '../data/billing.js'
 import { formatMoney } from '../utils/format.js'
@@ -13,6 +16,7 @@ import {
   emptyLabour,
   itemTotal,
   labourTotal,
+  quoteTotals,
   validateQuote,
   cleanQuote,
 } from './quoteFields.js'
@@ -38,12 +42,29 @@ function RemoveButton({ onClick, label }) {
   )
 }
 
+// What can be changed follows the person's role. Without "set prices and
+// discounts", Inventory lines keep Inventory's selling price and no discount
+// can be given; custom-made lines and labour still need a price. Without
+// "send to the client", a quote stays a Draft. Discounts are capped at the
+// role's limit.
 export default function QuoteForm({ initial, isNew, onCancel, onSave }) {
   const data = useData()
+  const auth = useAuth()
+  const canPrices = auth.can('quotes.prices')
+  const canSend = auth.can('quotes.send')
+  const maxDiscount = canPrices ? auth.limit('quotes.maxDiscount') : 0
   const [form, setForm] = useState(initial)
   const [submitted, setSubmitted] = useState(false)
 
-  const errors = validateQuote(form, data.quotations, isNew)
+  // A discount someone else already gave stays allowed when this person edits
+  // the quote; only going higher than their limit is stopped.
+  const t0 = quoteTotals(initial)
+  const given = Math.max(
+    0,
+    ...initial.items.map((i) => Number(i.discount) || 0),
+    t0.subtotal > 0 ? Math.ceil((t0.discount / t0.subtotal) * 100) : 0,
+  )
+  const errors = validateQuote(form, data.quotations, isNew, Math.max(maxDiscount, given))
   // An approved quote can't be un-approved once a project or a payment depends on it.
   const lock = !isNew && initial.status === 'Approved' ? quoteApprovalLock(data, initial) : null
   if (lock && form.status !== 'Approved') errors.status = `Can’t change from Approved: ${lock}`
@@ -51,7 +72,10 @@ export default function QuoteForm({ initial, isNew, onCancel, onSave }) {
   const invalid = (key) => !!errorFor(key)
 
   const client = data.clients.find((c) => c.id === form.clientId)
+  const clients = visibleClients(data, auth).concat(client && !visibleClients(data, auth).includes(client) ? [client] : [])
   const products = productsForQuotes(data)
+  // Without "send", the status stays where it is (a new quote is a Draft).
+  const statuses = canSend ? QUOTE_STATUSES : [initial.status]
 
   const set = (key) => (e) => setForm({ ...form, [key]: e.target.value })
 
@@ -141,10 +165,14 @@ export default function QuoteForm({ initial, isNew, onCancel, onSave }) {
             <Field
               label="Status"
               error={errors.status}
-              hint="Approved issues the advance invoice. Moving away from Approved puts it back to draft."
+              hint={
+                canSend
+                  ? 'Approved issues the advance invoice. Moving away from Approved puts it back to draft.'
+                  : 'Your role can’t send quotes or mark them approved.'
+              }
             >
-              <select value={form.status} onChange={set('status')} aria-invalid={!!errors.status}>
-                {QUOTE_STATUSES.map((s) => (
+              <select value={form.status} onChange={set('status')} disabled={!canSend} aria-invalid={!!errors.status}>
+                {statuses.map((s) => (
                   <option key={s}>{s}</option>
                 ))}
               </select>
@@ -160,6 +188,11 @@ export default function QuoteForm({ initial, isNew, onCancel, onSave }) {
                 aria-invalid={invalid('validUntil')}
               />
             </Field>
+            <Field label="Prepared by" hint="Whoever was logged in when the quote was made.">
+              <div className="field-static">
+                <StaffLink id={form.preparedById} />
+              </div>
+            </Field>
           </div>
         </section>
 
@@ -169,7 +202,7 @@ export default function QuoteForm({ initial, isNew, onCancel, onSave }) {
             <Field label="Client" error={errorFor('clientId')}>
               <select value={form.clientId} onChange={chooseClient} aria-invalid={invalid('clientId')}>
                 <option value="">Choose a client…</option>
-                {data.clients.map((c) => (
+                {clients.map((c) => (
                   <option key={c.id} value={c.id}>
                     {c.id} · {c.name} ({c.branch})
                   </option>
@@ -270,6 +303,8 @@ export default function QuoteForm({ initial, isNew, onCancel, onSave }) {
                       className="num"
                       value={item.price}
                       onChange={(e) => setItem(i, 'price', e.target.value)}
+                      readOnly={!canPrices && !!item.sku}
+                      title={!canPrices && item.sku ? 'Inventory’s selling price' : undefined}
                       aria-label="Unit price"
                       aria-invalid={invalid(`items.${i}.price`)}
                     />
@@ -278,11 +313,12 @@ export default function QuoteForm({ initial, isNew, onCancel, onSave }) {
                     <input
                       type="number"
                       min="0"
-                      max="100"
+                      max={maxDiscount}
                       step="any"
                       className="num"
                       value={item.discount}
                       onChange={(e) => setItem(i, 'discount', e.target.value)}
+                      readOnly={maxDiscount === 0}
                       aria-label="Discount percent"
                       aria-invalid={invalid(`items.${i}.discount`)}
                     />
@@ -375,7 +411,17 @@ export default function QuoteForm({ initial, isNew, onCancel, onSave }) {
           <h2>Discount, VAT and total</h2>
           <div className="quote-money">
             <div className="form-grid">
-              <Field label="Quote discount" error={errorFor('discount')} hint="On top of any line discounts.">
+              <Field
+                label="Quote discount"
+                error={errorFor('discount')}
+                hint={
+                  maxDiscount === 0
+                    ? 'Your role can’t give discounts.'
+                    : maxDiscount < 100
+                      ? `On top of any line discounts. Your role can give up to ${maxDiscount}%.`
+                      : 'On top of any line discounts.'
+                }
+              >
                 <div className="input-group">
                   <input
                     type="number"
@@ -384,11 +430,13 @@ export default function QuoteForm({ initial, isNew, onCancel, onSave }) {
                     className="num"
                     value={form.discount.value}
                     onChange={(e) => setForm({ ...form, discount: { ...form.discount, value: e.target.value } })}
+                    readOnly={maxDiscount === 0}
                     aria-invalid={invalid('discount')}
                   />
                   <select
                     value={form.discount.type}
                     onChange={(e) => setForm({ ...form, discount: { ...form.discount, type: e.target.value } })}
+                    disabled={maxDiscount === 0}
                     aria-label="Discount type"
                   >
                     <option value="amount">LKR</option>

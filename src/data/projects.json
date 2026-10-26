@@ -1,33 +1,258 @@
 [
   {
+    "id": "PRJ-0010",
+    "quoteId": "QT-0019",
+    "name": "Herath home office",
+    "site": {
+      "label": "Home",
+      "address": "56 Pagoda Road",
+      "city": "Nugegoda"
+    },
+    "designerId": "ST-0005",
+    "teamIds": [
+      "ST-0009"
+    ],
+    "startDate": "2026-10-20",
+    "dueDate": "2026-12-18",
+    "stages": {
+      "siteVisit": {
+        "status": "In progress",
+        "date": "2026-10-28",
+        "visitedById": "ST-0005",
+        "notes": "Visit booked for Wednesday morning."
+      },
+      "design": {
+        "status": "Not started",
+        "completedOn": "",
+        "notes": "",
+        "files": []
+      },
+      "approval": {
+        "status": "Not started",
+        "approvedOn": "",
+        "approvedBy": "",
+        "method": "",
+        "letter": null,
+        "notes": ""
+      },
+      "materials": {
+        "status": "Not started",
+        "neededBy": "",
+        "notes": ""
+      },
+      "installation": {
+        "status": "Not started",
+        "startDate": "",
+        "endDate": "",
+        "costs": [],
+        "notes": ""
+      },
+      "handover": {
+        "status": "Not started",
+        "plannedDate": "2026-12-18",
+        "actualDate": "",
+        "receivedBy": "",
+        "warrantyMonths": 12,
+        "checklist": [
+          {
+            "item": "Site cleaned",
+            "done": false
+          },
+          {
+            "item": "Client walkthrough",
+            "done": false
+          }
+        ],
+        "notes": ""
+      }
+    },
+    "materials": [
+      {
+        "sku": "WP-PLN-02",
+        "qty": 6,
+        "status": "Pending",
+        "billable": false
+      },
+      {
+        "sku": "BL-RLR-01",
+        "qty": 3,
+        "status": "Pending",
+        "billable": false
+      }
+    ],
+    "measurements": [],
+    "photos": [],
+    "notes": [
+      {
+        "date": "2026-10-20",
+        "authorId": "ST-0004",
+        "text": "Advance received at the counter. Project opened from QT-0019."
+      }
+    ]
+  },
+  {
+    "id": "PRJ-0009",
+    "quoteId": "QT-0016",
+    "name": "Wickramasinghe living room panelling",
+    "site": {
+      "label": "Home",
+      "address": "45 Beach Road",
+      "city": "Matara"
+    },
+    "designerId": "ST-0006",
+    "teamIds": [
+      "ST-0011"
+    ],
+    "startDate": "2026-10-08",
+    "dueDate": "2026-11-25",
+    "stages": {
+      "siteVisit": {
+        "status": "Done",
+        "date": "2026-10-09",
+        "visitedById": "ST-0006",
+        "notes": "Feature wall is 12 ft wide. Two sockets to cut around."
+      },
+      "design": {
+        "status": "In progress",
+        "completedOn": "",
+        "notes": "Vertical fluted panels with two floating shelves. Trying a version with a backlit gap.",
+        "files": [
+          {
+            "id": "p9-d1",
+            "name": "feature-wall-sketch.jpg",
+            "kind": "Plan",
+            "addedOn": "2026-10-12",
+            "url": null
+          }
+        ]
+      },
+      "approval": {
+        "status": "Not started",
+        "approvedOn": "",
+        "approvedBy": "",
+        "method": "",
+        "letter": null,
+        "notes": ""
+      },
+      "materials": {
+        "status": "Not started",
+        "neededBy": "2026-11-10",
+        "notes": ""
+      },
+      "installation": {
+        "status": "Not started",
+        "startDate": "",
+        "endDate": "",
+        "costs": [],
+        "notes": ""
+      },
+      "handover": {
+        "status": "Not started",
+        "plannedDate": "2026-11-25",
+        "actualDate": "",
+        "receivedBy": "",
+        "warrantyMonths": 12,
+        "checklist": [
+          {
+            "item": "Site cleaned",
+            "done": false
+          },
+          {
+            "item": "Client walkthrough",
+            "done": false
+          }
+        ],
+        "notes": ""
+      }
+    },
+    "materials": [
+      {
+        "sku": "WPC-WAL-01",
+        "qty": 40,
+        "status": "Pending",
+        "billable": false
+      },
+      {
+        "sku": "SH-FLT-01",
+        "qty": 2,
+        "status": "Pending",
+        "billable": false
+      }
+    ],
+    "measurements": [
+      {
+        "area": "Feature wall",
+        "dimensions": "12 ft wide × 10 ft high",
+        "value": 120,
+        "unit": "sqft"
+      }
+    ],
+    "photos": [
+      {
+        "id": "p9-p1",
+        "name": "feature-wall-before.jpg",
+        "caption": "Feature wall before",
+        "addedOn": "2026-10-09",
+        "url": null
+      }
+    ],
+    "notes": [
+      {
+        "date": "2026-10-12",
+        "authorId": "ST-0006",
+        "text": "Sent the client two panel layouts on WhatsApp. Waiting for her pick."
+      }
+    ]
+  },
+  {
     "id": "PRJ-0008",
     "quoteId": "QT-0014",
     "name": "Jayawardena apartment",
-    "site": { "label": "Apartment", "address": "22/3 Stanley Thilakaratne Mawatha", "city": "Nugegoda" },
-    "designer": "Tharushi Fonseka",
-    "team": [
-      "Chathura Dias"
+    "site": {
+      "label": "Apartment",
+      "address": "22/3 Stanley Thilakaratne Mawatha",
+      "city": "Nugegoda"
+    },
+    "designerId": "ST-0005",
+    "teamIds": [
+      "ST-0010"
     ],
-    "startDate": "2026-10-20",
+    "startDate": "2026-10-16",
     "dueDate": "2026-11-30",
     "stages": {
       "siteVisit": {
         "status": "Done",
-        "date": "2026-10-21",
-        "visitedBy": "Tharushi Fonseka",
+        "date": "2026-10-17",
+        "visitedById": "ST-0005",
         "notes": "Pantry wall is plastered and level. Wardrobe wall has a power socket that needs moving 300 mm left."
       },
       "design": {
         "status": "Done",
-        "completedOn": "2026-10-24",
-        "notes": "Pantry in white gloss with oak handles. Wardrobe with one mirrored sliding door.",
+        "completedOn": "2026-10-21",
+        "notes": "Pantry in white gloss with steel handles. Wardrobe with a mirror sliding door.",
         "files": [
-          { "id": "p8-d1", "name": "pantry-elevation.pdf", "kind": "Plan", "addedOn": "2026-10-23", "url": null },
-          { "id": "p8-d2", "name": "wardrobe-3d-view.jpg", "kind": "3D render", "addedOn": "2026-10-24", "url": null }
+          {
+            "id": "p8-d1",
+            "name": "pantry-elevation.pdf",
+            "kind": "Plan",
+            "addedOn": "2026-10-20",
+            "url": null
+          }
         ]
       },
-      "approval": { "status": "In progress", "approvedOn": "", "approvedBy": "", "method": "", "letter": null, "notes": "Design sent to the client on 24 Oct. Waiting for sign-off." },
-      "materials": { "status": "Not started", "neededBy": "2026-11-10", "notes": "" },
+      "approval": {
+        "status": "Done",
+        "approvedOn": "2026-10-23",
+        "approvedBy": "Kasun Jayawardena",
+        "method": "Approved on WhatsApp",
+        "letter": null,
+        "notes": ""
+      },
+      "materials": {
+        "status": "In progress",
+        "neededBy": "2026-11-02",
+        "notes": "Laminate, handles and LED strips held in the Nugegoda store."
+      },
       "installation": {
         "status": "Not started",
         "startDate": "",
@@ -42,51 +267,120 @@
         "receivedBy": "",
         "warrantyMonths": 12,
         "checklist": [
-          { "item": "Doors and drawers aligned", "done": false },
-          { "item": "Site cleaned", "done": false },
-          { "item": "Client walkthrough", "done": false }
+          {
+            "item": "Doors and drawers aligned",
+            "done": false
+          },
+          {
+            "item": "Site cleaned",
+            "done": false
+          },
+          {
+            "item": "Client walkthrough",
+            "done": false
+          }
         ],
         "notes": ""
       }
     },
     "materials": [
-      { "sku": "LAM-WGL-01", "qty": 20, "status": "Reserved" },
-      { "sku": "HD-SS-01", "qty": 10, "status": "Reserved" },
-      { "sku": "LED-STR-5", "qty": 2, "status": "Reserved" }
+      {
+        "sku": "LAM-WGL-01",
+        "qty": 20,
+        "status": "Reserved",
+        "billable": false
+      },
+      {
+        "sku": "HD-SS-01",
+        "qty": 16,
+        "status": "Reserved",
+        "billable": false
+      },
+      {
+        "sku": "LED-STR-5",
+        "qty": 3,
+        "status": "Reserved",
+        "billable": false
+      }
     ],
     "measurements": [
-      { "area": "Pantry wall", "dimensions": "8 ft wide × 7 ft high", "value": 8, "unit": "ft" },
-      { "area": "Bedroom wardrobe wall", "dimensions": "7 ft wide × 8 ft high", "value": 7, "unit": "ft" }
+      {
+        "area": "Pantry wall",
+        "dimensions": "8 ft wide × 7 ft high",
+        "value": 8,
+        "unit": "ft"
+      },
+      {
+        "area": "Bedroom wardrobe wall",
+        "dimensions": "7 ft wide × 8 ft high",
+        "value": 7,
+        "unit": "ft"
+      }
     ],
     "photos": [
-      { "id": "p8-p1", "name": "pantry-wall-before.jpg", "caption": "Pantry wall before work", "addedOn": "2026-10-21", "url": null },
-      { "id": "p8-p2", "name": "wardrobe-wall-socket.jpg", "caption": "Socket to be moved", "addedOn": "2026-10-21", "url": null }
+      {
+        "id": "p8-p1",
+        "name": "pantry-wall.jpg",
+        "caption": "Pantry wall before",
+        "addedOn": "2026-10-17",
+        "url": null
+      }
     ],
     "notes": [
-      { "date": "2026-10-21", "author": "Tharushi Fonseka", "text": "Client wants the pantry finished before the family visit in early December." }
+      {
+        "date": "2026-10-23",
+        "authorId": "ST-0008",
+        "text": "Approved, so laminate, handles and LED strips are now reserved at Nugegoda."
+      },
+      {
+        "date": "2026-10-17",
+        "authorId": "ST-0005",
+        "text": "Client wants the pantry finished before the family visit in early December."
+      }
     ]
   },
   {
     "id": "PRJ-0007",
     "quoteId": "QT-0012",
     "name": "Perera residence",
-    "site": { "label": "Home", "address": "14 Lake Road", "city": "Negombo" },
-    "designer": "Nimali Jayasinghe",
-    "team": [
-      "Saman Kumara",
-      "Chathura Dias"
+    "site": {
+      "label": "Home",
+      "address": "14 Lake Road",
+      "city": "Negombo"
+    },
+    "designerId": "ST-0005",
+    "teamIds": [
+      "ST-0009",
+      "ST-0010"
     ],
     "startDate": "2026-09-26",
-    "dueDate": "2026-11-12",
+    "dueDate": "2026-10-31",
     "stages": {
-      "siteVisit": { "status": "Done", "date": "2026-09-27", "visitedBy": "Nimali Jayasinghe", "notes": "Floor is mostly level. Small dip near the balcony door needs levelling compound." },
+      "siteVisit": {
+        "status": "Done",
+        "date": "2026-09-27",
+        "visitedById": "ST-0005",
+        "notes": "Floor is mostly level. Small dip near the balcony door needs levelling compound."
+      },
       "design": {
         "status": "Done",
         "completedOn": "2026-10-02",
         "notes": "Oak planks laid lengthwise towards the garden door. Matching oak skirting.",
         "files": [
-          { "id": "p7-d1", "name": "living-room-floor-plan.pdf", "kind": "Plan", "addedOn": "2026-09-30", "url": null },
-          { "id": "p7-d2", "name": "plank-layout-render.jpg", "kind": "3D render", "addedOn": "2026-10-01", "url": null }
+          {
+            "id": "p7-d1",
+            "name": "living-room-floor-plan.pdf",
+            "kind": "Plan",
+            "addedOn": "2026-09-30",
+            "url": null
+          },
+          {
+            "id": "p7-d2",
+            "name": "plank-layout-render.jpg",
+            "kind": "3D render",
+            "addedOn": "2026-10-01",
+            "url": null
+          }
         ]
       },
       "approval": {
@@ -94,89 +388,233 @@
         "approvedOn": "2026-10-05",
         "approvedBy": "Mrs. Nadeeka Perera",
         "method": "Signed approval letter",
-        "letter": { "id": "p7-a1", "name": "PRJ-0007-approval-letter.pdf", "kind": "Approval letter", "addedOn": "2026-10-05", "url": null },
+        "letter": {
+          "id": "p7-a1",
+          "name": "PRJ-0007-approval-letter.pdf",
+          "kind": "Approval letter",
+          "addedOn": "2026-10-05",
+          "url": null
+        },
         "notes": ""
       },
-      "materials": { "status": "In progress", "neededBy": "2026-11-08", "notes": "Skirting arriving from the supplier on 6 Nov." },
+      "materials": {
+        "status": "Done",
+        "neededBy": "2026-10-22",
+        "notes": "Everything issued in one trip."
+      },
       "installation": {
         "status": "In progress",
         "startDate": "2026-10-23",
-        "endDate": "2026-11-08",
+        "endDate": "2026-10-30",
         "costs": [
-          { "description": "Installer wages", "amount": 55000, "billable": false },
-          { "description": "Transport", "amount": 15000, "billable": false },
-          { "description": "Extra levelling compound for the balcony dip", "amount": 8000, "billable": true }
+          {
+            "description": "Installer wages",
+            "amount": 55000,
+            "billable": false
+          },
+          {
+            "description": "Transport",
+            "amount": 15000,
+            "billable": false
+          },
+          {
+            "description": "Extra levelling compound for the balcony dip",
+            "amount": 8000,
+            "billable": true
+          }
         ],
         "notes": "Levelling done on day 1. Plank laying in progress."
       },
       "handover": {
         "status": "Not started",
-        "plannedDate": "2026-11-12",
+        "plannedDate": "2026-10-31",
         "actualDate": "",
         "receivedBy": "",
         "warrantyMonths": 12,
         "checklist": [
-          { "item": "Floor cleaned", "done": false },
-          { "item": "Skirting fixed", "done": false },
-          { "item": "Leftover planks handed to client", "done": false },
-          { "item": "Client walkthrough", "done": false }
+          {
+            "item": "Floor cleaned",
+            "done": false
+          },
+          {
+            "item": "Skirting fixed",
+            "done": false
+          },
+          {
+            "item": "Leftover planks handed to client",
+            "done": false
+          },
+          {
+            "item": "Client walkthrough",
+            "done": false
+          }
         ],
         "notes": ""
       }
     },
     "materials": [
-      { "sku": "VNL-OAK-01", "qty": 450, "status": "Issued" },
-      { "sku": "UND-FOAM-2", "qty": 450, "status": "Issued" },
-      { "sku": "SKT-PVC-OAK", "qty": 40, "status": "Reserved" }
+      {
+        "sku": "VNL-OAK-01",
+        "qty": 450,
+        "status": "Issued",
+        "billable": false
+      },
+      {
+        "sku": "UND-FOAM-2",
+        "qty": 450,
+        "status": "Issued",
+        "billable": false
+      },
+      {
+        "sku": "SKT-PVC-OAK",
+        "qty": 40,
+        "status": "Issued",
+        "billable": false
+      },
+      {
+        "sku": "LED-STR-5",
+        "qty": 2,
+        "status": "Issued",
+        "billable": true
+      },
+      {
+        "sku": "",
+        "name": "Teak threshold strip, made to measure",
+        "unit": "piece",
+        "unitCost": 3500,
+        "price": 6000,
+        "qty": 2,
+        "status": "Issued",
+        "billable": true
+      }
     ],
     "measurements": [
-      { "area": "Living room", "dimensions": "25 ft × 18 ft", "value": 450, "unit": "sqft" },
-      { "area": "Skirting run", "dimensions": "Room perimeter less door openings", "value": 40, "unit": "m" }
+      {
+        "area": "Living room",
+        "dimensions": "25 ft × 18 ft",
+        "value": 450,
+        "unit": "sqft"
+      },
+      {
+        "area": "Skirting run",
+        "dimensions": "Room perimeter less door openings",
+        "value": 40,
+        "unit": "m"
+      }
     ],
     "photos": [
-      { "id": "p7-p1", "name": "living-room-before-1.jpg", "caption": "Before: existing tiles", "addedOn": "2026-09-27", "url": null },
-      { "id": "p7-p2", "name": "living-room-before-2.jpg", "caption": "Before: balcony side", "addedOn": "2026-09-27", "url": null },
-      { "id": "p7-p3", "name": "floor-dip-balcony.jpg", "caption": "Dip near the balcony door", "addedOn": "2026-09-27", "url": null },
-      { "id": "p7-p4", "name": "levelling-day-1.jpg", "caption": "Levelling compound applied", "addedOn": "2026-10-23", "url": null },
-      { "id": "p7-p5", "name": "underlay-laid.jpg", "caption": "Underlay laid", "addedOn": "2026-10-24", "url": null },
-      { "id": "p7-p6", "name": "planks-in-progress.jpg", "caption": "Planks going down", "addedOn": "2026-10-25", "url": null }
+      {
+        "id": "p7-p1",
+        "name": "living-room-before-1.jpg",
+        "caption": "Before: existing tiles",
+        "addedOn": "2026-09-27",
+        "url": null
+      },
+      {
+        "id": "p7-p2",
+        "name": "floor-dip-balcony.jpg",
+        "caption": "Dip near the balcony door",
+        "addedOn": "2026-09-27",
+        "url": null
+      },
+      {
+        "id": "p7-p3",
+        "name": "levelling-day-1.jpg",
+        "caption": "Levelling compound applied",
+        "addedOn": "2026-10-23",
+        "url": null
+      }
     ],
     "notes": [
-      { "date": "2026-09-27", "author": "Nimali Jayasinghe", "text": "Client prefers weekday work after 10 am. Keys with the neighbour at no. 16." },
-      { "date": "2026-10-23", "author": "Saman Kumara", "text": "Levelling done. Underlay and planks issued from the Nugegoda store." }
+      {
+        "date": "2026-10-24",
+        "authorId": "ST-0005",
+        "text": "Client asked for LED strips under the TV unit and teak thresholds at both doors. Added as extras, charged on the final invoice."
+      },
+      {
+        "date": "2026-10-22",
+        "authorId": "ST-0008",
+        "text": "Planks, underlay, skirting and LED strips issued from the Nugegoda store."
+      },
+      {
+        "date": "2026-09-27",
+        "authorId": "ST-0005",
+        "text": "Client prefers weekday work after 10 am. Keys with the neighbour at no. 16."
+      }
     ]
   },
   {
     "id": "PRJ-0004",
     "quoteId": "QT-0009",
     "name": "Fernando kitchen",
-    "site": { "label": "Home", "address": "8 Temple Road", "city": "Maharagama" },
-    "designer": "Nimali Jayasinghe",
-    "team": [
-      "Saman Kumara",
-      "Nuwan Bandara"
+    "site": {
+      "label": "Home",
+      "address": "8 Temple Road",
+      "city": "Maharagama"
+    },
+    "designerId": "ST-0005",
+    "teamIds": [
+      "ST-0009",
+      "ST-0010"
     ],
     "startDate": "2026-01-16",
     "dueDate": "2026-03-20",
     "stages": {
-      "siteVisit": { "status": "Done", "date": "2026-01-17", "visitedBy": "Nimali Jayasinghe", "notes": "L-shaped kitchen. Old cabinets to be removed by the client." },
+      "siteVisit": {
+        "status": "Done",
+        "date": "2026-01-17",
+        "visitedById": "ST-0005",
+        "notes": "L-shaped kitchen. Plumbing on the long wall stays where it is."
+      },
       "design": {
         "status": "Done",
         "completedOn": "2026-01-28",
-        "notes": "Grey melamine with white quartz top.",
+        "notes": "Grey melamine, white quartz top, steel handles.",
         "files": [
-          { "id": "p4-d1", "name": "kitchen-layout.pdf", "kind": "Plan", "addedOn": "2026-01-25", "url": null }
+          {
+            "id": "p4-d1",
+            "name": "kitchen-layout.pdf",
+            "kind": "Plan",
+            "addedOn": "2026-01-26",
+            "url": null
+          },
+          {
+            "id": "p4-d2",
+            "name": "kitchen-render.jpg",
+            "kind": "3D render",
+            "addedOn": "2026-01-28",
+            "url": null
+          }
         ]
       },
-      "approval": { "status": "Done", "approvedOn": "2026-02-02", "approvedBy": "Ruwan Fernando", "method": "Approved on site", "letter": null, "notes": "" },
-      "materials": { "status": "Done", "neededBy": "2026-02-20", "notes": "" },
+      "approval": {
+        "status": "Done",
+        "approvedOn": "2026-02-02",
+        "approvedBy": "Ruwan Fernando",
+        "method": "Approved by email",
+        "letter": null,
+        "notes": ""
+      },
+      "materials": {
+        "status": "Done",
+        "neededBy": "2026-02-21",
+        "notes": ""
+      },
       "installation": {
         "status": "Done",
         "startDate": "2026-02-23",
         "endDate": "2026-03-17",
         "costs": [
-          { "description": "Carpenter wages", "amount": 60000, "billable": false },
-          { "description": "Transport", "amount": 12000, "billable": false }
+          {
+            "description": "Carpenter wages",
+            "amount": 60000,
+            "billable": false
+          },
+          {
+            "description": "Transport",
+            "amount": 12000,
+            "billable": false
+          }
         ],
         "notes": ""
       },
@@ -187,61 +625,148 @@
         "receivedBy": "Ruwan Fernando",
         "warrantyMonths": 24,
         "checklist": [
-          { "item": "Doors and drawers aligned", "done": true },
-          { "item": "Countertop sealed", "done": true },
-          { "item": "Site cleaned", "done": true },
-          { "item": "Client walkthrough", "done": true }
+          {
+            "item": "Doors and drawers aligned",
+            "done": true
+          },
+          {
+            "item": "Countertop sealed",
+            "done": true
+          },
+          {
+            "item": "Site cleaned",
+            "done": true
+          },
+          {
+            "item": "Client walkthrough",
+            "done": true
+          }
         ],
         "notes": "Client happy. Final invoice balance still to be collected."
       }
     },
     "materials": [
-      { "sku": "MEL-GRY-18", "qty": 24, "status": "Issued" },
-      { "sku": "QTZ-WHT-20", "qty": 12, "status": "Issued" },
-      { "sku": "HD-SS-01", "qty": 22, "status": "Issued" }
+      {
+        "sku": "MEL-GRY-18",
+        "qty": 24,
+        "status": "Issued",
+        "billable": false
+      },
+      {
+        "sku": "QTZ-WHT-20",
+        "qty": 12,
+        "status": "Issued",
+        "billable": false
+      },
+      {
+        "sku": "HD-SS-01",
+        "qty": 22,
+        "status": "Issued",
+        "billable": false
+      }
     ],
     "measurements": [
-      { "area": "Kitchen, long wall", "dimensions": "12 ft run", "value": 12, "unit": "ft" },
-      { "area": "Kitchen, short wall", "dimensions": "10 ft run", "value": 10, "unit": "ft" }
+      {
+        "area": "Kitchen, long wall",
+        "dimensions": "12 ft run",
+        "value": 12,
+        "unit": "ft"
+      },
+      {
+        "area": "Kitchen, short wall",
+        "dimensions": "10 ft run",
+        "value": 10,
+        "unit": "ft"
+      }
     ],
     "photos": [
-      { "id": "p4-p1", "name": "kitchen-before.jpg", "caption": "Before", "addedOn": "2026-01-17", "url": null },
-      { "id": "p4-p2", "name": "kitchen-after-1.jpg", "caption": "After: long wall", "addedOn": "2026-03-19", "url": null },
-      { "id": "p4-p3", "name": "kitchen-after-2.jpg", "caption": "After: corner", "addedOn": "2026-03-19", "url": null }
+      {
+        "id": "p4-p1",
+        "name": "kitchen-before.jpg",
+        "caption": "Before",
+        "addedOn": "2026-01-17",
+        "url": null
+      },
+      {
+        "id": "p4-p2",
+        "name": "kitchen-after.jpg",
+        "caption": "After",
+        "addedOn": "2026-03-19",
+        "url": null
+      }
     ],
     "notes": [
-      { "date": "2026-03-19", "author": "Saman Kumara", "text": "Handed over. Client asked about a matching pantry later this year." }
+      {
+        "date": "2026-03-19",
+        "authorId": "ST-0005",
+        "text": "Handed over. Client asked about a matching pantry later this year."
+      },
+      {
+        "date": "2026-02-20",
+        "authorId": "ST-0008",
+        "text": "Boards, quartz and handles issued from the Nugegoda store."
+      }
     ]
   },
   {
     "id": "PRJ-0003",
     "quoteId": "QT-0008",
     "name": "De Silva bedroom curtains",
-    "site": { "label": "Home", "address": "19 Esplanade Road", "city": "Matara" },
-    "designer": "Tharushi Fonseka",
-    "team": [
-      "Nuwan Bandara"
+    "site": {
+      "label": "Home",
+      "address": "19 Esplanade Road",
+      "city": "Matara"
+    },
+    "designerId": "ST-0006",
+    "teamIds": [
+      "ST-0011"
     ],
     "startDate": "2025-06-10",
     "dueDate": "2025-06-30",
     "stages": {
-      "siteVisit": { "status": "Done", "date": "2025-06-10", "visitedBy": "Tharushi Fonseka", "notes": "Three bedrooms, four windows in total." },
+      "siteVisit": {
+        "status": "Done",
+        "date": "2025-06-11",
+        "visitedById": "ST-0006",
+        "notes": "Three bedroom windows and four small windows. Old rails to be removed."
+      },
       "design": {
         "status": "Done",
-        "completedOn": "2025-06-13",
-        "notes": "Beige blackout curtains, white roller blinds for the small windows.",
+        "completedOn": "2025-06-16",
+        "notes": "Beige blackout curtains in the bedrooms, white roller blinds on the small windows.",
         "files": [
-          { "id": "p3-d1", "name": "fabric-samples.jpg", "kind": "Photo", "addedOn": "2025-06-12", "url": null }
+          {
+            "id": "p3-d1",
+            "name": "curtain-plan.pdf",
+            "kind": "Plan",
+            "addedOn": "2025-06-15",
+            "url": null
+          }
         ]
       },
-      "approval": { "status": "Done", "approvedOn": "2025-06-14", "approvedBy": "Mrs. Shanthi de Silva", "method": "Approved at the Matara showroom", "letter": null, "notes": "" },
-      "materials": { "status": "Done", "neededBy": "2025-06-24", "notes": "" },
+      "approval": {
+        "status": "Done",
+        "approvedOn": "2025-06-18",
+        "approvedBy": "Mrs. Shanthi de Silva",
+        "method": "Approved at the showroom",
+        "letter": null,
+        "notes": ""
+      },
+      "materials": {
+        "status": "Done",
+        "neededBy": "2025-06-25",
+        "notes": ""
+      },
       "installation": {
         "status": "Done",
         "startDate": "2025-06-26",
         "endDate": "2025-06-27",
         "costs": [
-          { "description": "Fitter wages", "amount": 9000, "billable": false }
+          {
+            "description": "Fitter wages",
+            "amount": 9000,
+            "billable": false
+          }
         ],
         "notes": ""
       },
@@ -252,23 +777,66 @@
         "receivedBy": "Mrs. Shanthi de Silva",
         "warrantyMonths": 6,
         "checklist": [
-          { "item": "Rails fixed and tested", "done": true },
-          { "item": "Client walkthrough", "done": true }
+          {
+            "item": "Rails fixed and tested",
+            "done": true
+          },
+          {
+            "item": "Client walkthrough",
+            "done": true
+          }
         ],
         "notes": ""
       }
     },
     "materials": [
-      { "sku": "CUR-BLK-01", "qty": 3, "status": "Issued" },
-      { "sku": "BL-RLR-01", "qty": 4, "status": "Issued" }
+      {
+        "sku": "CUR-BLK-01",
+        "qty": 3,
+        "status": "Issued",
+        "billable": false
+      },
+      {
+        "sku": "BL-RLR-01",
+        "qty": 4,
+        "status": "Issued",
+        "billable": false
+      }
     ],
     "measurements": [
-      { "area": "Bedroom windows", "dimensions": "3 at 6 ft × 5 ft", "value": 3, "unit": "set" },
-      { "area": "Small windows", "dimensions": "4 at 2 ft × 3 ft", "value": 4, "unit": "piece" }
+      {
+        "area": "Bedroom windows",
+        "dimensions": "3 at 6 ft × 5 ft",
+        "value": 3,
+        "unit": "set"
+      },
+      {
+        "area": "Small windows",
+        "dimensions": "4 at 2 ft × 3 ft",
+        "value": 4,
+        "unit": "piece"
+      }
     ],
     "photos": [
-      { "id": "p3-p1", "name": "master-bedroom-after.jpg", "caption": "Master bedroom, after", "addedOn": "2025-06-28", "url": null }
+      {
+        "id": "p3-p1",
+        "name": "bedroom-after.jpg",
+        "caption": "After: main bedroom",
+        "addedOn": "2025-06-28",
+        "url": null
+      }
     ],
-    "notes": []
+    "notes": [
+      {
+        "date": "2025-06-28",
+        "authorId": "ST-0006",
+        "text": "Handed over. Client asked for a quote on living room curtains next year."
+      },
+      {
+        "date": "2025-06-24",
+        "authorId": "ST-0007",
+        "text": "Curtains and blinds issued from the Matara store."
+      }
+    ]
   }
 ]

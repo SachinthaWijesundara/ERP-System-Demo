@@ -18,7 +18,7 @@
 import {
   quoteForProject,
   invoicesForQuote,
-  itemForMaterial,
+  materialInfo,
   posSaleAsInvoice,
   amountPaid,
 } from './links.js'
@@ -39,11 +39,10 @@ export function finalInvoiceLines(data, project) {
   project.materials
     .filter((m) => m.billable)
     .forEach((m) => {
-      const item = itemForMaterial(data, m)
-      const price = item?.sellingPrice ?? 0
+      const info = materialInfo(data, m)
       lines.push({
-        description: `Extra material: ${item?.name ?? m.sku}, ${m.qty} ${item?.unit ?? ''} × ${money(price)}`,
-        amount: m.qty * price,
+        description: `Extra material: ${info.name}, ${m.qty} ${info.unit} × ${money(info.price)}`,
+        amount: m.qty * info.price,
       })
     })
 

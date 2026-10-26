@@ -1,19 +1,321 @@
 [
   {
-    "id": "QT-0016",
-    "clientId": "CL-0022",
-    "title": "Living room wall panelling",
-    "date": "2026-10-24",
-    "validUntil": "2026-11-23",
-    "site": { "label": "Home", "address": "45 Beach Road", "city": "Matara" },
+    "id": "QT-0021",
+    "clientId": "CL-0027",
+    "preparedById": "ST-0003",
+    "title": "Shop front blinds",
+    "date": "2026-10-19",
+    "validUntil": "2026-11-18",
+    "site": {
+      "label": "Shop",
+      "address": "15 Anagarika Dharmapala Mawatha",
+      "city": "Matara"
+    },
     "status": "Sent",
     "items": [
-      { "sku": "WPC-WAL-01", "product": "WPC wall panel", "description": "Walnut finish, 160 mm fluted, 2.9 m long", "qty": 40, "unit": "piece", "price": 3250, "discount": 0 }
+      {
+        "sku": "BL-RLR-01",
+        "product": "Roller blind, 3 × 5 ft, white",
+        "description": "Shop front windows",
+        "qty": 6,
+        "unit": "piece",
+        "price": 12500,
+        "discount": 0
+      }
     ],
     "labour": [
-      { "description": "Panel fixing and finishing", "qty": 120, "unit": "sqft", "price": 250 }
+      {
+        "description": "Fitting",
+        "qty": 1,
+        "unit": "lot",
+        "price": 6000
+      }
     ],
-    "discount": { "type": "amount", "value": 0 },
+    "discount": {
+      "type": "amount",
+      "value": 0
+    },
+    "taxRate": 0,
+    "notes": "",
+    "terms": "1. 50% advance on confirmation, balance on completion.\n2. Prices are valid until the date shown above.\n3. Work starts within 7 days of receiving the advance.\n4. Any extra work will be quoted separately."
+  },
+  {
+    "id": "QT-0020",
+    "clientId": "CL-0023",
+    "preparedById": "ST-0006",
+    "title": "Villa living and dining interior",
+    "date": "2026-10-23",
+    "validUntil": "2026-11-22",
+    "site": {
+      "label": "Villa",
+      "address": "3 Mirissa Road",
+      "city": "Weligama"
+    },
+    "status": "Draft",
+    "items": [
+      {
+        "sku": "",
+        "product": "Gypsum ceiling with cove lighting",
+        "description": "Living and dining",
+        "qty": 600,
+        "unit": "sqft",
+        "price": 420,
+        "discount": 0
+      },
+      {
+        "sku": "RUG-JUT-57",
+        "product": "Area rug, jute, 5 × 7 ft",
+        "description": "",
+        "qty": 2,
+        "unit": "piece",
+        "price": 16500,
+        "discount": 0
+      },
+      {
+        "sku": "LMP-CER-01",
+        "product": "Table lamp, ceramic",
+        "description": "",
+        "qty": 2,
+        "unit": "piece",
+        "price": 7900,
+        "discount": 0
+      }
+    ],
+    "labour": [
+      {
+        "description": "Ceiling work and styling",
+        "qty": 1,
+        "unit": "lot",
+        "price": 90000
+      }
+    ],
+    "discount": {
+      "type": "amount",
+      "value": 0
+    },
+    "taxRate": 0,
+    "notes": "First draft after the site visit. Waiting for the client’s budget.",
+    "terms": "1. 50% advance on confirmation, balance on completion.\n2. Prices are valid until the date shown above.\n3. Work starts within 7 days of receiving the advance.\n4. Any extra work will be quoted separately."
+  },
+  {
+    "id": "QT-0019",
+    "clientId": "CL-0025",
+    "preparedById": "ST-0005",
+    "title": "Home office and bedroom",
+    "date": "2026-10-16",
+    "validUntil": "2026-11-15",
+    "site": {
+      "label": "Home",
+      "address": "56 Pagoda Road",
+      "city": "Nugegoda"
+    },
+    "status": "Approved",
+    "items": [
+      {
+        "sku": "WP-PLN-02",
+        "product": "Wallpaper roll, plain linen",
+        "description": "Home office walls",
+        "qty": 6,
+        "unit": "roll",
+        "price": 3800,
+        "discount": 0
+      },
+      {
+        "sku": "BL-RLR-01",
+        "product": "Roller blind, 3 × 5 ft, white",
+        "description": "",
+        "qty": 3,
+        "unit": "piece",
+        "price": 12500,
+        "discount": 0
+      },
+      {
+        "sku": "",
+        "product": "Study desk with shelving",
+        "description": "Grey melamine, 6 ft",
+        "qty": 1,
+        "unit": "piece",
+        "price": 85000,
+        "discount": 0
+      }
+    ],
+    "labour": [
+      {
+        "description": "Installation",
+        "qty": 1,
+        "unit": "lot",
+        "price": 20000
+      }
+    ],
+    "discount": {
+      "type": "amount",
+      "value": 300
+    },
+    "taxRate": 0,
+    "notes": "",
+    "terms": "1. 50% advance on confirmation, balance on completion.\n2. Prices are valid until the date shown above.\n3. Work starts within 7 days of receiving the advance.\n4. Any extra work will be quoted separately."
+  },
+  {
+    "id": "QT-0018",
+    "clientId": "CL-0024",
+    "preparedById": "ST-0003",
+    "title": "Café seating area",
+    "date": "2026-10-14",
+    "validUntil": "2026-11-13",
+    "site": {
+      "label": "Shop",
+      "address": "102 Galle Road",
+      "city": "Matara"
+    },
+    "status": "Approved",
+    "items": [
+      {
+        "sku": "TL-POR-60",
+        "product": "Porcelain tile, 600 × 600",
+        "description": "Matt grey",
+        "qty": 30,
+        "unit": "box",
+        "price": 6800,
+        "discount": 0
+      },
+      {
+        "sku": "LED-STR-5",
+        "product": "LED strip, 5 m, warm white",
+        "description": "Under the bench seating",
+        "qty": 6,
+        "unit": "piece",
+        "price": 2900,
+        "discount": 0
+      },
+      {
+        "sku": "",
+        "product": "Bench seating",
+        "description": "Teak finish, with cushions",
+        "qty": 2,
+        "unit": "piece",
+        "price": 48000,
+        "discount": 0
+      }
+    ],
+    "labour": [
+      {
+        "description": "Tiling and fitting",
+        "qty": 1,
+        "unit": "lot",
+        "price": 45000
+      }
+    ],
+    "discount": {
+      "type": "amount",
+      "value": 2400
+    },
+    "taxRate": 0,
+    "notes": "Work to be done on Mondays when the café is closed.",
+    "terms": "1. 50% advance on confirmation, balance on completion.\n2. Prices are valid until the date shown above.\n3. Work starts within 7 days of receiving the advance.\n4. Any extra work will be quoted separately."
+  },
+  {
+    "id": "QT-0017",
+    "clientId": "CL-0026",
+    "preparedById": "ST-0004",
+    "title": "Bedroom wallpaper and curtains",
+    "date": "2026-10-20",
+    "validUntil": "2026-11-19",
+    "site": {
+      "label": "Apartment",
+      "address": "B-4/2 Havelock City",
+      "city": "Colombo 5"
+    },
+    "status": "Sent",
+    "items": [
+      {
+        "sku": "WP-FLR-01",
+        "product": "Wallpaper roll, floral",
+        "description": "Feature wall",
+        "qty": 8,
+        "unit": "roll",
+        "price": 4500,
+        "discount": 0
+      },
+      {
+        "sku": "CUR-SHR-01",
+        "product": "Sheer curtain panel, white",
+        "description": "",
+        "qty": 4,
+        "unit": "piece",
+        "price": 3600,
+        "discount": 0
+      },
+      {
+        "sku": "CR-ROD-01",
+        "product": "Curtain rod, 6 ft, brass",
+        "description": "",
+        "qty": 2,
+        "unit": "piece",
+        "price": 3200,
+        "discount": 0
+      }
+    ],
+    "labour": [
+      {
+        "description": "Wallpapering and curtain fitting",
+        "qty": 1,
+        "unit": "lot",
+        "price": 12000
+      }
+    ],
+    "discount": {
+      "type": "amount",
+      "value": 0
+    },
+    "taxRate": 0,
+    "notes": "",
+    "terms": "1. 50% advance on confirmation, balance on completion.\n2. Prices are valid until the date shown above.\n3. Work starts within 7 days of receiving the advance.\n4. Any extra work will be quoted separately."
+  },
+  {
+    "id": "QT-0016",
+    "clientId": "CL-0022",
+    "preparedById": "ST-0003",
+    "title": "Living room wall panelling",
+    "date": "2026-10-05",
+    "validUntil": "2026-11-04",
+    "site": {
+      "label": "Home",
+      "address": "45 Beach Road",
+      "city": "Matara"
+    },
+    "status": "Approved",
+    "items": [
+      {
+        "sku": "WPC-WAL-01",
+        "product": "WPC wall panel, walnut",
+        "description": "160 mm fluted, 2.9 m long",
+        "qty": 40,
+        "unit": "piece",
+        "price": 3250,
+        "discount": 0
+      },
+      {
+        "sku": "SH-FLT-01",
+        "product": "Floating wall shelf, 2 ft",
+        "description": "Walnut to match",
+        "qty": 2,
+        "unit": "piece",
+        "price": 3600,
+        "discount": 0
+      }
+    ],
+    "labour": [
+      {
+        "description": "Panel fixing and finishing",
+        "qty": 120,
+        "unit": "sqft",
+        "price": 250
+      }
+    ],
+    "discount": {
+      "type": "amount",
+      "value": 0
+    },
     "taxRate": 0,
     "notes": "Panel colour sample shown at the Matara showroom.",
     "terms": "1. 50% advance on confirmation, balance on completion.\n2. Prices are valid until the date shown above.\n3. Work starts within 7 days of receiving the advance.\n4. Any extra work will be quoted separately."
@@ -21,19 +323,48 @@
   {
     "id": "QT-0015",
     "clientId": "CL-0019",
+    "preparedById": "ST-0004",
     "title": "Office reception and cabins",
     "date": "2026-10-22",
     "validUntil": "2026-11-21",
-    "site": { "label": "Office", "address": "77 Old Kesbewa Road", "city": "Nugegoda" },
+    "site": {
+      "label": "Office",
+      "address": "77 Old Kesbewa Road",
+      "city": "Nugegoda"
+    },
     "status": "Draft",
     "items": [
-      { "product": "Reception counter", "description": "Laminate on 18 mm MDF, with LED strip", "qty": 1, "unit": "piece", "price": 145000, "discount": 0 },
-      { "product": "Cabin partition", "description": "Laminate finish, 8 ft height", "qty": 180, "unit": "sqft", "price": 1100, "discount": 0 }
+      {
+        "sku": "",
+        "product": "Reception counter",
+        "description": "Laminate on 18 mm MDF, with LED strip",
+        "qty": 1,
+        "unit": "piece",
+        "price": 145000,
+        "discount": 0
+      },
+      {
+        "sku": "",
+        "product": "Cabin partition",
+        "description": "Laminate finish, 8 ft height",
+        "qty": 180,
+        "unit": "sqft",
+        "price": 1100,
+        "discount": 0
+      }
     ],
     "labour": [
-      { "description": "Installation and site clean-up", "qty": 1, "unit": "lot", "price": 40000 }
+      {
+        "description": "Installation and site clean-up",
+        "qty": 1,
+        "unit": "lot",
+        "price": 40000
+      }
     ],
-    "discount": { "type": "amount", "value": 0 },
+    "discount": {
+      "type": "amount",
+      "value": 0
+    },
     "taxRate": 18,
     "notes": "Revised from veneer to laminate as requested. VAT added because the client is VAT registered.",
     "terms": "1. 50% advance on confirmation, balance on completion.\n2. Prices are valid until the date shown above.\n3. Work starts within 7 days of receiving the advance.\n4. Any extra work will be quoted separately."
@@ -41,40 +372,155 @@
   {
     "id": "QT-0014",
     "clientId": "CL-0018",
+    "preparedById": "ST-0005",
     "title": "Pantry and wardrobe",
-    "date": "2026-10-15",
-    "validUntil": "2026-11-14",
-    "site": { "label": "Apartment", "address": "22/3 Stanley Thilakaratne Mawatha", "city": "Nugegoda" },
+    "date": "2026-10-12",
+    "validUntil": "2026-11-11",
+    "site": {
+      "label": "Apartment",
+      "address": "22/3 Stanley Thilakaratne Mawatha",
+      "city": "Nugegoda"
+    },
     "status": "Approved",
     "items": [
-      { "product": "Pantry cupboards", "description": "Melamine on 18 mm board, soft-close hinges", "qty": 8, "unit": "ft", "price": 22000, "discount": 5 },
-      { "product": "Built-in wardrobe", "description": "Sliding doors with mirror panel", "qty": 7, "unit": "ft", "price": 26000, "discount": 0 }
+      {
+        "sku": "",
+        "product": "Pantry cupboards",
+        "description": "White gloss laminate, soft-close hinges",
+        "qty": 8,
+        "unit": "ft",
+        "price": 22000,
+        "discount": 5
+      },
+      {
+        "sku": "",
+        "product": "Built-in wardrobe",
+        "description": "Sliding doors with mirror panel",
+        "qty": 7,
+        "unit": "ft",
+        "price": 26000,
+        "discount": 0
+      }
     ],
     "labour": [
-      { "description": "Delivery and installation", "qty": 1, "unit": "lot", "price": 35800 }
+      {
+        "description": "Delivery and installation",
+        "qty": 1,
+        "unit": "lot",
+        "price": 35800
+      }
     ],
-    "discount": { "type": "amount", "value": 0 },
+    "discount": {
+      "type": "amount",
+      "value": 0
+    },
     "taxRate": 0,
     "notes": "5% off the pantry as a referral discount (referred by Mrs. Perera).",
     "terms": "1. 50% advance on confirmation, balance on completion.\n2. Prices are valid until the date shown above.\n3. Work starts within 7 days of receiving the advance.\n4. Any extra work will be quoted separately."
   },
   {
+    "id": "QT-0013",
+    "clientId": "CL-0019",
+    "preparedById": "ST-0004",
+    "title": "Office reception and cabins, veneer",
+    "date": "2026-10-08",
+    "validUntil": "2026-11-07",
+    "site": {
+      "label": "Office",
+      "address": "77 Old Kesbewa Road",
+      "city": "Nugegoda"
+    },
+    "status": "Rejected",
+    "items": [
+      {
+        "sku": "",
+        "product": "Reception counter",
+        "description": "Teak veneer on 18 mm MDF, with LED strip",
+        "qty": 1,
+        "unit": "piece",
+        "price": 185000,
+        "discount": 0
+      },
+      {
+        "sku": "",
+        "product": "Cabin partition",
+        "description": "Teak veneer, 8 ft height",
+        "qty": 180,
+        "unit": "sqft",
+        "price": 1450,
+        "discount": 0
+      }
+    ],
+    "labour": [
+      {
+        "description": "Installation and site clean-up",
+        "qty": 1,
+        "unit": "lot",
+        "price": 40000
+      }
+    ],
+    "discount": {
+      "type": "amount",
+      "value": 0
+    },
+    "taxRate": 18,
+    "notes": "Client found veneer over budget and asked for laminate.",
+    "terms": "1. 50% advance on confirmation, balance on completion.\n2. Prices are valid until the date shown above.\n3. Work starts within 7 days of receiving the advance.\n4. Any extra work will be quoted separately."
+  },
+  {
     "id": "QT-0012",
     "clientId": "CL-0021",
+    "preparedById": "ST-0004",
     "title": "Living room vinyl flooring",
     "date": "2026-09-20",
     "validUntil": "2026-10-20",
-    "site": { "label": "Home", "address": "14 Lake Road", "city": "Negombo" },
+    "site": {
+      "label": "Home",
+      "address": "14 Lake Road",
+      "city": "Negombo"
+    },
     "status": "Approved",
     "items": [
-      { "sku": "VNL-OAK-01", "product": "Vinyl plank", "description": "VNL-OAK-01, oak finish, 5 mm click-lock", "qty": 450, "unit": "sqft", "price": 850, "discount": 0 },
-      { "sku": "UND-FOAM-2", "product": "Underlay", "description": "2 mm foam with moisture barrier", "qty": 450, "unit": "sqft", "price": 120, "discount": 0 },
-      { "sku": "SKT-PVC-OAK", "product": "Skirting", "description": "PVC, oak to match", "qty": 40, "unit": "m", "price": 450, "discount": 0 }
+      {
+        "sku": "VNL-OAK-01",
+        "product": "Vinyl plank, oak finish",
+        "description": "5 mm click-lock",
+        "qty": 450,
+        "unit": "sqft",
+        "price": 850,
+        "discount": 0
+      },
+      {
+        "sku": "UND-FOAM-2",
+        "product": "Underlay, 2 mm foam",
+        "description": "With moisture barrier",
+        "qty": 450,
+        "unit": "sqft",
+        "price": 120,
+        "discount": 0
+      },
+      {
+        "sku": "SKT-PVC-OAK",
+        "product": "Skirting, PVC, oak",
+        "description": "To match the planks",
+        "qty": 40,
+        "unit": "m",
+        "price": 750,
+        "discount": 0
+      }
     ],
     "labour": [
-      { "description": "Floor installation", "qty": 450, "unit": "sqft", "price": 150 }
+      {
+        "description": "Floor installation",
+        "qty": 450,
+        "unit": "sqft",
+        "price": 120
+      }
     ],
-    "discount": { "type": "amount", "value": 2000 },
+    "discount": {
+      "type": "amount",
+      "value": 500
+    },
     "taxRate": 0,
     "notes": "Client prefers weekday installation after 10 am.",
     "terms": "1. 50% advance on confirmation, balance on completion.\n2. Prices are valid until the date shown above.\n3. Work starts within 7 days of receiving the advance.\n4. Any extra work will be quoted separately."
@@ -82,18 +528,39 @@
   {
     "id": "QT-0011",
     "clientId": "CL-0015",
+    "preparedById": "ST-0004",
     "title": "Office ceiling",
     "date": "2026-02-05",
     "validUntil": "2026-03-07",
-    "site": { "label": "Office", "address": "120 High Level Road", "city": "Nugegoda" },
+    "site": {
+      "label": "Office",
+      "address": "120 High Level Road",
+      "city": "Nugegoda"
+    },
     "status": "Rejected",
     "items": [
-      { "product": "Gypsum ceiling", "description": "9 mm board on aluminium frame", "qty": 300, "unit": "sqft", "price": 420, "discount": 0 }
+      {
+        "sku": "",
+        "product": "Gypsum ceiling",
+        "description": "9 mm board on aluminium frame",
+        "qty": 300,
+        "unit": "sqft",
+        "price": 420,
+        "discount": 0
+      }
     ],
     "labour": [
-      { "description": "Ceiling installation and painting", "qty": 300, "unit": "sqft", "price": 180 }
+      {
+        "description": "Ceiling installation and painting",
+        "qty": 300,
+        "unit": "sqft",
+        "price": 180
+      }
     ],
-    "discount": { "type": "amount", "value": 0 },
+    "discount": {
+      "type": "amount",
+      "value": 0
+    },
     "taxRate": 0,
     "notes": "Client decided to postpone the office work.",
     "terms": "1. 50% advance on confirmation, balance on completion.\n2. Prices are valid until the date shown above.\n3. Work starts within 7 days of receiving the advance.\n4. Any extra work will be quoted separately."
@@ -101,20 +568,57 @@
   {
     "id": "QT-0009",
     "clientId": "CL-0015",
+    "preparedById": "ST-0004",
     "title": "Kitchen cabinets",
     "date": "2026-01-10",
     "validUntil": "2026-02-09",
-    "site": { "label": "Home", "address": "8 Temple Road", "city": "Maharagama" },
+    "site": {
+      "label": "Home",
+      "address": "8 Temple Road",
+      "city": "Maharagama"
+    },
     "status": "Approved",
     "items": [
-      { "product": "Kitchen base cabinets", "description": "Melamine on 18 mm board", "qty": 12, "unit": "ft", "price": 28000, "discount": 0 },
-      { "product": "Kitchen wall cabinets", "description": "Melamine on 18 mm board", "qty": 10, "unit": "ft", "price": 18000, "discount": 0 },
-      { "product": "Quartz countertop", "description": "20 mm, white", "qty": 12, "unit": "ft", "price": 9500, "discount": 0 }
+      {
+        "sku": "",
+        "product": "Kitchen base cabinets",
+        "description": "Melamine on 18 mm board",
+        "qty": 12,
+        "unit": "ft",
+        "price": 28000,
+        "discount": 0
+      },
+      {
+        "sku": "",
+        "product": "Kitchen wall cabinets",
+        "description": "Melamine on 18 mm board",
+        "qty": 10,
+        "unit": "ft",
+        "price": 18000,
+        "discount": 0
+      },
+      {
+        "sku": "QTZ-WHT-20",
+        "product": "Quartz countertop",
+        "description": "20 mm, white",
+        "qty": 12,
+        "unit": "ft",
+        "price": 9500,
+        "discount": 0
+      }
     ],
     "labour": [
-      { "description": "Installation", "qty": 1, "unit": "lot", "price": 25000 }
+      {
+        "description": "Installation",
+        "qty": 1,
+        "unit": "lot",
+        "price": 25000
+      }
     ],
-    "discount": { "type": "amount", "value": 15000 },
+    "discount": {
+      "type": "amount",
+      "value": 15000
+    },
     "taxRate": 0,
     "notes": "",
     "terms": "1. 50% advance on confirmation, balance on completion.\n2. Prices are valid until the date shown above.\n3. Work starts within 7 days of receiving the advance.\n4. Any extra work will be quoted separately."
@@ -122,19 +626,48 @@
   {
     "id": "QT-0008",
     "clientId": "CL-0012",
+    "preparedById": "ST-0003",
     "title": "Bedroom curtains and blinds",
     "date": "2025-06-02",
     "validUntil": "2025-07-02",
-    "site": { "label": "Home", "address": "19 Esplanade Road", "city": "Matara" },
+    "site": {
+      "label": "Home",
+      "address": "19 Esplanade Road",
+      "city": "Matara"
+    },
     "status": "Approved",
     "items": [
-      { "sku": "CUR-BLK-01", "product": "Blackout curtains", "description": "Beige, lined, with rails", "qty": 3, "unit": "set", "price": 38000, "discount": 0 },
-      { "sku": "BL-RLR-01", "product": "Roller blinds", "description": "White, chain operated", "qty": 4, "unit": "piece", "price": 12500, "discount": 0 }
+      {
+        "sku": "CUR-BLK-01",
+        "product": "Blackout curtain set",
+        "description": "Beige, lined, with rails",
+        "qty": 3,
+        "unit": "set",
+        "price": 38000,
+        "discount": 0
+      },
+      {
+        "sku": "BL-RLR-01",
+        "product": "Roller blind",
+        "description": "White, chain operated",
+        "qty": 4,
+        "unit": "piece",
+        "price": 12500,
+        "discount": 0
+      }
     ],
     "labour": [
-      { "description": "Measuring and fitting", "qty": 1, "unit": "lot", "price": 8000 }
+      {
+        "description": "Measuring and fitting",
+        "qty": 1,
+        "unit": "lot",
+        "price": 8000
+      }
     ],
-    "discount": { "type": "amount", "value": 0 },
+    "discount": {
+      "type": "amount",
+      "value": 0
+    },
     "taxRate": 0,
     "notes": "",
     "terms": "1. 50% advance on confirmation, balance on completion.\n2. Prices are valid until the date shown above.\n3. Work starts within 7 days of receiving the advance.\n4. Any extra work will be quoted separately."

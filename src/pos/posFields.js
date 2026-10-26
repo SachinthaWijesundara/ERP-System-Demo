@@ -5,13 +5,6 @@ export const PAYMENT_METHODS = ['Cash', 'Card', 'Bank transfer']
 // Cash kept in the drawer at the start of each day, for giving change.
 export const OPENING_FLOAT = 5000
 
-// Front-desk staff at each branch. Typed in until there's a Staff module
-// and logins; then the cashier will simply be whoever is logged in.
-export const DEMO_CASHIERS = {
-  Matara: 'Ishara Madushani',
-  Nugegoda: 'Kavindu Silva',
-}
-
 const SALE_ID = /^SL-\d{4}$/
 
 export function nextSaleId(sales) {
@@ -48,17 +41,18 @@ export function saleTotals(sale) {
 // --- Validation --------------------------------------------------------
 
 // Checks a sale before it's completed. `closedDay` is true when that branch
-// has already done its cash-up for the sale's date.
+// has already done its cash-up for the sale's date. The cashier is whoever is
+// logged in, and only Inventory items can be sold at the counter.
 export function validateSale(sale, sales, closedDay) {
   const errors = {}
   if (!SALE_ID.test(sale.id) || sales.some((s) => s.id === sale.id)) errors.id = 'Sale number is not valid.'
   if (!sale.branch) errors.branch = 'Choose the branch.'
   else if (closedDay) errors.branch = `${sale.branch} has already closed the day. New sales go on tomorrow’s cash-up.`
-  if (!sale.cashier.trim()) errors.cashier = 'Enter the cashier’s name.'
+  if (!sale.cashierId) errors.cashier = 'Sign in to sell.'
 
   if (sale.items.length === 0) errors.items = 'Add at least one item.'
   sale.items.forEach((item, i) => {
-    if (!item.name.trim()) errors[`items.${i}.name`] = 'Enter the item.'
+    if (!item.sku) errors[`items.${i}.name`] = 'Only Inventory items can be sold.'
     if (!(num(item.qty) > 0)) errors[`items.${i}.qty`] = 'More than 0.'
     if (item.price === '' || num(item.price) < 0) errors[`items.${i}.price`] = '0 or more.'
     if (num(item.discount) < 0 || num(item.discount) > 100) errors[`items.${i}.discount`] = '0 to 100.'
@@ -81,7 +75,6 @@ export function cleanSale(sale) {
   const phone = sale.customer?.phone.trim() ?? ''
   return {
     ...sale,
-    cashier: sale.cashier.trim(),
     customer: name || phone ? { name, phone: phone ? formatPhone(phone) : '' } : null,
     items: sale.items.map((i) => ({
       sku: i.sku ?? '',
@@ -101,8 +94,9 @@ export function cleanSale(sale) {
 
 // --- End-of-day cash-up --------------------------------------------------
 
+// A voided sale's money was handed back, so it isn't in the day's takings.
 export function salesForDay(sales, branch, date) {
-  return sales.filter((s) => s.branch === branch && s.date === date)
+  return sales.filter((s) => s.branch === branch && s.date === date && !s.voided)
 }
 
 // Totals for one branch's day. Expected cash is the opening float plus cash

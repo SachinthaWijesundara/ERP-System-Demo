@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useOnChange } from '../utils/useOnChange.js'
 import { useData } from '../data/DataContext.jsx'
+import { useAuth } from '../auth/AuthContext.jsx'
 import ProjectList from '../projects/ProjectList.jsx'
 import ProjectDetail from '../projects/ProjectDetail.jsx'
 import ProjectForm from '../projects/ProjectForm.jsx'
@@ -9,14 +10,17 @@ import { canConvertToProject, projectFromQuote } from '../data/links.js'
 import { todayIso } from '../utils/format.js'
 
 // Switches between the project list, one project, and the add/edit form.
+// Starting a project needs "start a project"; the edit form opens for roles
+// that can change its details or its people.
 export default function Projects({ query, branch, openId, openFilter, onOpenRecord }) {
   const data = useData()
+  const auth = useAuth()
   // `openId` opens one project straight away, e.g. when clicked on a client page.
   // `openFilter.fromQuote` opens the new-project form started from that quote,
   // from the quote's Convert to project button.
   const [view, setView] = useState(() => {
     if (openId) return { mode: 'detail', id: openId }
-    if (openFilter?.fromQuote) return { mode: 'new', quoteId: openFilter.fromQuote }
+    if (openFilter?.fromQuote && auth.can('projects.create')) return { mode: 'new', quoteId: openFilter.fromQuote }
     return { mode: 'list' }
   })
 
@@ -34,7 +38,7 @@ export default function Projects({ query, branch, openId, openFilter, onOpenReco
     )
   }
 
-  if (view.mode === 'edit') {
+  if (view.mode === 'edit' && (auth.can('projects.edit') || auth.can('projects.team'))) {
     return (
       <ProjectForm
         initial={data.projects.find((p) => p.id === view.id)}
@@ -48,7 +52,7 @@ export default function Projects({ query, branch, openId, openFilter, onOpenReco
     )
   }
 
-  if (view.mode === 'new') {
+  if (view.mode === 'new' && auth.can('projects.create')) {
     const blank = emptyProject(nextProjectId(data.projects), todayIso())
     const quote = data.quotations.find((q) => q.id === view.quoteId)
     return (

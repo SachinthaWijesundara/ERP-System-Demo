@@ -1,15 +1,20 @@
 import { useEffect, useRef, useState } from 'react'
 import { Bell, Receipt } from 'lucide-react'
 import { useData } from '../data/DataContext.jsx'
+import { useAuth } from '../auth/AuthContext.jsx'
+import { MODULE_VIEW_KEY } from '../auth/permissions.js'
 import { formatDate } from '../utils/format.js'
 
 // The bell in the top bar. Invoices created or changed automatically (quote
 // approved, project handed over, POS sale) show up here; clicking one opens it.
+// Each person only sees notices about modules their role can open.
 export default function Notifications({ onOpenRecord }) {
   const data = useData()
+  const auth = useAuth()
   const [open, setOpen] = useState(false)
   const box = useRef(null)
-  const unread = data.notifications.filter((n) => !n.read).length
+  const notices = data.notifications.filter((n) => auth.can(MODULE_VIEW_KEY[n.module]))
+  const unread = notices.filter((n) => !n.read).length
 
   // Close when clicking anywhere else.
   useEffect(() => {
@@ -34,17 +39,17 @@ export default function Notifications({ onOpenRecord }) {
         <div className="notify-panel" role="dialog" aria-label="Notifications">
           <div className="notify-head">
             <strong>Notifications</strong>
-            {data.notifications.length > 0 && (
+            {notices.length > 0 && (
               <button type="button" className="inline-link" onClick={data.markNotificationsRead}>
                 Mark all read
               </button>
             )}
           </div>
-          {data.notifications.length === 0 ? (
+          {notices.length === 0 ? (
             <p className="notify-empty">Nothing new. Invoices made by quotes, projects and the POS will show here.</p>
           ) : (
             <ul className="notify-list">
-              {data.notifications.map((n) => (
+              {notices.map((n) => (
                 <li key={n.id}>
                   <button
                     type="button"

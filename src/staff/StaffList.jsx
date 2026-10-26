@@ -2,28 +2,34 @@ import { useState } from 'react'
 import { ShieldCheck } from 'lucide-react'
 import Badge from '../components/Badge.jsx'
 import { useData } from '../data/DataContext.jsx'
+import { useAuth } from '../auth/AuthContext.jsx'
 import { formatDate } from '../utils/format.js'
 import { ALL_BRANCHES } from '../modules.js'
-import { STAFF_ROLES, initials } from './staffFields.js'
+import { roleOf, initials } from './staffFields.js'
 
-function matches(person, query) {
+function matches(person, roleLabel, query) {
   const q = query.trim().toLowerCase()
   if (!q) return true
-  return [person.id, person.name, person.role, person.branch, person.phone, person.email].some((t) => t.toLowerCase().includes(q))
+  return [person.id, person.name, roleLabel, person.branch, person.phone, person.email].some((t) => t.toLowerCase().includes(q))
 }
 
 // Read-only. Nobody adds or edits people here; an admin does that in
-// User settings.
+// User settings. Roles come from User settings too. Phone numbers and email
+// need "see colleagues' phone numbers and email".
 export default function StaffList({ query, branch, onOpen }) {
   const data = useData()
+  const auth = useAuth()
+  const showContact = auth.can('staff.contact')
   const [role, setRole] = useState('All')
+  const label = (p) => roleOf(data.roles, p)?.label ?? 'No role'
+  const roles = data.roles.filter((r) => data.staff.some((p) => p.roleId === r.id))
 
   // Someone working at "All branches" shows under either branch.
   const inBranch =
     branch === ALL_BRANCHES ? data.staff : data.staff.filter((p) => p.branch === branch || p.branch === ALL_BRANCHES)
-  const found = inBranch.filter((p) => matches(p, query))
-  const rows = role === 'All' ? found : found.filter((p) => p.role === role)
-  const countFor = (r) => (r === 'All' ? found.length : found.filter((p) => p.role === r).length)
+  const found = inBranch.filter((p) => matches(p, label(p), query))
+  const rows = role === 'All' ? found : found.filter((p) => p.roleId === role)
+  const countFor = (r) => (r === 'All' ? found.length : found.filter((p) => p.roleId === r).length)
 
   return (
     <>
@@ -39,11 +45,10 @@ export default function StaffList({ query, branch, onOpen }) {
             <p>Once an admin adds people, they’ll be listed here with their role, branch and contact details.</p>
           </div>
           <div className="role-guide">
-            {STAFF_ROLES.map((r) => (
-              <div key={r.role} className="role-card">
-                <div className="cell-main">{r.role}</div>
+            {data.roles.map((r) => (
+              <div key={r.id} className="role-card">
+                <div className="cell-main">{r.label}</div>
                 <p>{r.about}</p>
-                <div className="cell-sub">System access: {r.access}</div>
               </div>
             ))}
           </div>
@@ -52,10 +57,10 @@ export default function StaffList({ query, branch, onOpen }) {
         <>
           <div className="toolbar">
             <div className="tabs">
-              {['All', ...STAFF_ROLES.map((r) => r.role)].map((r) => (
-                <button key={r} type="button" className={`tab${role === r ? ' is-active' : ''}`} onClick={() => setRole(r)}>
-                  {r}
-                  <span className="tab-count">{countFor(r)}</span>
+              {[{ id: 'All', label: 'All' }, ...roles].map((r) => (
+                <button key={r.id} type="button" className={`tab${role === r.id ? ' is-active' : ''}`} onClick={() => setRole(r.id)}>
+                  {r.label}
+                  <span className="tab-count">{countFor(r.id)}</span>
                 </button>
               ))}
             </div>
@@ -68,8 +73,8 @@ export default function StaffList({ query, branch, onOpen }) {
                   <th>Person</th>
                   <th>Role</th>
                   <th>Branch</th>
-                  <th>Phone</th>
-                  <th>Email</th>
+                  {showContact && <th>Phone</th>}
+                  {showContact && <th>Email</th>}
                   <th>Joined</th>
                   <th>Status</th>
                 </tr>
@@ -86,10 +91,10 @@ export default function StaffList({ query, branch, onOpen }) {
                         </div>
                       </div>
                     </td>
-                    <td>{p.role}</td>
+                    <td>{label(p)}</td>
                     <td>{p.branch}</td>
-                    <td>{p.phone}</td>
-                    <td>{p.email || <span className="muted">—</span>}</td>
+                    {showContact && <td>{p.phone}</td>}
+                    {showContact && <td>{p.email || <span className="muted">—</span>}</td>}
                     <td>{formatDate(p.joinedOn)}</td>
                     <td>
                       <Badge>{p.status}</Badge>

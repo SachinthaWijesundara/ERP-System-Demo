@@ -96,6 +96,6 @@ export function validatePayment(payment, invoice) {
   if ((payment.method === 'Bank transfer' || payment.method === 'Cheque') && !payment.reference.trim()) {
     errors.reference = payment.method === 'Cheque' ? 'Enter the cheque number and bank.' : 'Enter the transfer reference.'
   }
-  if (!payment.receivedBy.trim()) errors.receivedBy = 'Enter who took the payment.'
+  if (!payment.receivedById) errors.receivedBy = 'Sign in to record payments.'
   return errors
 }

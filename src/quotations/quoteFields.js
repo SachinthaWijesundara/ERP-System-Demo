@@ -23,10 +23,13 @@ function addDays(iso, days) {
   return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`
 }
 
-export function emptyQuote(id, today) {
+// `preparedById` is the registered staff member who made the quote: whoever
+// was logged in when it was created.
+export function emptyQuote(id, today, preparedById = '') {
   return {
     id,
     clientId: '',
+    preparedById,
     title: '',
     date: today,
     validUntil: addDays(today, 30),
@@ -80,7 +83,9 @@ export function quoteTotals(quote) {
 // --- Validation --------------------------------------------------------
 
 // Returns { fieldName: message }. Line errors use keys like 'items.0.qty'.
-export function validateQuote(quote, quotations, isNew) {
+// `maxDiscount` is the largest discount (%) the person's role may give, on a
+// line or on the whole quote.
+export function validateQuote(quote, quotations, isNew, maxDiscount = 100) {
   const errors = {}
   const id = quote.id.trim()
 
@@ -105,6 +110,7 @@ export function validateQuote(quote, quotations, isNew) {
     if (!(num(item.qty) > 0)) errors[`items.${i}.qty`] = 'More than 0.'
     if (item.price === '' || num(item.price) < 0) errors[`items.${i}.price`] = '0 or more.'
     if (num(item.discount) < 0 || num(item.discount) > 100) errors[`items.${i}.discount`] = '0 to 100.'
+    else if (num(item.discount) > maxDiscount) errors[`items.${i}.discount`] = `Up to ${maxDiscount}%.`
   })
 
   quote.labour.forEach((line, i) => {
@@ -118,6 +124,13 @@ export function validateQuote(quote, quotations, isNew) {
   else if (quote.discount.type === 'percent' && d > 100) errors.discount = 'A percentage can’t be more than 100.'
   else if (quote.discount.type === 'amount' && d > quoteTotals({ ...quote, discount: { type: 'amount', value: 0 } }).subtotal) {
     errors.discount = 'Can’t be more than the subtotal.'
+  }
+
+  if (!errors.discount && maxDiscount < 100) {
+    const t = quoteTotals(quote)
+    if (t.subtotal > 0 && (t.discount / t.subtotal) * 100 > maxDiscount + 1e-9) {
+      errors.discount = `Your role can give up to ${maxDiscount}% off (${Math.floor((t.subtotal * maxDiscount) / 100).toLocaleString('en-LK')} LKR here).`
+    }
   }
 
   if (num(quote.taxRate) < 0 || num(quote.taxRate) > 100) errors.taxRate = '0 to 100.'

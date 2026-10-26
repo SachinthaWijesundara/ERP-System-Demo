@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import Badge from '../components/Badge.jsx'
+import StaffLink, { staffName } from '../components/StaffLink.jsx'
 import { useData } from '../data/DataContext.jsx'
 import { formatDate, formatMoney, todayIso } from '../utils/format.js'
 import { PAYMENT_METHODS, saleTotals } from './posFields.js'
@@ -16,14 +17,15 @@ function daysAgo(n) {
 
 // True when the search text appears in the sale number, cashier, customer
 // or any item sold.
-function matches(sale, query) {
+function matches(data, sale, query) {
   const q = query.trim().toLowerCase()
   if (!q) return true
-  return [sale.id, sale.cashier, sale.customer?.name ?? '', sale.customer?.phone ?? '', ...sale.items.map((i) => i.name)]
+  return [sale.id, staffName(data, sale.cashierId), sale.customer?.name ?? '', sale.customer?.phone ?? '', ...sale.items.map((i) => i.name)]
     .some((text) => text.toLowerCase().includes(q))
 }
 
-export default function SaleList({ query, branch, onOpen }) {
+// Voided sales stay listed, struck through, and don't count in the figures.
+export default function SaleList({ query, branch, onOpen, onOpenRecord }) {
   const data = useData()
   const [period, setPeriod] = useState('Today')
   const today = todayIso()
@@ -31,11 +33,11 @@ export default function SaleList({ query, branch, onOpen }) {
   const allBranches = branch === ALL_BRANCHES
   const inBranch = allBranches ? data.sales : data.sales.filter((s) => s.branch === branch)
   const inPeriod = (s, p) => p === 'All' || (p === 'Today' ? s.date === today : s.date >= daysAgo(6))
-  const found = inBranch.filter((s) => matches(s, query))
+  const found = inBranch.filter((s) => matches(data, s, query))
   const rows = found.filter((s) => inPeriod(s, period))
 
   // Today's figures for the strip at the top, for the chosen branch.
-  const todays = inBranch.filter((s) => s.date === today)
+  const todays = inBranch.filter((s) => s.date === today && !s.voided)
   const sumBy = (method) =>
     todays.filter((s) => !method || s.payment.method === method).reduce((sum, s) => sum + saleTotals(s).total, 0)
 
@@ -84,15 +86,19 @@ export default function SaleList({ query, branch, onOpen }) {
             {rows.map((s) => {
               const t = saleTotals(s)
               return (
-                <tr key={s.id} onClick={() => onOpen(s.id)}>
+                <tr key={s.id} onClick={() => onOpen(s.id)} className={s.voided ? 'is-voided' : undefined}>
                   <td>
-                    <div className="cell-main">{s.id}</div>
+                    <div className="cell-main">
+                      {s.id} {s.voided && <Badge>Void</Badge>}
+                    </div>
                     <div className="cell-sub">
                       {formatDate(s.date)} · {s.time}
                     </div>
                   </td>
                   {allBranches && <td>{s.branch}</td>}
-                  <td>{s.cashier}</td>
+                  <td onClick={(e) => e.stopPropagation()}>
+                    <StaffLink id={s.cashierId} onOpenRecord={onOpenRecord} />
+                  </td>
                   <td>{s.customer?.name || <span className="muted">Walk-in</span>}</td>
                   <td className="wrap cell-items">
                     {s.items.map((i) => i.name).join(' · ')}

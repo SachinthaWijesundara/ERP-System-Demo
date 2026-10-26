@@ -3,8 +3,8 @@
     "branch": "Nugegoda",
     "date": "2026-10-24",
     "openingFloat": 5000,
-    "counted": 14500,
-    "closedBy": "Kavindu Silva",
+    "counted": 5000,
+    "closedById": "ST-0004",
     "closedAt": "18:10",
     "notes": ""
   },
@@ -12,27 +12,1044 @@
     "branch": "Matara",
     "date": "2026-10-24",
     "openingFloat": 5000,
-    "counted": 15800,
-    "closedBy": "Ishara Madushani",
-    "closedAt": "18:02",
+    "counted": 15593,
+    "closedById": "ST-0003",
+    "closedAt": "18:04",
     "notes": ""
   },
   {
     "branch": "Nugegoda",
     "date": "2026-10-23",
     "openingFloat": 5000,
-    "counted": 13500,
-    "closedBy": "Kavindu Silva",
-    "closedAt": "18:15",
-    "notes": "LKR 200 short. Counted twice; likely wrong change on the 4:20 pm sale."
+    "counted": 28300,
+    "closedById": "ST-0004",
+    "closedAt": "18:07",
+    "notes": "LKR 200 short. Probably change given twice; checked the receipts."
   },
   {
     "branch": "Matara",
     "date": "2026-10-23",
     "openingFloat": 5000,
-    "counted": 23000,
-    "closedBy": "Ishara Madushani",
+    "counted": 38000,
+    "closedById": "ST-0003",
+    "closedAt": "18:19",
+    "notes": ""
+  },
+  {
+    "branch": "Nugegoda",
+    "date": "2026-10-22",
+    "openingFloat": 5000,
+    "counted": 57200,
+    "closedById": "ST-0004",
+    "closedAt": "18:21",
+    "notes": ""
+  },
+  {
+    "branch": "Matara",
+    "date": "2026-10-22",
+    "openingFloat": 5000,
+    "counted": 48700,
+    "closedById": "ST-0003",
+    "closedAt": "18:14",
+    "notes": ""
+  },
+  {
+    "branch": "Nugegoda",
+    "date": "2026-10-21",
+    "openingFloat": 5000,
+    "counted": 50600,
+    "closedById": "ST-0004",
+    "closedAt": "18:11",
+    "notes": ""
+  },
+  {
+    "branch": "Matara",
+    "date": "2026-10-21",
+    "openingFloat": 5000,
+    "counted": 18000,
+    "closedById": "ST-0003",
+    "closedAt": "18:07",
+    "notes": ""
+  },
+  {
+    "branch": "Nugegoda",
+    "date": "2026-10-20",
+    "openingFloat": 5000,
+    "counted": 30200,
+    "closedById": "ST-0004",
+    "closedAt": "18:22",
+    "notes": ""
+  },
+  {
+    "branch": "Matara",
+    "date": "2026-10-20",
+    "openingFloat": 5000,
+    "counted": 52600,
+    "closedById": "ST-0003",
+    "closedAt": "18:24",
+    "notes": ""
+  },
+  {
+    "branch": "Nugegoda",
+    "date": "2026-10-19",
+    "openingFloat": 5000,
+    "counted": 5000,
+    "closedById": "ST-0004",
+    "closedAt": "18:11",
+    "notes": ""
+  },
+  {
+    "branch": "Matara",
+    "date": "2026-10-19",
+    "openingFloat": 5000,
+    "counted": 15200,
+    "closedById": "ST-0003",
+    "closedAt": "18:00",
+    "notes": ""
+  },
+  {
+    "branch": "Nugegoda",
+    "date": "2026-10-17",
+    "openingFloat": 5000,
+    "counted": 17500,
+    "closedById": "ST-0004",
+    "closedAt": "18:07",
+    "notes": ""
+  },
+  {
+    "branch": "Matara",
+    "date": "2026-10-17",
+    "openingFloat": 5000,
+    "counted": 66200,
+    "closedById": "ST-0003",
+    "closedAt": "18:07",
+    "notes": ""
+  },
+  {
+    "branch": "Nugegoda",
+    "date": "2026-10-16",
+    "openingFloat": 5000,
+    "counted": 37900,
+    "closedById": "ST-0004",
+    "closedAt": "18:19",
+    "notes": ""
+  },
+  {
+    "branch": "Matara",
+    "date": "2026-10-16",
+    "openingFloat": 5000,
+    "counted": 52930,
+    "closedById": "ST-0003",
+    "closedAt": "18:20",
+    "notes": ""
+  },
+  {
+    "branch": "Nugegoda",
+    "date": "2026-10-15",
+    "openingFloat": 5000,
+    "counted": 5000,
+    "closedById": "ST-0004",
+    "closedAt": "18:07",
+    "notes": ""
+  },
+  {
+    "branch": "Matara",
+    "date": "2026-10-15",
+    "openingFloat": 5000,
+    "counted": 21400,
+    "closedById": "ST-0003",
+    "closedAt": "18:12",
+    "notes": ""
+  },
+  {
+    "branch": "Nugegoda",
+    "date": "2026-10-14",
+    "openingFloat": 5000,
+    "counted": 45600,
+    "closedById": "ST-0004",
+    "closedAt": "18:00",
+    "notes": ""
+  },
+  {
+    "branch": "Matara",
+    "date": "2026-10-14",
+    "openingFloat": 5000,
+    "counted": 5000,
+    "closedById": "ST-0003",
+    "closedAt": "18:01",
+    "notes": ""
+  },
+  {
+    "branch": "Nugegoda",
+    "date": "2026-10-13",
+    "openingFloat": 5000,
+    "counted": 10800,
+    "closedById": "ST-0004",
+    "closedAt": "18:23",
+    "notes": ""
+  },
+  {
+    "branch": "Matara",
+    "date": "2026-10-13",
+    "openingFloat": 5000,
+    "counted": 23250,
+    "closedById": "ST-0003",
+    "closedAt": "18:24",
+    "notes": ""
+  },
+  {
+    "branch": "Nugegoda",
+    "date": "2026-10-09",
+    "openingFloat": 5000,
+    "counted": 52300,
+    "closedById": "ST-0004",
+    "closedAt": "18:24",
+    "notes": ""
+  },
+  {
+    "branch": "Matara",
+    "date": "2026-10-09",
+    "openingFloat": 5000,
+    "counted": 5000,
+    "closedById": "ST-0003",
+    "closedAt": "18:02",
+    "notes": ""
+  },
+  {
+    "branch": "Nugegoda",
+    "date": "2026-10-08",
+    "openingFloat": 5000,
+    "counted": 5000,
+    "closedById": "ST-0004",
+    "closedAt": "18:14",
+    "notes": ""
+  },
+  {
+    "branch": "Matara",
+    "date": "2026-10-06",
+    "openingFloat": 5000,
+    "counted": 5000,
+    "closedById": "ST-0003",
+    "closedAt": "18:14",
+    "notes": ""
+  },
+  {
+    "branch": "Matara",
+    "date": "2026-10-05",
+    "openingFloat": 5000,
+    "counted": 60465,
+    "closedById": "ST-0003",
+    "closedAt": "18:06",
+    "notes": ""
+  },
+  {
+    "branch": "Nugegoda",
+    "date": "2026-10-01",
+    "openingFloat": 5000,
+    "counted": 5000,
+    "closedById": "ST-0004",
+    "closedAt": "18:21",
+    "notes": ""
+  },
+  {
+    "branch": "Matara",
+    "date": "2026-09-30",
+    "openingFloat": 5000,
+    "counted": 38420,
+    "closedById": "ST-0003",
+    "closedAt": "18:25",
+    "notes": ""
+  },
+  {
+    "branch": "Nugegoda",
+    "date": "2026-09-29",
+    "openingFloat": 5000,
+    "counted": 5000,
+    "closedById": "ST-0004",
+    "closedAt": "18:03",
+    "notes": ""
+  },
+  {
+    "branch": "Matara",
+    "date": "2026-09-29",
+    "openingFloat": 5000,
+    "counted": 32500,
+    "closedById": "ST-0003",
+    "closedAt": "18:21",
+    "notes": ""
+  },
+  {
+    "branch": "Matara",
+    "date": "2026-09-26",
+    "openingFloat": 5000,
+    "counted": 28700,
+    "closedById": "ST-0003",
+    "closedAt": "18:23",
+    "notes": ""
+  },
+  {
+    "branch": "Matara",
+    "date": "2026-09-25",
+    "openingFloat": 5000,
+    "counted": 25520,
+    "closedById": "ST-0003",
+    "closedAt": "18:22",
+    "notes": ""
+  },
+  {
+    "branch": "Matara",
+    "date": "2026-09-19",
+    "openingFloat": 5000,
+    "counted": 25400,
+    "closedById": "ST-0003",
+    "closedAt": "18:10",
+    "notes": ""
+  },
+  {
+    "branch": "Nugegoda",
+    "date": "2026-09-18",
+    "openingFloat": 5000,
+    "counted": 5000,
+    "closedById": "ST-0004",
+    "closedAt": "18:17",
+    "notes": ""
+  },
+  {
+    "branch": "Nugegoda",
+    "date": "2026-09-17",
+    "openingFloat": 5000,
+    "counted": 5000,
+    "closedById": "ST-0004",
+    "closedAt": "18:09",
+    "notes": ""
+  },
+  {
+    "branch": "Matara",
+    "date": "2026-09-15",
+    "openingFloat": 5000,
+    "counted": 30500,
+    "closedById": "ST-0003",
+    "closedAt": "18:06",
+    "notes": ""
+  },
+  {
+    "branch": "Matara",
+    "date": "2026-09-14",
+    "openingFloat": 5000,
+    "counted": 28200,
+    "closedById": "ST-0003",
     "closedAt": "18:05",
+    "notes": ""
+  },
+  {
+    "branch": "Matara",
+    "date": "2026-09-12",
+    "openingFloat": 5000,
+    "counted": 5000,
+    "closedById": "ST-0003",
+    "closedAt": "18:09",
+    "notes": ""
+  },
+  {
+    "branch": "Matara",
+    "date": "2026-09-11",
+    "openingFloat": 5000,
+    "counted": 12600,
+    "closedById": "ST-0003",
+    "closedAt": "18:08",
+    "notes": ""
+  },
+  {
+    "branch": "Nugegoda",
+    "date": "2026-09-09",
+    "openingFloat": 5000,
+    "counted": 18900,
+    "closedById": "ST-0004",
+    "closedAt": "18:02",
+    "notes": ""
+  },
+  {
+    "branch": "Nugegoda",
+    "date": "2026-09-07",
+    "openingFloat": 5000,
+    "counted": 38000,
+    "closedById": "ST-0004",
+    "closedAt": "18:23",
+    "notes": ""
+  },
+  {
+    "branch": "Matara",
+    "date": "2026-09-07",
+    "openingFloat": 5000,
+    "counted": 6450,
+    "closedById": "ST-0003",
+    "closedAt": "18:10",
+    "notes": ""
+  },
+  {
+    "branch": "Nugegoda",
+    "date": "2026-09-05",
+    "openingFloat": 5000,
+    "counted": 5000,
+    "closedById": "ST-0004",
+    "closedAt": "18:18",
+    "notes": ""
+  },
+  {
+    "branch": "Matara",
+    "date": "2026-09-05",
+    "openingFloat": 5000,
+    "counted": 70000,
+    "closedById": "ST-0003",
+    "closedAt": "18:11",
+    "notes": ""
+  },
+  {
+    "branch": "Matara",
+    "date": "2026-09-04",
+    "openingFloat": 5000,
+    "counted": 15000,
+    "closedById": "ST-0003",
+    "closedAt": "18:25",
+    "notes": ""
+  },
+  {
+    "branch": "Nugegoda",
+    "date": "2026-09-03",
+    "openingFloat": 5000,
+    "counted": 5000,
+    "closedById": "ST-0004",
+    "closedAt": "18:18",
+    "notes": ""
+  },
+  {
+    "branch": "Nugegoda",
+    "date": "2026-09-01",
+    "openingFloat": 5000,
+    "counted": 5000,
+    "closedById": "ST-0004",
+    "closedAt": "18:08",
+    "notes": ""
+  },
+  {
+    "branch": "Matara",
+    "date": "2026-09-01",
+    "openingFloat": 5000,
+    "counted": 12410,
+    "closedById": "ST-0003",
+    "closedAt": "18:25",
+    "notes": ""
+  },
+  {
+    "branch": "Matara",
+    "date": "2026-08-31",
+    "openingFloat": 5000,
+    "counted": 11800,
+    "closedById": "ST-0003",
+    "closedAt": "18:04",
+    "notes": ""
+  },
+  {
+    "branch": "Nugegoda",
+    "date": "2026-08-29",
+    "openingFloat": 5000,
+    "counted": 5000,
+    "closedById": "ST-0004",
+    "closedAt": "18:04",
+    "notes": ""
+  },
+  {
+    "branch": "Matara",
+    "date": "2026-08-29",
+    "openingFloat": 5000,
+    "counted": 16600,
+    "closedById": "ST-0003",
+    "closedAt": "18:17",
+    "notes": ""
+  },
+  {
+    "branch": "Matara",
+    "date": "2026-08-28",
+    "openingFloat": 5000,
+    "counted": 30650,
+    "closedById": "ST-0003",
+    "closedAt": "18:19",
+    "notes": ""
+  },
+  {
+    "branch": "Matara",
+    "date": "2026-08-26",
+    "openingFloat": 5000,
+    "counted": 34820,
+    "closedById": "ST-0003",
+    "closedAt": "18:23",
+    "notes": ""
+  },
+  {
+    "branch": "Matara",
+    "date": "2026-08-20",
+    "openingFloat": 5000,
+    "counted": 23800,
+    "closedById": "ST-0003",
+    "closedAt": "18:00",
+    "notes": ""
+  },
+  {
+    "branch": "Matara",
+    "date": "2026-08-19",
+    "openingFloat": 5000,
+    "counted": 13578,
+    "closedById": "ST-0003",
+    "closedAt": "18:18",
+    "notes": ""
+  },
+  {
+    "branch": "Nugegoda",
+    "date": "2026-08-18",
+    "openingFloat": 5000,
+    "counted": 10800,
+    "closedById": "ST-0004",
+    "closedAt": "18:03",
+    "notes": ""
+  },
+  {
+    "branch": "Nugegoda",
+    "date": "2026-08-17",
+    "openingFloat": 5000,
+    "counted": 5000,
+    "closedById": "ST-0004",
+    "closedAt": "18:05",
+    "notes": ""
+  },
+  {
+    "branch": "Matara",
+    "date": "2026-08-17",
+    "openingFloat": 5000,
+    "counted": 5000,
+    "closedById": "ST-0003",
+    "closedAt": "18:04",
+    "notes": ""
+  },
+  {
+    "branch": "Matara",
+    "date": "2026-08-15",
+    "openingFloat": 5000,
+    "counted": 97610,
+    "closedById": "ST-0003",
+    "closedAt": "18:24",
+    "notes": ""
+  },
+  {
+    "branch": "Matara",
+    "date": "2026-08-13",
+    "openingFloat": 5000,
+    "counted": 13000,
+    "closedById": "ST-0003",
+    "closedAt": "18:18",
+    "notes": ""
+  },
+  {
+    "branch": "Nugegoda",
+    "date": "2026-08-11",
+    "openingFloat": 5000,
+    "counted": 5000,
+    "closedById": "ST-0004",
+    "closedAt": "18:01",
+    "notes": ""
+  },
+  {
+    "branch": "Matara",
+    "date": "2026-08-11",
+    "openingFloat": 5000,
+    "counted": 10800,
+    "closedById": "ST-0003",
+    "closedAt": "18:09",
+    "notes": ""
+  },
+  {
+    "branch": "Matara",
+    "date": "2026-08-06",
+    "openingFloat": 5000,
+    "counted": 35100,
+    "closedById": "ST-0003",
+    "closedAt": "18:01",
+    "notes": ""
+  },
+  {
+    "branch": "Matara",
+    "date": "2026-08-04",
+    "openingFloat": 5000,
+    "counted": 39600,
+    "closedById": "ST-0003",
+    "closedAt": "18:12",
+    "notes": ""
+  },
+  {
+    "branch": "Nugegoda",
+    "date": "2026-08-03",
+    "openingFloat": 5000,
+    "counted": 5000,
+    "closedById": "ST-0004",
+    "closedAt": "18:24",
+    "notes": ""
+  },
+  {
+    "branch": "Nugegoda",
+    "date": "2026-07-30",
+    "openingFloat": 5000,
+    "counted": 16600,
+    "closedById": "ST-0004",
+    "closedAt": "18:11",
+    "notes": ""
+  },
+  {
+    "branch": "Nugegoda",
+    "date": "2026-07-29",
+    "openingFloat": 5000,
+    "counted": 5000,
+    "closedById": "ST-0004",
+    "closedAt": "18:22",
+    "notes": ""
+  },
+  {
+    "branch": "Matara",
+    "date": "2026-07-28",
+    "openingFloat": 5000,
+    "counted": 39320,
+    "closedById": "ST-0003",
+    "closedAt": "18:24",
+    "notes": ""
+  },
+  {
+    "branch": "Nugegoda",
+    "date": "2026-07-25",
+    "openingFloat": 5000,
+    "counted": 5000,
+    "closedById": "ST-0004",
+    "closedAt": "18:24",
+    "notes": ""
+  },
+  {
+    "branch": "Nugegoda",
+    "date": "2026-07-21",
+    "openingFloat": 5000,
+    "counted": 5000,
+    "closedById": "ST-0004",
+    "closedAt": "18:06",
+    "notes": ""
+  },
+  {
+    "branch": "Nugegoda",
+    "date": "2026-07-18",
+    "openingFloat": 5000,
+    "counted": 35100,
+    "closedById": "ST-0004",
+    "closedAt": "18:03",
+    "notes": ""
+  },
+  {
+    "branch": "Nugegoda",
+    "date": "2026-07-17",
+    "openingFloat": 5000,
+    "counted": 32300,
+    "closedById": "ST-0004",
+    "closedAt": "18:21",
+    "notes": ""
+  },
+  {
+    "branch": "Matara",
+    "date": "2026-07-17",
+    "openingFloat": 5000,
+    "counted": 5000,
+    "closedById": "ST-0003",
+    "closedAt": "18:22",
+    "notes": ""
+  },
+  {
+    "branch": "Nugegoda",
+    "date": "2026-07-13",
+    "openingFloat": 5000,
+    "counted": 5000,
+    "closedById": "ST-0004",
+    "closedAt": "18:24",
+    "notes": ""
+  },
+  {
+    "branch": "Nugegoda",
+    "date": "2026-07-10",
+    "openingFloat": 5000,
+    "counted": 25440,
+    "closedById": "ST-0004",
+    "closedAt": "18:19",
+    "notes": ""
+  },
+  {
+    "branch": "Matara",
+    "date": "2026-07-08",
+    "openingFloat": 5000,
+    "counted": 25400,
+    "closedById": "ST-0003",
+    "closedAt": "18:03",
+    "notes": ""
+  },
+  {
+    "branch": "Nugegoda",
+    "date": "2026-07-07",
+    "openingFloat": 5000,
+    "counted": 16500,
+    "closedById": "ST-0004",
+    "closedAt": "18:16",
+    "notes": ""
+  },
+  {
+    "branch": "Matara",
+    "date": "2026-07-06",
+    "openingFloat": 5000,
+    "counted": 5000,
+    "closedById": "ST-0003",
+    "closedAt": "18:08",
+    "notes": ""
+  },
+  {
+    "branch": "Matara",
+    "date": "2026-07-02",
+    "openingFloat": 5000,
+    "counted": 5000,
+    "closedById": "ST-0003",
+    "closedAt": "18:09",
+    "notes": ""
+  },
+  {
+    "branch": "Matara",
+    "date": "2026-07-01",
+    "openingFloat": 5000,
+    "counted": 7850,
+    "closedById": "ST-0003",
+    "closedAt": "18:20",
+    "notes": ""
+  },
+  {
+    "branch": "Nugegoda",
+    "date": "2026-06-30",
+    "openingFloat": 5000,
+    "counted": 41100,
+    "closedById": "ST-0004",
+    "closedAt": "18:10",
+    "notes": ""
+  },
+  {
+    "branch": "Matara",
+    "date": "2026-06-30",
+    "openingFloat": 5000,
+    "counted": 5000,
+    "closedById": "ST-0003",
+    "closedAt": "18:02",
+    "notes": ""
+  },
+  {
+    "branch": "Nugegoda",
+    "date": "2026-06-26",
+    "openingFloat": 5000,
+    "counted": 5000,
+    "closedById": "ST-0004",
+    "closedAt": "18:04",
+    "notes": ""
+  },
+  {
+    "branch": "Matara",
+    "date": "2026-06-25",
+    "openingFloat": 5000,
+    "counted": 9180,
+    "closedById": "ST-0003",
+    "closedAt": "18:21",
+    "notes": ""
+  },
+  {
+    "branch": "Nugegoda",
+    "date": "2026-06-23",
+    "openingFloat": 5000,
+    "counted": 11800,
+    "closedById": "ST-0004",
+    "closedAt": "18:14",
+    "notes": ""
+  },
+  {
+    "branch": "Matara",
+    "date": "2026-06-22",
+    "openingFloat": 5000,
+    "counted": 11080,
+    "closedById": "ST-0003",
+    "closedAt": "18:24",
+    "notes": ""
+  },
+  {
+    "branch": "Nugegoda",
+    "date": "2026-06-20",
+    "openingFloat": 5000,
+    "counted": 5000,
+    "closedById": "ST-0004",
+    "closedAt": "18:04",
+    "notes": ""
+  },
+  {
+    "branch": "Matara",
+    "date": "2026-06-20",
+    "openingFloat": 5000,
+    "counted": 11600,
+    "closedById": "ST-0003",
+    "closedAt": "18:00",
+    "notes": ""
+  },
+  {
+    "branch": "Matara",
+    "date": "2026-06-18",
+    "openingFloat": 5000,
+    "counted": 5000,
+    "closedById": "ST-0003",
+    "closedAt": "18:20",
+    "notes": ""
+  },
+  {
+    "branch": "Nugegoda",
+    "date": "2026-06-17",
+    "openingFloat": 5000,
+    "counted": 5000,
+    "closedById": "ST-0004",
+    "closedAt": "18:11",
+    "notes": ""
+  },
+  {
+    "branch": "Nugegoda",
+    "date": "2026-06-16",
+    "openingFloat": 5000,
+    "counted": 12200,
+    "closedById": "ST-0004",
+    "closedAt": "18:15",
+    "notes": ""
+  },
+  {
+    "branch": "Nugegoda",
+    "date": "2026-06-13",
+    "openingFloat": 5000,
+    "counted": 19400,
+    "closedById": "ST-0004",
+    "closedAt": "18:20",
+    "notes": ""
+  },
+  {
+    "branch": "Matara",
+    "date": "2026-06-13",
+    "openingFloat": 5000,
+    "counted": 37900,
+    "closedById": "ST-0003",
+    "closedAt": "18:23",
+    "notes": ""
+  },
+  {
+    "branch": "Nugegoda",
+    "date": "2026-06-12",
+    "openingFloat": 5000,
+    "counted": 12900,
+    "closedById": "ST-0004",
+    "closedAt": "18:11",
+    "notes": ""
+  },
+  {
+    "branch": "Nugegoda",
+    "date": "2026-06-11",
+    "openingFloat": 5000,
+    "counted": 31950,
+    "closedById": "ST-0004",
+    "closedAt": "18:02",
+    "notes": ""
+  },
+  {
+    "branch": "Matara",
+    "date": "2026-06-08",
+    "openingFloat": 5000,
+    "counted": 59400,
+    "closedById": "ST-0003",
+    "closedAt": "18:20",
+    "notes": ""
+  },
+  {
+    "branch": "Matara",
+    "date": "2026-06-05",
+    "openingFloat": 5000,
+    "counted": 29010,
+    "closedById": "ST-0003",
+    "closedAt": "18:04",
+    "notes": ""
+  },
+  {
+    "branch": "Nugegoda",
+    "date": "2026-06-04",
+    "openingFloat": 5000,
+    "counted": 5000,
+    "closedById": "ST-0004",
+    "closedAt": "18:17",
+    "notes": ""
+  },
+  {
+    "branch": "Matara",
+    "date": "2026-06-04",
+    "openingFloat": 5000,
+    "counted": 5000,
+    "closedById": "ST-0003",
+    "closedAt": "18:24",
+    "notes": ""
+  },
+  {
+    "branch": "Nugegoda",
+    "date": "2026-06-02",
+    "openingFloat": 5000,
+    "counted": 32100,
+    "closedById": "ST-0004",
+    "closedAt": "18:24",
+    "notes": ""
+  },
+  {
+    "branch": "Matara",
+    "date": "2026-06-01",
+    "openingFloat": 5000,
+    "counted": 8040,
+    "closedById": "ST-0003",
+    "closedAt": "18:17",
+    "notes": ""
+  },
+  {
+    "branch": "Matara",
+    "date": "2026-05-28",
+    "openingFloat": 5000,
+    "counted": 27150,
+    "closedById": "ST-0003",
+    "closedAt": "18:00",
+    "notes": ""
+  },
+  {
+    "branch": "Matara",
+    "date": "2026-05-22",
+    "openingFloat": 5000,
+    "counted": 24200,
+    "closedById": "ST-0003",
+    "closedAt": "18:24",
+    "notes": ""
+  },
+  {
+    "branch": "Matara",
+    "date": "2026-05-20",
+    "openingFloat": 5000,
+    "counted": 8200,
+    "closedById": "ST-0003",
+    "closedAt": "18:05",
+    "notes": ""
+  },
+  {
+    "branch": "Matara",
+    "date": "2026-05-18",
+    "openingFloat": 5000,
+    "counted": 18000,
+    "closedById": "ST-0003",
+    "closedAt": "18:19",
+    "notes": ""
+  },
+  {
+    "branch": "Nugegoda",
+    "date": "2026-05-16",
+    "openingFloat": 5000,
+    "counted": 5000,
+    "closedById": "ST-0004",
+    "closedAt": "18:11",
+    "notes": ""
+  },
+  {
+    "branch": "Nugegoda",
+    "date": "2026-05-15",
+    "openingFloat": 5000,
+    "counted": 5000,
+    "closedById": "ST-0004",
+    "closedAt": "18:04",
+    "notes": ""
+  },
+  {
+    "branch": "Nugegoda",
+    "date": "2026-05-11",
+    "openingFloat": 5000,
+    "counted": 15800,
+    "closedById": "ST-0004",
+    "closedAt": "18:06",
+    "notes": ""
+  },
+  {
+    "branch": "Matara",
+    "date": "2026-05-11",
+    "openingFloat": 5000,
+    "counted": 59400,
+    "closedById": "ST-0003",
+    "closedAt": "18:10",
+    "notes": ""
+  },
+  {
+    "branch": "Matara",
+    "date": "2026-05-09",
+    "openingFloat": 5000,
+    "counted": 15800,
+    "closedById": "ST-0003",
+    "closedAt": "18:07",
+    "notes": ""
+  },
+  {
+    "branch": "Matara",
+    "date": "2026-05-06",
+    "openingFloat": 5000,
+    "counted": 13700,
+    "closedById": "ST-0003",
+    "closedAt": "18:23",
+    "notes": ""
+  },
+  {
+    "branch": "Nugegoda",
+    "date": "2026-05-04",
+    "openingFloat": 5000,
+    "counted": 45800,
+    "closedById": "ST-0004",
+    "closedAt": "18:17",
+    "notes": ""
+  },
+  {
+    "branch": "Matara",
+    "date": "2026-05-04",
+    "openingFloat": 5000,
+    "counted": 5000,
+    "closedById": "ST-0003",
+    "closedAt": "18:24",
+    "notes": ""
+  },
+  {
+    "branch": "Nugegoda",
+    "date": "2026-05-02",
+    "openingFloat": 5000,
+    "counted": 5000,
+    "closedById": "ST-0004",
+    "closedAt": "18:06",
+    "notes": ""
+  },
+  {
+    "branch": "Matara",
+    "date": "2026-05-02",
+    "openingFloat": 5000,
+    "counted": 32788,
+    "closedById": "ST-0003",
+    "closedAt": "18:06",
+    "notes": ""
+  },
+  {
+    "branch": "Nugegoda",
+    "date": "2026-05-01",
+    "openingFloat": 5000,
+    "counted": 5000,
+    "closedById": "ST-0004",
+    "closedAt": "18:25",
     "notes": ""
   }
 ]

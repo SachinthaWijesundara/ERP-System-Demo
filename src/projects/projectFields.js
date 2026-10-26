@@ -25,7 +25,7 @@ export function nextProjectId(projects) {
 
 export function emptyStages(dueDate = '') {
   return {
-    siteVisit: { status: 'In progress', date: '', visitedBy: '', notes: '' },
+    siteVisit: { status: 'In progress', date: '', visitedById: '', notes: '' },
     design: { status: 'Not started', completedOn: '', notes: '', files: [] },
     approval: { status: 'Not started', approvedOn: '', approvedBy: '', method: '', letter: null, notes: '' },
     materials: { status: 'Not started', neededBy: '', notes: '' },
@@ -52,8 +52,9 @@ export function emptyProject(id, today) {
     quoteId: '',
     name: '',
     site: null,
-    designer: '',
-    team: [],
+    // Registered staff only, by staff ID.
+    designerId: '',
+    teamIds: [],
     startDate: today,
     dueDate: '',
     stages: emptyStages(),
@@ -150,6 +151,7 @@ export function validateProject(project, projects, isNew) {
   if (!project.clientId) errors.clientId = 'Choose the client.'
   else if (!project.quoteId) errors.quoteId = 'Choose the approved quote this project comes from.'
   if (!project.site) errors.site = 'Choose where the work is.'
+  if (!project.designerId) errors.designerId = 'Choose the designer.'
 
   if (!project.startDate) errors.startDate = 'Enter the start date.'
   if (!project.dueDate) errors.dueDate = 'Enter the due date.'
@@ -167,7 +169,6 @@ export function cleanProject(form) {
     ...project,
     id: project.id.trim(),
     name: project.name.trim(),
-    designer: project.designer.trim(),
-    team: project.team.map((t) => t.trim()).filter(Boolean),
+    teamIds: [...new Set(project.teamIds.filter(Boolean))],
   }
 }

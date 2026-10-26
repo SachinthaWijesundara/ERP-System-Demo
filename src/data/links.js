@@ -125,10 +125,12 @@ export function quotesReadyForProject(data, clientId, exceptProjectId) {
   return data.quotations.filter((q) => q.clientId === clientId && q.status === 'Approved' && !taken.has(q.id))
 }
 
-// A project's materials are Inventory items. Each material stores only the
-// item's SKU, the quantity and its status; name, unit and cost price are
-// always read from Inventory. Custom-made quote lines (cabinets, counters)
-// aren't materials; their boards and fittings are added from Inventory.
+// A project's materials are mostly Inventory items: each stores only the
+// item's SKU, the quantity and its status, and its name, unit and cost price
+// are read from Inventory. Something not stocked can be added as a custom
+// material with its own name and prices; it never touches stock. Custom-made
+// quote lines (cabinets, counters) aren't copied; their boards and fittings
+// are added on the project.
 export function materialsFromQuote(quote) {
   return quote.items.filter((i) => i.sku).map((i) => ({ sku: i.sku, qty: i.qty, status: 'Pending' }))
 }
@@ -152,17 +154,33 @@ export function itemForMaterial(data, material) {
   return data.inventory.find((i) => i.sku === material.sku)
 }
 
-// What a project's materials cost the studio, at Inventory cost prices.
+// A material's name, unit and prices. Inventory items read them from
+// Inventory; a custom material (bought in for this job, not a stock item)
+// carries its own.
+export function materialInfo(data, material) {
+  const item = itemForMaterial(data, material)
+  if (item) return { name: item.name, unit: item.unit, cost: item.costPrice, price: item.sellingPrice, item }
+  return {
+    name: material.name || material.sku || 'Custom material',
+    unit: material.unit ?? '',
+    cost: Number(material.unitCost) || 0,
+    price: Number(material.price) || 0,
+    item: null,
+  }
+}
+
+// What a project's materials cost the studio: Inventory cost prices, or the
+// cost entered for a custom material.
 export function projectMaterialsCost(data, project) {
-  return project.materials.reduce((sum, m) => sum + m.qty * (itemForMaterial(data, m)?.costPrice ?? 0), 0)
+  return project.materials.reduce((sum, m) => sum + m.qty * materialInfo(data, m).cost, 0)
 }
 
 // What the client is charged on top of the quote: materials and extra work
-// ticked "charge client" on the project, at Inventory selling prices.
+// ticked "charge client" on the project, at selling prices.
 export function projectExtrasCharged(data, project) {
   const materials = project.materials
     .filter((m) => m.billable)
-    .reduce((sum, m) => sum + m.qty * (itemForMaterial(data, m)?.sellingPrice ?? 0), 0)
+    .reduce((sum, m) => sum + m.qty * materialInfo(data, m).price, 0)
   const work = project.stages.installation.costs.filter((c) => c.billable).reduce((sum, c) => sum + (Number(c.amount) || 0), 0)
   return materials + work
 }
@@ -206,7 +224,9 @@ export function checkMaterialStatus(data, project, material, newStatus) {
     }
   }
 
-  const base = { sku: item.sku, branch, date: todayIso(), by: project.designer || 'Studio', note: '' }
+  // No person here: the data store puts the movement down to whoever is
+  // signed in and made the change.
+  const base = { sku: item.sku, branch, date: todayIso(), note: '' }
   if (newStatus === 'Issued') {
     return { ok: true, movement: { ...base, type: 'Out', qty, reference: `Issued to ${project.id}` } }
   }
@@ -247,7 +267,7 @@ export function clientForSale(data, sale) {
 
 // POS -> Inventory (map connection 8). CONNECTED. The stock movements a
 // completed sale makes: one "Out" per Inventory item sold, at the sale's
-// branch. Custom lines (no SKU) don't touch stock.
+// branch, put down to the cashier.
 export function stockMovementsForSale(sale) {
   return sale.items
     .filter((line) => line.sku)
@@ -258,7 +278,7 @@ export function stockMovementsForSale(sale) {
       type: 'Out',
       qty: line.qty,
       reference: `POS sale ${sale.id}`,
-      by: sale.cashier,
+      byId: sale.cashierId,
       note: '',
     }))
 }
@@ -415,15 +435,15 @@ export function posSaleAsInvoice(sale, invoiceId, paymentId) {
         amount: total,
         method: sale.payment.method,
         reference: sale.payment.reference,
-        receivedBy: sale.cashier,
+        receivedById: sale.cashierId,
       },
     ],
   }
 }
 
-// Invoices -> Dashboard (map connection 10). READY, NOT CONNECTED.
-// Money totals for a branch (or both): what's owed, what's overdue, and
-// what came in this month. The Invoices page uses it for its summary strip.
+// Invoices -> Dashboard (map connection 10). CONNECTED. Money totals for a
+// branch (or both): what's owed, what's overdue, and what came in this
+// month. The Invoices page and the dashboard both use it.
 export function moneyTotals(data, branch, allBranches) {
   const month = todayIso().slice(0, 7)
   const list = data.invoices.filter((i) => allBranches || invoiceBranch(data, i) === branch)
@@ -439,32 +459,27 @@ export function moneyTotals(data, branch, allBranches) {
 
 // --- Staff -------------------------------------------------------------
 
-// Staff -> every module. What one person has worked on. Other modules store
-// people by name today (a project's designer, a sale's cashier), so this
-// matches on name. Once Staff is connected, those modules should store the
-// person's staff ID instead, and these checks should compare IDs.
+// Staff -> every module. Every person named anywhere is a registered staff
+// member, stored by staff ID: a project's designer and team, a site visit,
+// a note's author, a quote's preparer, a sale's cashier, a payment's
+// receiver, a cash-up, a stock movement. This gathers one person's work.
 export function workForStaff(data, person) {
-  const name = person.name
+  const id = person.id
   return {
-    designing: data.projects.filter((p) => p.designer === name),
-    installing: data.projects.filter((p) => p.team.includes(name)),
-    sales: data.sales.filter((s) => s.cashier === name),
-    payments: data.invoices.flatMap((i) => i.payments.filter((p) => p.receivedBy === name).map((p) => ({ ...p, invoiceId: i.id }))),
-    cashUps: data.cashUps.filter((c) => c.closedBy === name),
-    movements: data.movements.filter((m) => m.by === name),
+    designing: data.projects.filter((p) => p.designerId === id),
+    installing: data.projects.filter((p) => p.teamIds.includes(id)),
+    quotes: data.quotations.filter((q) => q.preparedById === id),
+    sales: data.sales.filter((s) => s.cashierId === id),
+    payments: data.invoices.flatMap((i) =>
+      i.cancelled ? [] : i.payments.filter((p) => p.receivedById === id).map((p) => ({ ...p, invoiceId: i.id })),
+    ),
+    cashUps: data.cashUps.filter((c) => c.closedById === id),
+    movements: data.movements.filter((m) => m.byId === id),
+    notes: data.projects.flatMap((p) => p.notes.filter((n) => n.authorId === id).map((n) => ({ ...n, projectId: p.id }))),
   }
 }
 
-// The registered staff member with this name, if there is one. Projects
-// store the designer and team by name, so this is how a name on a project
-// links to that person's Staff page.
-export function staffByName(data, name) {
-  return name ? data.staff.find((p) => p.name === name) : undefined
-}
-
-// Designers and installation teams for the project form's name suggestions.
-// Reads the Staff list, which stays empty until an admin adds people in
-// User settings. Projects still store names, not staff IDs (see above).
-export function staffForProjects(data) {
-  return data.staff ?? []
+// Active staff who can be put on a project, optionally only some roles.
+export function staffForProjects(data, roleIds) {
+  return data.staff.filter((p) => p.status === 'Active' && (!roleIds || roleIds.includes(p.roleId)))
 }

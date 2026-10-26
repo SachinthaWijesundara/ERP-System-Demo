@@ -1,9 +1,12 @@
-import { ArrowLeft, Pencil, Download, Package, Hammer, User, Receipt } from 'lucide-react'
+import { ArrowLeft, Pencil, Download, Package, Hammer, User, Receipt, Trash2, Lock } from 'lucide-react'
 import PageHeader from '../components/PageHeader.jsx'
 import Badge from '../components/Badge.jsx'
 import Card, { CardEmpty } from '../components/Card.jsx'
 import Link from '../components/RecordLink.jsx'
+import StaffLink from '../components/StaffLink.jsx'
 import { useData } from '../data/DataContext.jsx'
+import { useAuth } from '../auth/AuthContext.jsx'
+import { canSeeQuote } from '../auth/visibility.js'
 import {
   clientForQuote,
   projectsForQuote,
@@ -12,6 +15,7 @@ import {
   inventorySkusForQuote,
   invoicesForQuote,
   invoiceStatus,
+  costPriceFor,
 } from '../data/links.js'
 import { formatDate, formatMoney } from '../utils/format.js'
 import { itemTotal, labourTotal, quoteTotals } from './quoteFields.js'
@@ -24,18 +28,51 @@ async function downloadPdf(quote, client) {
   downloadQuotePdf(quote, client)
 }
 
-// `onOpenRecord(module, id, filter)` jumps to a client, project or
-// inventory item.
-export default function QuoteDetail({ quoteId, onBack, onEdit, onOpenRecord }) {
+// `onOpenRecord(module, id, filter)` jumps to a client, project, invoice,
+// inventory item or staff member. Buttons and figures follow the person's
+// role: editing, deleting drafts, cost and margin, invoices, and converting
+// to a project each need their own permission.
+export default function QuoteDetail({ quoteId, onBack, onEdit, onDeleted, onOpenRecord }) {
   const data = useData()
+  const auth = useAuth()
   const quote = data.quotations.find((q) => q.id === quoteId)
   if (!quote) return null
+  if (!canSeeQuote(data, auth, quote)) {
+    return (
+      <>
+        <button type="button" className="back-link" onClick={onBack}>
+          <ArrowLeft size={15} strokeWidth={1.75} />
+          Quotations
+        </button>
+        <div className="no-access">
+          <Lock size={20} strokeWidth={1.5} />
+          <p>{quote.id} isn’t one of your quotations. Your role only shows the quotes you prepared and those behind your projects.</p>
+        </div>
+      </>
+    )
+  }
+  const can = auth.can
 
   const client = clientForQuote(data, quote)
   const projects = projectsForQuote(data, quote.id)
   const skus = inventorySkusForQuote(data, quote)
   const invoices = invoicesForQuote(data, quote.id)
   const openClient = () => onOpenRecord('clients', quote.clientId)
+  const stockLink = (sku, label) => (can('inventory.view') ? <Link onClick={() => onOpenRecord('inventory', sku)}>{label}</Link> : label)
+
+  // Only an unsent draft with nothing hanging off it can be deleted.
+  const deletable = can('quotes.delete') && quote.status === 'Draft' && invoices.length === 0 && projects.length === 0
+  function remove() {
+    if (!window.confirm(`Delete ${quote.id} · ${quote.title}? This can’t be undone.`)) return
+    data.deleteQuotation(quote.id)
+    onDeleted()
+  }
+
+  // Cost and margin: Inventory lines at Inventory's cost price. Custom-made
+  // lines and labour have no cost price on file.
+  const stockLines = quote.items.filter((i) => i.sku && costPriceFor(data, i.sku) !== null)
+  const stockRevenue = stockLines.reduce((s, i) => s + itemTotal(i), 0)
+  const stockCost = stockLines.reduce((s, i) => s + i.qty * costPriceFor(data, i.sku), 0)
 
   return (
     <>
@@ -50,10 +87,18 @@ export default function QuoteDetail({ quoteId, onBack, onEdit, onOpenRecord }) {
           <Download size={14} strokeWidth={1.75} />
           Download PDF
         </button>
-        <button type="button" className="btn" onClick={onEdit}>
-          <Pencil size={14} strokeWidth={1.75} />
-          Edit
-        </button>
+        {deletable && (
+          <button type="button" className="btn" onClick={remove}>
+            <Trash2 size={14} strokeWidth={1.75} />
+            Delete
+          </button>
+        )}
+        {can('quotes.edit') && (
+          <button type="button" className="btn" onClick={onEdit}>
+            <Pencil size={14} strokeWidth={1.75} />
+            Edit
+          </button>
+        )}
       </PageHeader>
 
       <div className="detail-grid">
@@ -113,11 +158,7 @@ export default function QuoteDetail({ quoteId, onBack, onEdit, onOpenRecord }) {
                       <tr key={i}>
                         <td className="wrap">
                           <div className="cell-main">
-                            {stock ? (
-                              <Link onClick={() => onOpenRecord('inventory', stock.sku)}>{item.product}</Link>
-                            ) : (
-                              item.product
-                            )}
+                            {stock ? stockLink(stock.sku, item.product) : item.product}
                           </div>
                           {item.description && <div className="cell-sub">{item.description}</div>}
                         </td>
@@ -204,7 +245,7 @@ export default function QuoteDetail({ quoteId, onBack, onEdit, onOpenRecord }) {
                 <Package size={15} strokeWidth={1.75} />
                 <div>
                   <div className="links-title">
-                    {skus.length > 0 ? (
+                    {skus.length > 0 && can('inventory.view') ? (
                       <Link
                         onClick={() => onOpenRecord('inventory', null, { skus, label: `${quote.id} · ${quote.title}` })}
                       >
@@ -219,7 +260,7 @@ export default function QuoteDetail({ quoteId, onBack, onEdit, onOpenRecord }) {
                       const stock = data.inventory.find((i) => i.sku === sku)
                       return (
                         <div key={sku}>
-                          <Link onClick={() => onOpenRecord('inventory', sku)}>{stock.name}</Link>{' '}
+                          {stockLink(sku, stock.name)}{' '}
                           <span className="cell-sub">{sku}</span>
                         </div>
                       )
@@ -229,24 +270,26 @@ export default function QuoteDetail({ quoteId, onBack, onEdit, onOpenRecord }) {
                   )}
                 </div>
               </li>
-              <li>
-                <Receipt size={15} strokeWidth={1.75} />
-                <div>
-                  <div className="links-title">Invoices</div>
-                  {invoices.length ? (
-                    invoices.map((i) => (
-                      <div key={i.id}>
-                        <Link onClick={() => onOpenRecord('invoices', i.id)}>
-                          {i.id} · {i.type} · {formatMoney(i.amount)}
-                        </Link>{' '}
-                        <Badge>{invoiceStatus(i)}</Badge>
-                      </div>
-                    ))
-                  ) : (
-                    <div className="cell-sub">Approving this quote issues its advance invoice.</div>
-                  )}
-                </div>
-              </li>
+              {can('invoices.view') && (
+                <li>
+                  <Receipt size={15} strokeWidth={1.75} />
+                  <div>
+                    <div className="links-title">Invoices</div>
+                    {invoices.length ? (
+                      invoices.map((i) => (
+                        <div key={i.id}>
+                          <Link onClick={() => onOpenRecord('invoices', i.id)}>
+                            {i.id} · {i.type} · {formatMoney(i.amount)}
+                          </Link>{' '}
+                          <Badge>{invoiceStatus(i)}</Badge>
+                        </div>
+                      ))
+                    ) : (
+                      <div className="cell-sub">Approving this quote issues its advance invoice.</div>
+                    )}
+                  </div>
+                </li>
+              )}
               <li>
                 <Hammer size={15} strokeWidth={1.75} />
                 <div>
@@ -260,7 +303,7 @@ export default function QuoteDetail({ quoteId, onBack, onEdit, onOpenRecord }) {
                         <span className="cell-sub">({currentStageLabel(p)})</span>
                       </div>
                     ))
-                  ) : canConvertToProject(data, quote) ? (
+                  ) : canConvertToProject(data, quote) && can('projects.create') ? (
                     <>
                       <button
                         type="button"
@@ -274,7 +317,11 @@ export default function QuoteDetail({ quoteId, onBack, onEdit, onOpenRecord }) {
                       </div>
                     </>
                   ) : (
-                    <div className="cell-sub">Becomes a project once the client approves this quote.</div>
+                    <div className="cell-sub">
+                      {canConvertToProject(data, quote)
+                        ? 'Approved and waiting for someone who can start projects.'
+                        : 'Becomes a project once the client approves this quote.'}
+                    </div>
                   )}
                 </div>
               </li>
@@ -287,10 +334,58 @@ export default function QuoteDetail({ quoteId, onBack, onEdit, onOpenRecord }) {
               <dd>{quote.status}</dd>
               <dt>Branch</dt>
               <dd>{client?.branch ?? '—'}</dd>
+              <dt>Prepared by</dt>
+              <dd>
+                <StaffLink id={quote.preparedById} onOpenRecord={onOpenRecord} />
+              </dd>
               <dt>Total</dt>
               <dd className="cell-main">{formatMoney(quoteTotals(quote).total)}</dd>
             </dl>
           </Card>
+
+          {can('quotes.costs') && (
+            <Card title="Cost and margin">
+              {stockLines.length ? (
+                <>
+                  <table className="table table-compact">
+                    <thead>
+                      <tr>
+                        <th>Inventory line</th>
+                        <th className="num">Cost</th>
+                        <th className="num">Margin</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {stockLines.map((item, i) => {
+                        const cost = item.qty * costPriceFor(data, item.sku)
+                        const margin = itemTotal(item) - cost
+                        return (
+                          <tr key={i}>
+                            <td className="wrap">{item.product}</td>
+                            <td className="num">{formatMoney(cost)}</td>
+                            <td className={`num${margin < 0 ? ' is-overdue' : ''}`}>
+                              {itemTotal(item) > 0 ? `${Math.round((margin / itemTotal(item)) * 100)}%` : '—'}
+                            </td>
+                          </tr>
+                        )
+                      })}
+                    </tbody>
+                  </table>
+                  <dl className="facts facts-split">
+                    <dt>Inventory lines sell for</dt>
+                    <dd>{formatMoney(stockRevenue)}</dd>
+                    <dt>Inventory cost</dt>
+                    <dd>{formatMoney(stockCost)}</dd>
+                    <dt className="cell-main">Margin on stock</dt>
+                    <dd className="cell-main">{formatMoney(stockRevenue - stockCost)}</dd>
+                  </dl>
+                </>
+              ) : (
+                <CardEmpty>No Inventory lines, so no cost prices on file.</CardEmpty>
+              )}
+              <p className="cell-sub hidden-note">Custom-made lines and labour have no cost price in Inventory.</p>
+            </Card>
+          )}
 
           {client === undefined && (
             <Card title="Client missing">

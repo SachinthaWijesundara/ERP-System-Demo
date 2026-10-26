@@ -1,8 +1,10 @@
 import { useState } from 'react'
 import { CheckCircle2, Plus, X } from 'lucide-react'
 import Field from '../components/Field.jsx'
+import StaffLink from '../components/StaffLink.jsx'
 import FileGallery, { UploadButton, filesToRecords } from '../components/FileGallery.jsx'
 import { useData } from '../data/DataContext.jsx'
+import { useAuth } from '../auth/AuthContext.jsx'
 import { formatDate, formatMoney, todayIso } from '../utils/format.js'
 import { applyStageEffects } from './stageEffects.js'
 import {
@@ -25,14 +27,30 @@ const APPROVAL_METHODS = [
 // --- One component per stage. Each gets the stage's data and `set`, which
 // merges changes into that stage. Changes save as they're made. ---
 
-function SiteVisit({ stage, set }) {
+function SiteVisit({ stage, set, project }) {
+  const data = useData()
+  // Whoever went is picked from the registered staff: the project's own
+  // people first.
+  const onProject = [project.designerId, ...project.teamIds]
+  const choices = [
+    ...data.staff.filter((p) => onProject.includes(p.id)),
+    ...data.staff.filter((p) => !onProject.includes(p.id) && p.status === 'Active' && p.roleId !== 'installer'),
+  ]
   return (
     <div className="form-grid">
       <Field label="Visit date">
         <input type="date" value={stage.date} onChange={(e) => set({ date: e.target.value })} />
       </Field>
       <Field label="Visited by">
-        <input value={stage.visitedBy} onChange={(e) => set({ visitedBy: e.target.value })} placeholder="Designer’s name" />
+        <select value={stage.visitedById ?? ''} onChange={(e) => set({ visitedById: e.target.value })}>
+          <option value="">Choose who went…</option>
+          {choices.map((p) => (
+            <option key={p.id} value={p.id}>
+              {p.name}
+              {onProject.includes(p.id) ? ' (on this project)' : ''}
+            </option>
+          ))}
+        </select>
       </Field>
       <Field label="What was found" wide hint="Measurements and site photos go in their own sections below.">
         <textarea
@@ -47,7 +65,11 @@ function SiteVisit({ stage, set }) {
 }
 
 function Design({ stage, set }) {
+  const auth = useAuth()
   const [kind, setKind] = useState(DESIGN_FILE_KINDS[0])
+  if (!auth.can('projects.designs')) {
+    return <p className="cell-sub hidden-note">Design files and notes are hidden for your role.</p>
+  }
   return (
     <>
       <div className="stage-toolbar">
@@ -181,7 +203,10 @@ function Materials({ stage, set, project }) {
 }
 
 function Installation({ stage, set, project }) {
+  const auth = useAuth()
   const setCost = (i, patch) => set({ costs: stage.costs.map((c, j) => (j === i ? { ...c, ...patch } : c)) })
+  // Installation costs are money; they follow "see material cost, installation cost and profit".
+  const showCosts = auth.can('projects.costs')
   return (
     <>
       <div className="form-grid">
@@ -193,19 +218,8 @@ function Installation({ stage, set, project }) {
         </Field>
       </div>
 
-      <div className="team-chips">
-        <span className="field-label">Team on site</span>
-        {project.team.length ? (
-          project.team.map((name) => (
-            <span key={name} className="chip">
-              {name}
-            </span>
-          ))
-        ) : (
-          <span className="cell-sub">No team set. Add people with Edit project.</span>
-        )}
-      </div>
-
+      {showCosts && (
+        <>
       <div className="stage-toolbar">
         <span className="field-label">Installation costs</span>
         <button
@@ -249,6 +263,8 @@ function Installation({ stage, set, project }) {
             <strong>{formatMoney(installationCost(project))}</strong>
           </div>
         </div>
+      )}
+        </>
       )}
 
       <Field label="Notes" wide className="stage-fields">
@@ -323,6 +339,36 @@ function Handover({ stage, set, client, project, onComplete }) {
   )
 }
 
+// Who worked on this stage, as links to their staff pages. Shown outside the
+// stage's fields so the links still work when the fields are read-only.
+function StagePeople({ stageKey, stage, project, onOpenRecord }) {
+  if (stageKey === 'siteVisit' && stage.visitedById) {
+    return (
+      <div className="team-chips">
+        <span className="field-label">Visited by</span>
+        <span className="chip">
+          <StaffLink id={stage.visitedById} onOpenRecord={onOpenRecord} />
+        </span>
+      </div>
+    )
+  }
+  if (stageKey !== 'installation') return null
+  return (
+    <div className="team-chips">
+      <span className="field-label">Team on site</span>
+      {project.teamIds.length ? (
+        project.teamIds.map((id) => (
+          <span key={id} className="chip">
+            <StaffLink id={id} onOpenRecord={onOpenRecord} />
+          </span>
+        ))
+      ) : (
+        <span className="cell-sub">No team set. Add people with Edit project.</span>
+      )}
+    </div>
+  )
+}
+
 const BODIES = {
   siteVisit: SiteVisit,
   design: Design,
@@ -334,8 +380,13 @@ const BODIES = {
 
 // The open stage: its status, a button to finish it, and its own details.
 // `onChange(project, movements)` saves the project and any stock moves.
-export default function StagePanel({ project, stageKey, client, onChange }) {
+// Roles that can't move stages see them read-only; a role that handles
+// materials can still set the Materials stage's needed-by date and notes.
+export default function StagePanel({ project, stageKey, client, onChange, onOpenRecord }) {
   const data = useData()
+  const auth = useAuth()
+  const canStages = auth.can('projects.stages')
+  const editable = canStages || (stageKey === 'materials' && auth.can('projects.materials'))
   const [message, setMessage] = useState(null)
   const meta = STAGES.find((s) => s.key === stageKey)
   const index = STAGES.indexOf(meta)
@@ -367,18 +418,22 @@ export default function StagePanel({ project, stageKey, client, onChange }) {
           <h2>{meta.label}</h2>
         </div>
         <div className="card-actions">
-          <div className="segmented" role="group" aria-label="Stage status">
-            {STAGE_STATUSES.map((s) => (
-              <button
-                key={s}
-                type="button"
-                className={stage.status === s ? 'is-active' : ''}
-                onClick={() => (s === 'Done' ? finish() : set({ status: s }))}
-              >
-                {s}
-              </button>
-            ))}
-          </div>
+          {canStages ? (
+            <div className="segmented" role="group" aria-label="Stage status">
+              {STAGE_STATUSES.map((s) => (
+                <button
+                  key={s}
+                  type="button"
+                  className={stage.status === s ? 'is-active' : ''}
+                  onClick={() => (s === 'Done' ? finish() : set({ status: s }))}
+                >
+                  {s}
+                </button>
+              ))}
+            </div>
+          ) : (
+            <span className="read-only-tag">{stage.status} · view only</span>
+          )}
         </div>
       </header>
       <div className="card-body stage-body">
@@ -392,32 +447,36 @@ export default function StagePanel({ project, stageKey, client, onChange }) {
             </ul>
           </div>
         )}
-        {(stageKey === 'approval' || stageKey === 'materials') && stage.status !== 'Done' && (
+        {(stageKey === 'approval' || stageKey === 'materials') && stage.status !== 'Done' && canStages && (
           <p className="cell-sub stage-stock-note">
             {stageKey === 'approval'
               ? 'Approving reserves this project’s pending materials in Inventory.'
               : 'Marking this stage done issues every material: the stock leaves the store.'}
           </p>
         )}
-        <Body
-          stage={stage}
-          set={set}
-          project={project}
-          client={client}
-          onApprove={() =>
-            finish({
-              approvedOn: stage.approvedOn || today,
-              approvedBy: stage.approvedBy || client?.name || '',
-            })
-          }
-          onComplete={() =>
-            finish({
-              actualDate: stage.actualDate || today,
-              receivedBy: stage.receivedBy || client?.name || '',
-            })
-          }
-        />
-        <p className="autosave-note">Changes save as you type.</p>
+        <StagePeople stageKey={stageKey} stage={stage} project={project} onOpenRecord={onOpenRecord} />
+        {/* A disabled fieldset turns every input and button inside read-only. */}
+        <fieldset className="stage-fieldset" disabled={!editable}>
+          <Body
+            stage={stage}
+            set={set}
+            project={project}
+            client={client}
+            onApprove={() =>
+              finish({
+                approvedOn: stage.approvedOn || today,
+                approvedBy: stage.approvedBy || client?.name || '',
+              })
+            }
+            onComplete={() =>
+              finish({
+                actualDate: stage.actualDate || today,
+                receivedBy: stage.receivedBy || client?.name || '',
+              })
+            }
+          />
+        </fieldset>
+        <p className="autosave-note">{editable ? 'Changes save as you type.' : 'Your role can view this stage but not change it.'}</p>
       </div>
     </section>
   )

@@ -1,9 +1,11 @@
 import Badge from '../components/Badge.jsx'
+import StaffLink from '../components/StaffLink.jsx'
 import { formatDate } from '../utils/format.js'
 import { movementDelta } from './inventoryFields.js'
 
 // A list of stock movements. `items` is passed when the item column is shown.
-export default function MovementTable({ movements, items, compact }) {
+// "By" is the registered staff member who made the movement.
+export default function MovementTable({ movements, items, compact, onOpenRecord }) {
   if (movements.length === 0) return <p className="card-empty">No movements yet.</p>
   return (
     <table className={`table table-static${compact ? ' table-compact' : ''}`}>
@@ -46,7 +48,9 @@ export default function MovementTable({ movements, items, compact }) {
                 {m.reference}
                 {m.note && <div className="cell-sub">{m.note}</div>}
               </td>
-              <td>{m.by}</td>
+              <td>
+                <StaffLink id={m.byId} onOpenRecord={onOpenRecord} />
+              </td>
             </tr>
           )
         })}

@@ -1,11 +1,14 @@
 import { useState } from 'react'
-import { ArrowLeft, Pencil, MapPin, Phone, FileText, Package, Receipt, Users } from 'lucide-react'
+import { ArrowLeft, Pencil, MapPin, Phone, FileText, Package, Receipt, Users, Lock } from 'lucide-react'
 import PageHeader from '../components/PageHeader.jsx'
 import Badge from '../components/Badge.jsx'
 import Card from '../components/Card.jsx'
 import Link from '../components/RecordLink.jsx'
+import StaffLink from '../components/StaffLink.jsx'
 import ProgressBar from '../components/ProgressBar.jsx'
 import { useData } from '../data/DataContext.jsx'
+import { useAuth } from '../auth/AuthContext.jsx'
+import { canSeeProject } from '../auth/visibility.js'
 import {
   clientForProject,
   quoteForProject,
@@ -14,8 +17,7 @@ import {
   invoiceStatus,
   projectMaterialsCost,
   projectExtrasCharged,
-  itemForMaterial,
-  staffByName,
+  materialInfo,
 } from '../data/links.js'
 import { formatDate, formatMoney, todayIso } from '../utils/format.js'
 import { quoteTotals } from '../quotations/quoteFields.js'
@@ -41,23 +43,33 @@ function Fact({ label, children, tone }) {
   )
 }
 
-// A designer's or installer's name. It links to their Staff page when
-// someone with that name is registered; otherwise it's plain text.
-function PersonName({ name, onOpenRecord }) {
-  const data = useData()
-  const person = staffByName(data, name)
-  if (!name) return '—'
-  return person ? <Link onClick={() => onOpenRecord('staff', person.id)}>{name}</Link> : name
-}
-
 // `onOpenRecord(module, id, filter)` jumps to the client, quote, invoice,
-// inventory item or staff member.
+// inventory item or staff member. What shows follows the person's role:
+// money only with "see quote total, invoices and balance", costs and profit
+// only with "see material cost…", contact details and design files only when
+// allowed, and stage details can only be changed by roles that move stages.
 export default function ProjectDetail({ projectId, onBack, onEdit, onOpenRecord }) {
   const data = useData()
+  const auth = useAuth()
   const project = data.projects.find((p) => p.id === projectId)
   const [selected, setSelected] = useState(() => (project ? (currentStage(project) ?? STAGES[STAGES.length - 1]).key : null))
   if (!project) return null
+  if (!canSeeProject(auth, project)) {
+    return (
+      <>
+        <button type="button" className="back-link" onClick={onBack}>
+          <ArrowLeft size={15} strokeWidth={1.75} />
+          Projects
+        </button>
+        <div className="no-access">
+          <Lock size={20} strokeWidth={1.5} />
+          <p>{project.id} isn’t one of your projects. Your role only shows the projects you’re assigned to.</p>
+        </div>
+      </>
+    )
+  }
 
+  const can = auth.can
   const client = clientForProject(data, project)
   const quote = quoteForProject(data, project)
   const invoices = invoicesForProject(data, project.id)
@@ -78,8 +90,10 @@ export default function ProjectDetail({ projectId, onBack, onEdit, onOpenRecord 
   const profit = quoteTotal + extras - materialsCost - installationCost(project)
   const advance = issued.find((i) => i.type === 'Advance')
   const final = invoices.find((i) => i.type === 'Final')
+  const advancePaid = advance ? (invoiceStatus(advance) === 'Paid' ? 'Yes' : 'Not yet') : 'Not invoiced'
 
-  const registeredStaff = [project.designer, ...project.team].filter((n) => staffByName(data, n))
+  const people = [project.designerId, ...project.teamIds].filter(Boolean)
+  const stockSkus = project.materials.filter((m) => m.sku).map((m) => m.sku)
 
   return (
     <>
@@ -90,10 +104,12 @@ export default function ProjectDetail({ projectId, onBack, onEdit, onOpenRecord 
 
       <PageHeader title={project.name} subtitle={`${project.id} · from quote ${project.quoteId}`}>
         <Badge>{currentStageLabel(project)}</Badge>
-        <button type="button" className="btn" onClick={onEdit}>
-          <Pencil size={14} strokeWidth={1.75} />
-          Edit project
-        </button>
+        {(can('projects.edit') || can('projects.team')) && (
+          <button type="button" className="btn" onClick={onEdit}>
+            <Pencil size={14} strokeWidth={1.75} />
+            Edit project
+          </button>
+        )}
       </PageHeader>
 
       <section className="project-summary">
@@ -107,14 +123,14 @@ export default function ProjectDetail({ projectId, onBack, onEdit, onOpenRecord 
             {late && ' · late'}
           </Fact>
           <Fact label="Designer">
-            <PersonName name={project.designer} onOpenRecord={onOpenRecord} />
+            <StaffLink id={project.designerId} onOpenRecord={onOpenRecord} />
           </Fact>
           <Fact label="Installation team">
-            {project.team.length
-              ? project.team.map((name, i) => (
-                  <span key={name}>
+            {project.teamIds.length
+              ? project.teamIds.map((id, i) => (
+                  <span key={id}>
                     {i > 0 && ', '}
-                    <PersonName name={name} onOpenRecord={onOpenRecord} />
+                    <StaffLink id={id} onOpenRecord={onOpenRecord} />
                   </span>
                 ))
               : '—'}
@@ -127,26 +143,26 @@ export default function ProjectDetail({ projectId, onBack, onEdit, onOpenRecord 
 
       <div className="detail-grid">
         <div className="detail-main">
-          <StagePanel key={selected} project={project} stageKey={selected} client={client} onChange={save} />
+          <StagePanel key={selected} project={project} stageKey={selected} client={client} onChange={save} onOpenRecord={onOpenRecord} />
           <MaterialsCard project={project} onChange={save} onOpenRecord={onOpenRecord} />
           <MeasurementsCard project={project} onChange={save} />
-          <PhotosCard project={project} onChange={save} />
-          <NotesCard project={project} onChange={save} />
+          {can('projects.designs') && <PhotosCard project={project} onChange={save} />}
+          <NotesCard project={project} onChange={save} onOpenRecord={onOpenRecord} />
         </div>
 
         <aside className="detail-side">
-          <Card title="Client and site">
+          <Card title={can('projects.contact') ? 'Client and site' : 'Client'}>
             <div className="side-block">
               <div className="cell-main">{client ? <Link onClick={openClient}>{client.name}</Link> : 'Client not found'}</div>
               <div className="cell-sub">{client && `${client.id} · ${client.branch} · through quote ${project.quoteId}`}</div>
             </div>
-            {client && (
+            {client && can('projects.contact') && (
               <div className="side-line">
                 <Phone size={14} strokeWidth={1.75} />
                 {client.phone}
               </div>
             )}
-            {project.site && (
+            {project.site && can('projects.contact') && (
               <div className="side-line">
                 <MapPin size={14} strokeWidth={1.75} />
                 <span>
@@ -156,42 +172,56 @@ export default function ProjectDetail({ projectId, onBack, onEdit, onOpenRecord 
             )}
           </Card>
 
-          <Card title="Money">
-            <dl className="facts">
-              <dt>Quote total</dt>
-              <dd>{quote ? formatMoney(quoteTotal) : '—'}</dd>
-              <dt>Extras charged</dt>
-              <dd>{formatMoney(extras)}</dd>
-              <dt>Invoiced (issued)</dt>
-              <dd>{formatMoney(invoiced)}</dd>
-              <dt>Paid</dt>
-              <dd>{formatMoney(paid)}</dd>
-              <dt>Balance</dt>
-              <dd className={invoiced - paid > 0 ? 'is-owed' : ''}>{formatMoney(invoiced - paid)}</dd>
-              <dt>Advance paid</dt>
-              <dd>{advance ? (invoiceStatus(advance) === 'Paid' ? 'Yes' : 'Not yet') : 'Not invoiced'}</dd>
-              {final && (
-                <>
-                  <dt>Final invoice</dt>
-                  <dd>
-                    <Link onClick={() => onOpenRecord('invoices', final.id)}>{formatMoney(final.amount)}</Link>
-                    <div className="cell-sub">{final.draft ? 'Draft, issued at handover' : invoiceStatus(final)}</div>
-                  </dd>
-                </>
+          {can('projects.billing') || can('projects.costs') ? (
+            <Card title="Money">
+              {can('projects.billing') && (
+                <dl className="facts">
+                  <dt>Quote total</dt>
+                  <dd>{quote ? formatMoney(quoteTotal) : '—'}</dd>
+                  <dt>Extras charged</dt>
+                  <dd>{formatMoney(extras)}</dd>
+                  <dt>Invoiced (issued)</dt>
+                  <dd>{formatMoney(invoiced)}</dd>
+                  <dt>Paid</dt>
+                  <dd>{formatMoney(paid)}</dd>
+                  <dt>Balance</dt>
+                  <dd className={invoiced - paid > 0 ? 'is-owed' : ''}>{formatMoney(invoiced - paid)}</dd>
+                  <dt>Advance paid</dt>
+                  <dd>{advancePaid}</dd>
+                  {final && (
+                    <>
+                      <dt>Final invoice</dt>
+                      <dd>
+                        <Link onClick={() => onOpenRecord('invoices', final.id)}>{formatMoney(final.amount)}</Link>
+                        <div className="cell-sub">{final.draft ? 'Draft, issued at handover' : invoiceStatus(final)}</div>
+                      </dd>
+                    </>
+                  )}
+                </dl>
               )}
-            </dl>
-            <dl className="facts facts-split">
-              <dt>Materials cost</dt>
-              <dd>{formatMoney(materialsCost)}</dd>
-              <dt>Installation cost</dt>
-              <dd>{formatMoney(installationCost(project))}</dd>
-              <dt className="cell-main">Profit</dt>
-              <dd className="cell-main">
-                {quote ? formatMoney(profit) : '—'}
-                {quote && quoteTotal > 0 && <span className="cell-sub"> ({Math.round((profit / quoteTotal) * 100)}%)</span>}
-              </dd>
-            </dl>
-          </Card>
+              {can('projects.costs') && (
+                <dl className={`facts${can('projects.billing') ? ' facts-split' : ''}`}>
+                  <dt>Materials cost</dt>
+                  <dd>{formatMoney(materialsCost)}</dd>
+                  <dt>Installation cost</dt>
+                  <dd>{formatMoney(installationCost(project))}</dd>
+                  <dt className="cell-main">Profit</dt>
+                  <dd className="cell-main">
+                    {quote ? formatMoney(profit) : '—'}
+                    {quote && quoteTotal > 0 && <span className="cell-sub"> ({Math.round((profit / quoteTotal) * 100)}%)</span>}
+                  </dd>
+                </dl>
+              )}
+            </Card>
+          ) : (
+            <Card title="Payment">
+              <dl className="facts">
+                <dt>Advance paid</dt>
+                <dd>{advancePaid}</dd>
+              </dl>
+              <p className="cell-sub hidden-note">Money figures are hidden for your role.</p>
+            </Card>
+          )}
 
           <Card title="Connections">
             <ul className="links-list">
@@ -211,49 +241,46 @@ export default function ProjectDetail({ projectId, onBack, onEdit, onOpenRecord 
                   )}
                 </div>
               </li>
-              <li>
-                <Receipt size={15} strokeWidth={1.75} />
-                <div>
-                  <div className="links-title">Invoices</div>
-                  {invoices.length ? (
-                    invoices.map((i) => (
-                      <div key={i.id}>
-                        <Link onClick={() => onOpenRecord('invoices', i.id)}>
-                          {i.id} · {i.type} · {formatMoney(i.amount)}
-                        </Link>{' '}
-                        <Badge>{invoiceStatus(i)}</Badge>
-                      </div>
-                    ))
-                  ) : (
-                    <div className="cell-sub">None yet. Raise them from Invoices and payments.</div>
-                  )}
-                </div>
-              </li>
+              {can('projects.billing') && (
+                <li>
+                  <Receipt size={15} strokeWidth={1.75} />
+                  <div>
+                    <div className="links-title">Invoices</div>
+                    {invoices.length ? (
+                      invoices.map((i) => (
+                        <div key={i.id}>
+                          <Link onClick={() => onOpenRecord('invoices', i.id)}>
+                            {i.id} · {i.type} · {formatMoney(i.amount)}
+                          </Link>{' '}
+                          <Badge>{invoiceStatus(i)}</Badge>
+                        </div>
+                      ))
+                    ) : (
+                      <div className="cell-sub">None yet.</div>
+                    )}
+                  </div>
+                </li>
+              )}
               <li>
                 <Package size={15} strokeWidth={1.75} />
                 <div>
                   <div className="links-title">
-                    {project.materials.length ? (
+                    {stockSkus.length ? (
                       <Link
-                        onClick={() =>
-                          onOpenRecord('inventory', null, {
-                            skus: project.materials.map((m) => m.sku),
-                            label: `${project.id} · ${project.name}`,
-                          })
-                        }
+                        onClick={() => onOpenRecord('inventory', null, { skus: stockSkus, label: `${project.id} · ${project.name}` })}
                       >
-                        Inventory · {project.materials.length} {project.materials.length === 1 ? 'item' : 'items'}
+                        Inventory · {stockSkus.length} {stockSkus.length === 1 ? 'item' : 'items'}
                       </Link>
                     ) : (
                       'Inventory'
                     )}
                   </div>
                   {project.materials.length ? (
-                    project.materials.map((m) => {
-                      const item = itemForMaterial(data, m)
+                    project.materials.map((m, i) => {
+                      const info = materialInfo(data, m)
                       return (
-                        <div key={m.sku}>
-                          {item ? <Link onClick={() => onOpenRecord('inventory', item.sku)}>{item.name}</Link> : m.sku}{' '}
+                        <div key={`${m.sku}-${i}`}>
+                          {info.item ? <Link onClick={() => onOpenRecord('inventory', m.sku)}>{info.name}</Link> : `${info.name} (custom)`}{' '}
                           <span className="cell-sub">{m.status}</span>
                         </div>
                       )
@@ -267,18 +294,15 @@ export default function ProjectDetail({ projectId, onBack, onEdit, onOpenRecord 
                 <Users size={15} strokeWidth={1.75} />
                 <div>
                   <div className="links-title">Staff</div>
-                  {registeredStaff.length ? (
-                    registeredStaff.map((name) => (
-                      <div key={name}>
-                        <PersonName name={name} onOpenRecord={onOpenRecord} />
+                  {people.length ? (
+                    people.map((id, i) => (
+                      <div key={id}>
+                        <StaffLink id={id} onOpenRecord={onOpenRecord} />{' '}
+                        <span className="cell-sub">{i === 0 && id === project.designerId ? 'Designer' : 'Installation team'}</span>
                       </div>
                     ))
                   ) : (
-                    <div className="cell-sub">
-                      {project.designer || project.team.length
-                        ? 'The people on this project aren’t on the Staff list yet. Their names will link once an admin adds them.'
-                        : 'No designer or team set.'}
-                    </div>
+                    <div className="cell-sub">No designer or team set.</div>
                   )}
                 </div>
               </li>

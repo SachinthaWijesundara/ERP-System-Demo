@@ -1,11 +1,14 @@
 import { useState } from 'react'
-import { ArrowLeft, Pencil, CheckCircle2, XCircle, FileText, ShoppingBag, Hammer, Truck } from 'lucide-react'
+import { ArrowLeft, Pencil, CheckCircle2, XCircle, FileText, ShoppingBag, Hammer, Truck, Trash2 } from 'lucide-react'
 import PageHeader from '../components/PageHeader.jsx'
 import Card, { CardEmpty } from '../components/Card.jsx'
 import Badge from '../components/Badge.jsx'
 import Field from '../components/Field.jsx'
 import Link from '../components/RecordLink.jsx'
+import StaffLink from '../components/StaffLink.jsx'
 import { useData } from '../data/DataContext.jsx'
+import { useAuth } from '../auth/AuthContext.jsx'
+import { canSeeProject, canSeeQuote } from '../auth/visibility.js'
 import {
   reservationsForItem,
   projectsUsingItem,
@@ -20,13 +23,10 @@ import { lineTotal } from '../pos/posFields.js'
 import { branches, ALL_BRANCHES } from '../modules.js'
 import {
   MOVEMENT_TYPES,
-  DEMO_STOREKEEPERS,
   stockAt,
   stockStatus,
   margin,
   canTakeOut,
-  nextMovementId,
-  movementDelta,
   validateMovement,
 } from './inventoryFields.js'
 import MovementTable from './MovementTable.jsx'
@@ -66,9 +66,12 @@ function SellCheck({ item, startBranch }) {
   )
 }
 
-function RecordMovement({ item, startBranch }) {
+// The movement is put down to whoever is logged in. Someone tied to one
+// branch can only move stock at that branch.
+function RecordMovement({ item, startBranch, myBranches }) {
   const data = useData()
-  const blank = (b) => ({ type: 'In', branch: b, qty: '', reference: '', by: DEMO_STOREKEEPERS[b] ?? '', note: '' })
+  const auth = useAuth()
+  const blank = (b) => ({ type: 'In', branch: b, qty: '', reference: '', note: '' })
   const [form, setForm] = useState(blank(startBranch))
   const [submitted, setSubmitted] = useState(false)
   const [done, setDone] = useState(null)
@@ -81,18 +84,17 @@ function RecordMovement({ item, startBranch }) {
     setSubmitted(true)
     if (Object.keys(errors).length) return
     const movement = {
-      id: nextMovementId(data.movements),
       date: todayIso(),
       sku: item.sku,
       branch: form.branch,
       type: form.type,
       qty: Number(form.qty),
       reference: form.reference.trim(),
-      by: form.by.trim(),
+      byId: auth.user.id,
       note: form.note.trim(),
     }
-    data.recordMovement(movement, movementDelta(movement))
-    setDone(movement.id)
+    data.recordMovement(movement)
+    setDone(`${form.type} of ${Math.abs(movement.qty)} ${item.unit} at ${form.branch}`)
     setForm(blank(form.branch))
     setSubmitted(false)
   }
@@ -115,15 +117,8 @@ function RecordMovement({ item, startBranch }) {
       <p className="cell-sub movement-hint">{hints[form.type]}</p>
       <div className="form-grid">
         <Field label="Branch" error={errorFor('branch')}>
-          <select
-            value={form.branch}
-            onChange={(e) => {
-              const b = e.target.value
-              // Swap in the new branch's storekeeper unless someone else was typed.
-              setForm((f) => ({ ...f, branch: b, by: f.by === DEMO_STOREKEEPERS[f.branch] ? DEMO_STOREKEEPERS[b] : f.by }))
-            }}
-          >
-            {branches.map((b) => (
+          <select value={form.branch} onChange={(e) => patch({ branch: e.target.value })} disabled={myBranches.length < 2}>
+            {myBranches.map((b) => (
               <option key={b}>{b}</option>
             ))}
           </select>
@@ -134,15 +129,15 @@ function RecordMovement({ item, startBranch }) {
         <Field label="Reference" error={errorFor('reference')}>
           <input value={form.reference} onChange={(e) => patch({ reference: e.target.value })} placeholder="GRN-1043, Issued to PRJ-0008…" aria-invalid={!!errorFor('reference')} />
         </Field>
-        <Field label="By" error={errorFor('by')}>
-          <input value={form.by} onChange={(e) => patch({ by: e.target.value })} aria-invalid={!!errorFor('by')} />
+        <Field label="By" hint="Whoever is logged in.">
+          <div className="field-static">{auth.user.name}</div>
         </Field>
         <Field label="Note (optional)" wide>
           <input value={form.note} onChange={(e) => patch({ note: e.target.value })} />
         </Field>
       </div>
       <div className="movement-foot">
-        {done && <span className="diff-ok">Saved as {done}.</span>}
+        {done && <span className="diff-ok">Saved: {done}.</span>}
         <button type="button" className="btn btn-primary" onClick={save}>
           Record {form.type.toLowerCase()}
         </button>
@@ -151,13 +146,18 @@ function RecordMovement({ item, startBranch }) {
   )
 }
 
-// `onOpenRecord(module, id)` jumps to a project, quotation or sale.
-export default function ItemDetail({ sku, branch, onBack, onEdit, onOpenRecord }) {
+// `onOpenRecord(module, id)` jumps to a project, quotation, sale, invoice or
+// staff member. Costs, editing, stock movements and deleting each follow the
+// person's role, and only the projects and quotes they can open are linked.
+export default function ItemDetail({ sku, branch, onBack, onEdit, onDeleted, onOpenRecord }) {
   const data = useData()
+  const auth = useAuth()
   const item = data.inventory.find((i) => i.sku === sku)
   if (!item) return null
 
-  const startBranch = branch === ALL_BRANCHES ? branches[0] : branch
+  const can = auth.can
+  const myBranches = branches.filter((b) => auth.allowedBranches.includes(b))
+  const startBranch = branch === ALL_BRANCHES ? myBranches[0] : branch
   const reservations = reservationsForItem(data, item)
   const movements = data.movements.filter((m) => m.sku === item.sku)
   // Where this item is used. Each of these records points at the item by its
@@ -166,6 +166,17 @@ export default function ItemDetail({ sku, branch, onBack, onEdit, onOpenRecord }
   const inQuotes = quotationsUsingItem(data, item.sku)
   const inSales = salesOfItem(data, item.sku)
   const open = (module, id) => () => onOpenRecord(module, id)
+  const projectLink = (project, label) => (canSeeProject(auth, project) ? <Link onClick={open('projects', project.id)}>{label}</Link> : label)
+  const quoteLink = (quote, label) => (canSeeQuote(data, auth, quote) ? <Link onClick={open('quotations', quote.id)}>{label}</Link> : label)
+  const canEdit = can('inventory.items') || can('inventory.prices') || can('inventory.alerts')
+
+  // Only an item nothing has ever pointed at can be deleted.
+  const deletable = can('inventory.delete') && !movements.length && !inProjects.length && !inQuotes.length && !inSales.length
+  function remove() {
+    if (!window.confirm(`Delete ${item.sku} · ${item.name}? This can’t be undone.`)) return
+    data.deleteItem(item.sku)
+    onDeleted()
+  }
 
   return (
     <>
@@ -175,10 +186,18 @@ export default function ItemDetail({ sku, branch, onBack, onEdit, onOpenRecord }
       </button>
 
       <PageHeader title={item.name} subtitle={`${item.sku} · ${item.category}`}>
-        <button type="button" className="btn" onClick={onEdit}>
-          <Pencil size={14} strokeWidth={1.75} />
-          Edit item
-        </button>
+        {deletable && (
+          <button type="button" className="btn" onClick={remove}>
+            <Trash2 size={14} strokeWidth={1.75} />
+            Delete
+          </button>
+        )}
+        {canEdit && (
+          <button type="button" className="btn" onClick={onEdit}>
+            <Pencil size={14} strokeWidth={1.75} />
+            Edit item
+          </button>
+        )}
       </PageHeader>
 
       <section className="facts-row item-facts">
@@ -186,18 +205,22 @@ export default function ItemDetail({ sku, branch, onBack, onEdit, onOpenRecord }
           <div className="fact-label">Unit</div>
           <div className="fact-value">{item.unit}</div>
         </div>
-        <div className="fact">
-          <div className="fact-label">Cost price</div>
-          <div className="fact-value">{formatMoney(item.costPrice)}</div>
-        </div>
+        {can('inventory.costs') && (
+          <div className="fact">
+            <div className="fact-label">Cost price</div>
+            <div className="fact-value">{formatMoney(item.costPrice)}</div>
+          </div>
+        )}
         <div className="fact">
           <div className="fact-label">Selling price</div>
           <div className="fact-value">{formatMoney(item.sellingPrice)}</div>
         </div>
-        <div className="fact">
-          <div className="fact-label">Margin</div>
-          <div className="fact-value">{margin(item)}%</div>
-        </div>
+        {can('inventory.costs') && (
+          <div className="fact">
+            <div className="fact-label">Margin</div>
+            <div className="fact-value">{margin(item)}%</div>
+          </div>
+        )}
         <div className="fact">
           <div className="fact-label">Low-stock alert at</div>
           <div className="fact-value">
@@ -258,7 +281,7 @@ export default function ItemDetail({ sku, branch, onBack, onEdit, onOpenRecord }
                     <tr key={i}>
                       <td>
                         <div className="cell-main">
-                          <Link onClick={open('projects', r.projectId)}>{r.project?.name ?? r.projectId}</Link>
+                          {r.project ? projectLink(r.project, r.project.name) : r.projectId}
                         </div>
                         <div className="cell-sub">{r.projectId}</div>
                       </td>
@@ -294,9 +317,7 @@ export default function ItemDetail({ sku, branch, onBack, onEdit, onOpenRecord }
                   {inProjects.map(({ project, material }) => (
                     <tr key={project.id}>
                       <td>
-                        <div className="cell-main">
-                          <Link onClick={open('projects', project.id)}>{project.name}</Link>
-                        </div>
+                        <div className="cell-main">{projectLink(project, project.name)}</div>
                         <div className="cell-sub">{project.id}</div>
                       </td>
                       <td>{clientForProject(data, project)?.name}</td>
@@ -313,6 +334,7 @@ export default function ItemDetail({ sku, branch, onBack, onEdit, onOpenRecord }
             )}
           </Card>
 
+          {can('quotes.view') && (
           <Card title="On quotations" count={inQuotes.length}>
             {inQuotes.length === 0 ? (
               <CardEmpty>No quotation has a line for this item yet.</CardEmpty>
@@ -331,9 +353,7 @@ export default function ItemDetail({ sku, branch, onBack, onEdit, onOpenRecord }
                   {inQuotes.map(({ quote, line }) => (
                     <tr key={quote.id}>
                       <td>
-                        <div className="cell-main">
-                          <Link onClick={open('quotations', quote.id)}>{quote.id}</Link>
-                        </div>
+                        <div className="cell-main">{quoteLink(quote, quote.id)}</div>
                         <div className="cell-sub">{quote.title}</div>
                       </td>
                       <td>{clientForQuote(data, quote)?.name}</td>
@@ -350,7 +370,9 @@ export default function ItemDetail({ sku, branch, onBack, onEdit, onOpenRecord }
               </table>
             )}
           </Card>
+          )}
 
+          {can('pos.view') && (
           <Card title="Counter sales" count={inSales.length}>
             {inSales.length === 0 ? (
               <CardEmpty>Not sold at the counter yet.</CardEmpty>
@@ -372,7 +394,8 @@ export default function ItemDetail({ sku, branch, onBack, onEdit, onOpenRecord }
                           <Link onClick={open('pos', sale.id)}>{sale.id}</Link>
                         </div>
                         <div className="cell-sub">
-                          {formatDate(sale.date)} · {sale.cashier}
+                          {formatDate(sale.date)} · <StaffLink id={sale.cashierId} onOpenRecord={onOpenRecord} />
+                          {sale.voided && ' · void'}
                         </div>
                       </td>
                       <td>{sale.branch}</td>
@@ -386,17 +409,21 @@ export default function ItemDetail({ sku, branch, onBack, onEdit, onOpenRecord }
               </table>
             )}
           </Card>
+          )}
 
           <Card title="Movement log" count={movements.length}>
-            <MovementTable movements={movements} compact />
+            <MovementTable movements={movements} compact onOpenRecord={onOpenRecord} />
           </Card>
         </div>
 
         <aside className="detail-side">
           <SellCheck item={item} startBranch={startBranch} />
-          <RecordMovement key={item.sku} item={item} startBranch={startBranch} />
+          {can('inventory.stock') && (
+            <RecordMovement key={item.sku} item={item} startBranch={startBranch} myBranches={myBranches} />
+          )}
           <Card title="Connections">
             <ul className="links-list">
+              {can('quotes.view') && (
               <li>
                 <FileText size={15} strokeWidth={1.75} />
                 <div>
@@ -404,7 +431,7 @@ export default function ItemDetail({ sku, branch, onBack, onEdit, onOpenRecord }
                   {inQuotes.length ? (
                     inQuotes.map(({ quote, line }) => (
                       <div key={quote.id}>
-                        <Link onClick={open('quotations', quote.id)}>{quote.id}</Link>{' '}
+                        {quoteLink(quote, quote.id)}{' '}
                         <span className="cell-sub">
                           {line.qty} {line.unit} · {quote.status}
                         </span>
@@ -415,6 +442,7 @@ export default function ItemDetail({ sku, branch, onBack, onEdit, onOpenRecord }
                   )}
                 </div>
               </li>
+              )}
               <li>
                 <Hammer size={15} strokeWidth={1.75} />
                 <div>
@@ -422,7 +450,7 @@ export default function ItemDetail({ sku, branch, onBack, onEdit, onOpenRecord }
                   {inProjects.length ? (
                     inProjects.map(({ project, material }) => (
                       <div key={project.id}>
-                        <Link onClick={open('projects', project.id)}>{project.id}</Link>{' '}
+                        {projectLink(project, project.id)}{' '}
                         <span className="cell-sub">
                           {material.qty} {item.unit} · {material.status}
                         </span>
@@ -433,6 +461,7 @@ export default function ItemDetail({ sku, branch, onBack, onEdit, onOpenRecord }
                   )}
                 </div>
               </li>
+              {can('pos.view') && (
               <li>
                 <ShoppingBag size={15} strokeWidth={1.75} />
                 <div>
@@ -445,7 +474,7 @@ export default function ItemDetail({ sku, branch, onBack, onEdit, onOpenRecord }
                       return (
                         <div key={sale.id}>
                           <Link onClick={open('pos', sale.id)}>{sale.id}</Link>
-                          {invoice && (
+                          {invoice && can('invoices.view') && (
                             <>
                               {' → '}
                               <Link onClick={open('invoices', invoice.id)}>{invoice.id}</Link>
@@ -462,6 +491,7 @@ export default function ItemDetail({ sku, branch, onBack, onEdit, onOpenRecord }
                   )}
                 </div>
               </li>
+              )}
               <li>
                 <Truck size={15} strokeWidth={1.75} />
                 <div>

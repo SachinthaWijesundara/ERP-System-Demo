@@ -1,4 +1,5 @@
 import Link from '../components/RecordLink.jsx'
+import StaffLink from '../components/StaffLink.jsx'
 import { useData } from '../data/DataContext.jsx'
 import {
   clientForInvoice,
@@ -127,6 +128,9 @@ export default function InvoiceDocument({ invoice, onReceipt, onOpenRecord }) {
                       <td>
                         {p.method}
                         {p.reference && <div className="cell-sub">{p.reference}</div>}
+                        <div className="cell-sub">
+                          Received by <StaffLink id={p.receivedById} onOpenRecord={onOpenRecord} />
+                        </div>
                       </td>
                       <td className="num">{formatMoney(p.amount)}</td>
                       {onReceipt && (

@@ -1,8 +1,10 @@
-import { ArrowLeft, Pencil, Phone, Mail, MapPin, ChevronRight } from 'lucide-react'
+import { ArrowLeft, Pencil, Phone, Mail, MapPin, ChevronRight, Trash2, Lock } from 'lucide-react'
 import PageHeader from '../components/PageHeader.jsx'
 import Badge from '../components/Badge.jsx'
 import Card, { CardEmpty as Empty } from '../components/Card.jsx'
 import { useData } from '../data/DataContext.jsx'
+import { useAuth } from '../auth/AuthContext.jsx'
+import { canSeeClient, canSeeProject, canSeeQuote } from '../auth/visibility.js'
 import {
   quotationsForClient,
   projectsForClient,
@@ -16,17 +18,48 @@ import { quoteTotals } from '../quotations/quoteFields.js'
 import { currentStageLabel } from '../projects/projectFields.js'
 import { formatDate, formatMoney, todayIso } from '../utils/format.js'
 
-// `onOpenRecord(module, id)` jumps to that quote, project or invoice.
-export default function ClientDetail({ clientId, onBack, onEdit, onOpenRecord }) {
+// `onOpenRecord(module, id)` jumps to that quote, project or invoice. The
+// quotes and projects listed are the ones the person's role lets them open;
+// invoices and the balance need "see balances and payment history".
+export default function ClientDetail({ clientId, onBack, onEdit, onDeleted, onOpenRecord }) {
   const data = useData()
+  const auth = useAuth()
   const client = data.clients.find((c) => c.id === clientId)
   if (!client) return null
+  if (!canSeeClient(data, auth, client)) {
+    return (
+      <>
+        <button type="button" className="back-link" onClick={onBack}>
+          <ArrowLeft size={15} strokeWidth={1.75} />
+          Clients
+        </button>
+        <div className="no-access">
+          <Lock size={20} strokeWidth={1.5} />
+          <p>{client.id} isn’t one of your clients. Your role only shows clients from your own projects and quotations.</p>
+        </div>
+      </>
+    )
+  }
 
-  const quotes = quotationsForClient(data, client.id)
-  const projects = projectsForClient(data, client.id)
+  const allQuotes = quotationsForClient(data, client.id)
+  const quotes = auth.can('quotes.view') ? allQuotes.filter((q) => canSeeQuote(data, auth, q)) : []
+  const projects = projectsForClient(data, client.id).filter((p) => canSeeProject(auth, p))
   const invoices = invoicesForClient(data, client.id)
   const balance = balanceDue(data, client.id)
   const overdue = client.followUp && client.followUp < todayIso()
+  const showBalance = auth.can('clients.balances')
+
+  // A client with quotes, counter sales or invoices is part of the books.
+  const deletable =
+    auth.can('clients.delete') &&
+    allQuotes.length === 0 &&
+    invoices.length === 0 &&
+    !data.sales.some((s) => s.clientId === client.id)
+  function remove() {
+    if (!window.confirm(`Delete ${client.id} · ${client.name}? This can’t be undone.`)) return
+    data.deleteClient(client.id)
+    onDeleted()
+  }
 
   return (
     <>
@@ -37,10 +70,18 @@ export default function ClientDetail({ clientId, onBack, onEdit, onOpenRecord })
 
       <PageHeader title={client.name} subtitle={client.id}>
         <Badge>{client.status}</Badge>
-        <button type="button" className="btn" onClick={onEdit}>
-          <Pencil size={14} strokeWidth={1.75} />
-          Edit
-        </button>
+        {deletable && (
+          <button type="button" className="btn" onClick={remove}>
+            <Trash2 size={14} strokeWidth={1.75} />
+            Delete
+          </button>
+        )}
+        {auth.can('clients.edit') && (
+          <button type="button" className="btn" onClick={onEdit}>
+            <Pencil size={14} strokeWidth={1.75} />
+            Edit
+          </button>
+        )}
       </PageHeader>
 
       <div className="detail-grid">
@@ -74,6 +115,7 @@ export default function ClientDetail({ clientId, onBack, onEdit, onOpenRecord })
             </ul>
           </Card>
 
+          {auth.can('quotes.view') && (
           <Card title="Quotations" count={quotes.length}>
             {quotes.length === 0 ? (
               <Empty>No quotations for this client yet.</Empty>
@@ -108,7 +150,9 @@ export default function ClientDetail({ clientId, onBack, onEdit, onOpenRecord })
               </table>
             )}
           </Card>
+          )}
 
+          {auth.can('projects.view') && (
           <Card title="Projects" count={projects.length}>
             {projects.length === 0 ? (
               <Empty>No projects yet. A project appears here when one of this client’s quotes is approved.</Empty>
@@ -153,7 +197,9 @@ export default function ClientDetail({ clientId, onBack, onEdit, onOpenRecord })
               </table>
             )}
           </Card>
+          )}
 
+          {showBalance && (
           <Card title="Invoices and payments" count={invoices.length}>
             {invoices.length === 0 ? (
               <Empty>No invoices for this client yet.</Empty>
@@ -173,7 +219,11 @@ export default function ClientDetail({ clientId, onBack, onEdit, onOpenRecord })
                 </thead>
                 <tbody>
                   {invoices.map((inv) => (
-                    <tr key={inv.id} onClick={() => onOpenRecord('invoices', inv.id)} title={`Open ${inv.id}`}>
+                    <tr
+                      key={inv.id}
+                      onClick={() => auth.can('invoices.view') && onOpenRecord('invoices', inv.id)}
+                      title={auth.can('invoices.view') ? `Open ${inv.id}` : undefined}
+                    >
                       <td className="cell-main">{inv.id}</td>
                       <td>{inv.type}</td>
                       <td>{formatDate(inv.date)}</td>
@@ -192,15 +242,18 @@ export default function ClientDetail({ clientId, onBack, onEdit, onOpenRecord })
               </table>
             )}
           </Card>
+          )}
         </div>
 
         <aside className="detail-side">
           <Card title="Summary">
             <dl className="facts">
-              <dt>Balance due</dt>
-              <dd className={balance > 0 ? 'is-owed' : ''}>
-                {invoices.length ? formatMoney(balance) : '—'}
-              </dd>
+              {showBalance && (
+                <>
+                  <dt>Balance due</dt>
+                  <dd className={balance > 0 ? 'is-owed' : ''}>{invoices.length ? formatMoney(balance) : '—'}</dd>
+                </>
+              )}
               <dt>Branch</dt>
               <dd>{client.branch}</dd>
               <dt>Status</dt>

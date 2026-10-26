@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useData } from '../data/DataContext.jsx'
+import { useAuth } from '../auth/AuthContext.jsx'
 import { useOnChange } from '../utils/useOnChange.js'
 import ClientList from '../clients/ClientList.jsx'
 import ClientDetail from '../clients/ClientDetail.jsx'
@@ -9,6 +10,7 @@ import { emptyClient, nextClientId } from '../clients/clientFields.js'
 // Switches between the client list, one client's page, and the add/edit form.
 export default function Clients({ query, branch, openId, onOpenRecord }) {
   const data = useData()
+  const auth = useAuth()
   // `openId` opens one client straight away, e.g. when clicked on a quote.
   const [view, setView] = useState(openId ? { mode: 'detail', id: openId } : { mode: 'list' })
 
@@ -21,12 +23,13 @@ export default function Clients({ query, branch, openId, onOpenRecord }) {
         clientId={view.id}
         onBack={() => setView({ mode: 'list' })}
         onEdit={() => setView({ mode: 'edit', id: view.id })}
+        onDeleted={() => setView({ mode: 'list' })}
         onOpenRecord={onOpenRecord}
       />
     )
   }
 
-  if (view.mode === 'edit') {
+  if (view.mode === 'edit' && auth.can('clients.edit')) {
     const client = data.clients.find((c) => c.id === view.id)
     return (
       <ClientForm
@@ -41,7 +44,7 @@ export default function Clients({ query, branch, openId, onOpenRecord }) {
     )
   }
 
-  if (view.mode === 'new') {
+  if (view.mode === 'new' && auth.can('clients.create')) {
     return (
       <ClientForm
         initial={emptyClient(nextClientId(data.clients), branch)}

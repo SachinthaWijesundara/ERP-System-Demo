@@ -1,16 +1,12 @@
 import { isValidPhone, formatPhone } from '../clients/clientFields.js'
 import { branches, ALL_BRANCHES } from '../modules.js'
 
-// Job roles at the studio, with what each person does. `access` is the
-// permission role they'll get once logins and permissions are set up.
-export const STAFF_ROLES = [
-  { role: 'Admin / owner', access: 'Admin', about: 'Runs the business. Sees money, profit and staff settings.' },
-  { role: 'Manager', access: 'Admin', about: 'Runs a branch day to day and approves discounts.' },
-  { role: 'Sales officer', access: 'Front desk', about: 'Talks to customers, makes quotes, runs the counter, takes payments.' },
-  { role: 'Designer', access: 'Designer', about: 'Visits sites, measures, designs and moves projects forward.' },
-  { role: 'Storekeeper', access: 'Storekeeper', about: 'Receives stock, keeps counts right, prepares materials for jobs.' },
-  { role: 'Installer', access: 'None', about: 'Fits the work on site. Usually no login.' },
-]
+// A staff record:
+//   { id, name, roleId, branch, phone, email, joinedOn, status, notes,
+//     username, passwordHash }
+// `roleId` points at one of the roles in User settings (Admin, Sales / front
+// desk, Designer…); the role decides what the person can see and do. People
+// whose role has no login (installers) have no username or password.
 
 export const STAFF_STATUSES = ['Active', 'Inactive']
 
@@ -19,9 +15,10 @@ export const STAFF_BRANCHES = [...branches, ALL_BRANCHES]
 
 const STAFF_ID = /^ST-\d{4}$/
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
+const USERNAME = /^[a-z][a-z0-9._-]{2,23}$/
 
-export function roleInfo(role) {
-  return STAFF_ROLES.find((r) => r.role === role)
+export function roleOf(roles, person) {
+  return roles.find((r) => r.id === person?.roleId)
 }
 
 export function nextStaffId(staff) {
@@ -34,38 +31,60 @@ export function emptyStaff(id, today) {
   return {
     id,
     name: '',
-    role: 'Sales officer',
+    roleId: 'sales',
     branch: branches[0],
     phone: '',
     email: '',
     joinedOn: today,
     status: 'Active',
     notes: '',
+    username: '',
+    passwordHash: '',
   }
 }
 
-// For the admin's add/edit form in User settings.
-export function validateStaff(person, staff, isNew) {
+// For the admin's add/edit form. `password` is the new password typed in
+// the form (empty when editing and not changing it).
+export function validateStaff(person, { staff, roles, isNew, password }) {
   const errors = {}
+  const role = roleOf(roles, person)
   if (!STAFF_ID.test(person.id)) errors.id = 'Use the format ST-0000.'
   else if (isNew && staff.some((p) => p.id === person.id)) errors.id = `${person.id} is already used.`
   if (person.name.trim().length < 2) errors.name = 'Enter the person’s name.'
-  if (!roleInfo(person.role)) errors.role = 'Choose a role.'
+  if (!role) errors.roleId = 'Choose a role.'
+  else if (role.locked && staff.some((p) => p.id !== person.id && roleOf(roles, p)?.locked)) {
+    errors.roleId = 'There is only one admin account.'
+  }
   if (!STAFF_BRANCHES.includes(person.branch)) errors.branch = 'Choose a branch.'
   if (!person.phone.trim()) errors.phone = 'Enter a phone number.'
   else if (!isValidPhone(person.phone)) errors.phone = 'Enter a 10-digit Sri Lankan number.'
   if (person.email.trim() && !EMAIL.test(person.email.trim())) errors.email = 'Enter a valid email address.'
   if (!person.joinedOn) errors.joinedOn = 'Enter the date they joined.'
+
+  // Everyone whose role logs in needs a unique username and a password.
+  if (role?.canLogin) {
+    const username = person.username.trim().toLowerCase()
+    if (!USERNAME.test(username)) {
+      errors.username = 'Lowercase letters and numbers, 3 to 24 long, starting with a letter.'
+    } else if (staff.some((p) => p.id !== person.id && p.username === username)) {
+      errors.username = `“${username}” is already used.`
+    }
+    if (!person.passwordHash && !password) errors.password = 'Set a password for their first sign-in.'
+  }
   return errors
 }
 
-export function cleanStaff(person) {
+export function cleanStaff(person, roles) {
+  const role = roleOf(roles, person)
   return {
     ...person,
     name: person.name.trim(),
     phone: formatPhone(person.phone.trim()),
     email: person.email.trim().toLowerCase(),
     notes: person.notes.trim(),
+    // A role without a login keeps no account details.
+    username: role?.canLogin ? person.username.trim().toLowerCase() : '',
+    passwordHash: role?.canLogin ? person.passwordHash : '',
   }
 }
 

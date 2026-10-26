@@ -3,13 +3,13 @@ import { ArrowLeft, Minus, Plus, X, Search } from 'lucide-react'
 import PageHeader from '../components/PageHeader.jsx'
 import Field from '../components/Field.jsx'
 import { useData } from '../data/DataContext.jsx'
+import { useAuth } from '../auth/AuthContext.jsx'
+import { visibleClients } from '../auth/visibility.js'
 import { productsForPos, checkSaleAgainstStock } from '../data/links.js'
 import { formatMoney, todayIso } from '../utils/format.js'
-import { UNITS } from '../quotations/quoteFields.js'
 import { branches } from '../modules.js'
 import {
   PAYMENT_METHODS,
-  DEMO_CASHIERS,
   nextSaleId,
   nowTime,
   lineTotal,
@@ -20,16 +20,24 @@ import {
 } from './posFields.js'
 
 // The counter screen: pick items on the left, take payment on the right.
+// The cashier is whoever is logged in, and someone tied to one branch sells
+// from that branch only. Only Inventory items are sold here: there are no
+// custom items at the counter. Changing a price or giving a discount each
+// need their own permission.
 export default function Checkout({ branch, onCancel, onComplete }) {
   const data = useData()
-  const startBranch = branches.includes(branch) ? branch : ''
+  const auth = useAuth()
+  const canPrice = auth.can('pos.prices')
+  const canDiscount = auth.can('pos.discount')
+  const myBranches = branches.filter((b) => auth.allowedBranches.includes(b))
+  const startBranch = myBranches.includes(branch) ? branch : myBranches.length === 1 ? myBranches[0] : ''
 
   const [sale, setSale] = useState(() => ({
     id: nextSaleId(data.sales),
     date: todayIso(),
     time: nowTime(),
     branch: startBranch,
-    cashier: DEMO_CASHIERS[startBranch] ?? '',
+    cashierId: auth.user.id,
     customer: { name: '', phone: '' },
     clientId: '',
     items: [],
@@ -64,12 +72,7 @@ export default function Checkout({ branch, onCancel, onComplete }) {
     else update({ items: [...sale.items, { sku: p.sku, name: p.name, qty: 1, unit: p.unit, price: p.price, discount: 0 }] })
   }
 
-  const addCustomItem = () => update({ items: [...sale.items, { sku: '', name: '', qty: 1, unit: 'piece', price: 0, discount: 0 }] })
-
-  function chooseBranch(e) {
-    const b = e.target.value
-    update({ branch: b, cashier: sale.cashier || DEMO_CASHIERS[b] || '' })
-  }
+  const chooseBranch = (e) => update({ branch: e.target.value })
 
   function complete() {
     setSubmitted(true)
@@ -126,10 +129,7 @@ export default function Checkout({ branch, onCancel, onComplete }) {
               })}
             </div>
             {shown.length === 0 && <p className="card-empty">Nothing matches “{filter}”.</p>}
-            <button type="button" className="btn btn-ghost" onClick={addCustomItem}>
-              <Plus size={15} strokeWidth={1.75} />
-              Item not in the list
-            </button>
+            <p className="cell-sub hidden-note">Only Inventory items can be sold at the counter. Ask the storekeeper to add a new product.</p>
           </div>
         </section>
 
@@ -141,15 +141,15 @@ export default function Checkout({ branch, onCancel, onComplete }) {
           <div className="card-body cart-body">
             <div className="form-grid">
               <Field label="Branch" error={errorFor('branch')}>
-                <select value={sale.branch} onChange={chooseBranch} aria-invalid={!!errorFor('branch')}>
-                  <option value="">Choose…</option>
-                  {branches.map((b) => (
+                <select value={sale.branch} onChange={chooseBranch} disabled={myBranches.length < 2} aria-invalid={!!errorFor('branch')}>
+                  {myBranches.length > 1 && <option value="">Choose…</option>}
+                  {myBranches.map((b) => (
                     <option key={b}>{b}</option>
                   ))}
                 </select>
               </Field>
-              <Field label="Cashier" error={errorFor('cashier')}>
-                <input value={sale.cashier} onChange={(e) => update({ cashier: e.target.value })} aria-invalid={!!errorFor('cashier')} />
+              <Field label="Cashier" error={errorFor('cashier')} hint="Whoever is logged in.">
+                <div className="field-static">{auth.user.name}</div>
               </Field>
             </div>
 
@@ -161,18 +161,7 @@ export default function Checkout({ branch, onCancel, onComplete }) {
                 {sale.items.map((item, i) => (
                   <li key={i} className="cart-line">
                     <div className="cart-line-top">
-                      {item.sku ? (
-                        <span className="cell-main">{item.name}</span>
-                      ) : (
-                        <input
-                          className="cart-name"
-                          value={item.name}
-                          onChange={(e) => setItem(i, { name: e.target.value })}
-                          placeholder="Item name"
-                          aria-invalid={!!errorFor(`items.${i}.name`)}
-                          autoFocus
-                        />
-                      )}
+                      <span className="cell-main">{item.name}</span>
                       <button
                         type="button"
                         className="icon-button icon-button-quiet"
@@ -199,17 +188,9 @@ export default function Checkout({ branch, onCancel, onComplete }) {
                           <Plus size={13} strokeWidth={2} />
                         </button>
                       </div>
-                      {item.sku ? (
-                        <span className="cell-sub">
-                          {item.unit} × {formatMoney(item.price)}
-                        </span>
-                      ) : (
+                      {canPrice ? (
                         <span className="cart-custom">
-                          <select value={item.unit} onChange={(e) => setItem(i, { unit: e.target.value })} aria-label="Unit">
-                            {UNITS.map((u) => (
-                              <option key={u}>{u}</option>
-                            ))}
-                          </select>
+                          <span className="cell-sub">{item.unit} ×</span>
                           <input
                             type="number"
                             min="0"
@@ -220,22 +201,29 @@ export default function Checkout({ branch, onCancel, onComplete }) {
                             aria-invalid={!!errorFor(`items.${i}.price`)}
                           />
                         </span>
+                      ) : (
+                        <span className="cell-sub">
+                          {item.unit} × {formatMoney(item.price)}
+                        </span>
                       )}
-                      <label className="cart-disc">
-                        <input
-                          type="number"
-                          min="0"
-                          max="100"
-                          className="num"
-                          value={item.discount}
-                          onChange={(e) => setItem(i, { discount: e.target.value })}
-                          aria-label="Discount percent"
-                          aria-invalid={!!errorFor(`items.${i}.discount`)}
-                        />
-                        % off
-                      </label>
+                      {canDiscount && (
+                        <label className="cart-disc">
+                          <input
+                            type="number"
+                            min="0"
+                            max="100"
+                            className="num"
+                            value={item.discount}
+                            onChange={(e) => setItem(i, { discount: e.target.value })}
+                            aria-label="Discount percent"
+                            aria-invalid={!!errorFor(`items.${i}.discount`)}
+                          />
+                          % off
+                        </label>
+                      )}
                       <span className="cart-amount">{formatMoney(lineTotal(item))}</span>
                     </div>
+                    {errorFor(`items.${i}.name`) && <p className="field-error cart-error">{errorFor(`items.${i}.name`)}</p>}
                     {item.sku &&
                       (stockProblems[item.sku] ? (
                         <p className="field-error cart-error">{stockProblems[item.sku]}</p>
@@ -322,7 +310,7 @@ export default function Checkout({ branch, onCancel, onComplete }) {
                   }}
                 >
                   <option value="">Walk-in customer (not registered)</option>
-                  {data.clients.map((c) => (
+                  {visibleClients(data, auth).map((c) => (
                     <option key={c.id} value={c.id}>
                       {c.id} · {c.name}
                     </option>

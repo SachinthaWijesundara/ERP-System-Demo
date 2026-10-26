@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import Badge from '../components/Badge.jsx'
 import { useData } from '../data/DataContext.jsx'
+import { useAuth } from '../auth/AuthContext.jsx'
 import { formatMoney } from '../utils/format.js'
 import { ALL_BRANCHES } from '../modules.js'
 import { stockFor, worstStatus, margin } from './inventoryFields.js'
@@ -14,8 +15,10 @@ function matches(item, query) {
 }
 
 // `onlySkus`, when given, limits the list to those items (e.g. a quote's).
+// Cost prices and margins need "see cost prices and margins".
 export default function ItemList({ query, branch, onlySkus, onOpen }) {
   const data = useData()
+  const showCosts = useAuth().can('inventory.costs')
   const [filter, setFilter] = useState('All')
   const [category, setCategory] = useState('')
   const allBranches = branch === ALL_BRANCHES
@@ -57,7 +60,7 @@ export default function ItemList({ query, branch, onlySkus, onOpen }) {
             <tr>
               <th>Item</th>
               <th>Category</th>
-              <th className="num">Cost</th>
+              {showCosts && <th className="num">Cost</th>}
               <th className="num">Selling</th>
               <th className="num">On hand</th>
               <th className="num">Reserved</th>
@@ -76,10 +79,10 @@ export default function ItemList({ query, branch, onlySkus, onOpen }) {
                     <div className="cell-sub">{item.sku}</div>
                   </td>
                   <td>{item.category}</td>
-                  <td className="num">{formatMoney(item.costPrice)}</td>
+                  {showCosts && <td className="num">{formatMoney(item.costPrice)}</td>}
                   <td className="num">
                     {formatMoney(item.sellingPrice)}
-                    <div className="cell-sub">{margin(item)}% margin</div>
+                    {showCosts && <div className="cell-sub">{margin(item)}% margin</div>}
                   </td>
                   <td className="num">
                     {s.onHand.toLocaleString('en-LK')} <span className="cell-sub">{item.unit}</span>
