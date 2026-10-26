@@ -285,7 +285,7 @@ export default function QuoteDetail({ quoteId, onBack, onEdit, onDeleted, onOpen
                         </div>
                       ))
                     ) : (
-                      <div className="cell-sub">Approving this quote issues its advance invoice.</div>
+                      <div className="cell-sub">Approving this quote opens its advance invoice; the advance amount is entered there.</div>
                     )}
                   </div>
                 </li>

@@ -167,7 +167,7 @@ export default function QuoteForm({ initial, isNew, onCancel, onSave }) {
               error={errors.status}
               hint={
                 canSend
-                  ? 'Approved issues the advance invoice. Moving away from Approved puts it back to draft.'
+                  ? 'Approved opens the advance invoice, where you enter the advance. Moving away from Approved puts it back to draft.'
                   : 'Your role can’t send quotes or mark them approved.'
               }
             >

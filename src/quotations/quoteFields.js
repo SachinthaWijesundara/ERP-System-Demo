@@ -4,10 +4,9 @@ export const QUOTE_STATUSES = ['Draft', 'Sent', 'Approved', 'Rejected']
 export const UNITS = ['sqft', 'sqm', 'ft', 'm', 'piece', 'box', 'roll', 'litre', 'set', 'lot', 'day']
 
 export const DEFAULT_TERMS = [
-  '1. 50% advance on confirmation, balance on completion.',
-  '2. Prices are valid until the date shown above.',
-  '3. Work starts within 7 days of receiving the advance.',
-  '4. Any extra work will be quoted separately.',
+  '1. Prices are valid until the date shown above.',
+  '2. Work starts within 7 days of receiving the advance.',
+  '3. Any extra work will be quoted separately.',
 ].join('\n')
 
 const QUOTE_ID = /^QT-\d{4}$/

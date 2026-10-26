@@ -22,7 +22,7 @@ import staffSeed from './staff.json'
 const DataContext = createContext(null)
 
 const STORAGE_KEY = 'immense-home-demo'
-const STORAGE_VERSION = 4
+const STORAGE_VERSION = 5
 
 const SEEDS = {
   clients: clientsSeed,

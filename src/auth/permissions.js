@@ -105,7 +105,7 @@ export const PERMISSION_GROUPS = [
     label: 'Invoices and payments',
     items: [
       { key: 'invoices.view', kind: 'menu', label: 'Open Invoices and payments' },
-      { key: 'invoices.raise', kind: 'action', label: 'Raise progress invoices' },
+      { key: 'invoices.raise', kind: 'action', label: 'Raise progress invoices and set advance amounts' },
       { key: 'invoices.payments', kind: 'action', label: 'Record payments and print receipts' },
       { key: 'invoices.cancel', kind: 'action', label: 'Cancel unpaid progress invoices' },
       { key: 'invoices.totals', kind: 'data', label: 'See money totals (outstanding, overdue, received)' },

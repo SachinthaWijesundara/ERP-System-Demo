@@ -1,8 +1,9 @@
-import { invoiceBalance } from '../data/links.js'
+import { invoiceBalance, amountPaid } from '../data/links.js'
 
-// Advance: up-front share of the quote, made when the quote is approved.
-// Progress: part-way through the job, raised by hand. Final: the rest of the
-// quote plus extras, a draft until handover. POS sale: made by the counter.
+// Advance: what the client pays up front. Opened when the quote is approved;
+// the studio enters the amount, and can change it until the final invoice is
+// issued. Progress: part-way through the job, raised by hand. Final: the rest
+// of the quote plus extras, a draft until handover. POS sale: made by the counter.
 // Only Progress invoices are raised by hand (see billing.js for the rest).
 export const INVOICE_TYPES = ['Advance', 'Progress', 'Final', 'POS sale']
 export const RAISED_TYPES = ['Progress']
@@ -10,9 +11,6 @@ export const RAISED_TYPES = ['Progress']
 export const INVOICE_STATUSES = ['Draft', 'Unpaid', 'Partly paid', 'Overdue', 'Paid', 'Cancelled']
 
 export const PAYMENT_METHODS = ['Cash', 'Card', 'Bank transfer', 'Cheque']
-
-// Share of the quote asked for up front, as in the quote terms.
-export const ADVANCE_SHARE = 0.5
 
 const INVOICE_ID = /^INV-\d{4}$/
 
@@ -55,7 +53,6 @@ export function emptyInvoice(id, today) {
 // What to charge by default for each type, from the project's billing.
 export function suggestedAmount(type, billing) {
   if (!billing.quote) return ''
-  if (type === 'Advance') return Math.round(billing.quoteTotal * ADVANCE_SHARE)
   if (type === 'Final') return Math.max(0, billing.remaining)
   return ''
 }
@@ -63,7 +60,6 @@ export function suggestedAmount(type, billing) {
 export function suggestedDescription(type, billing) {
   if (!billing.quote) return ''
   const ref = `quotation ${billing.quote.id} (LKR ${billing.quoteTotal.toLocaleString('en-LK')})`
-  if (type === 'Advance') return `Advance payment: ${ADVANCE_SHARE * 100}% of ${ref}`
   if (type === 'Final') return `Final payment: balance of ${ref}`
   return `Progress payment towards ${ref}`
 }
@@ -83,6 +79,18 @@ export function validateInvoice(invoice, invoices, billing) {
     errors.amount = `Only LKR ${Math.max(0, billing.remaining).toLocaleString('en-LK')} of the quote is left to invoice.`
   }
   return errors
+}
+
+// The advance entered on an Advance invoice: above 0, not below what the
+// client has already paid on it, and not more than the quote leaves to bill
+// (`limit`). Returns the problem, or null.
+export function validateAdvance(value, invoice, limit) {
+  const amount = Number(value)
+  const paid = amountPaid(invoice)
+  if (value === '' || !(amount > 0)) return 'Enter the advance amount.'
+  if (amount < paid) return `LKR ${paid.toLocaleString('en-LK')} has already been paid on this invoice.`
+  if (amount > limit) return `Can’t be more than LKR ${limit.toLocaleString('en-LK')}, what’s left of the quote to bill.`
+  return null
 }
 
 export function validatePayment(payment, invoice) {

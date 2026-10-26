@@ -4,13 +4,124 @@ import { useData } from '../data/DataContext.jsx'
 import {
   clientForInvoice,
   projectForInvoice,
+  quoteForInvoice,
   saleForInvoice,
   invoiceBranch,
   invoiceStatus,
   amountPaid,
   invoiceBalance,
+  invoicesForQuote,
 } from '../data/links.js'
+import { extraChargeLines } from '../data/billing.js'
+import { quoteTotals, itemTotal, labourTotal } from '../quotations/quoteFields.js'
 import { formatDate, formatMoney } from '../utils/format.js'
+
+const rate = (qty, unit, price) => `${Number(qty).toLocaleString('en-LK')} ${unit} × ${formatMoney(price)}`
+
+// An advance invoice carries the whole job it belongs to: every line of the
+// quotation, any extras charged on the project so far (these update as the
+// project changes), and how the job is billed: this advance, any progress
+// invoices, and the rest, which goes on the final invoice at handover.
+function AdvanceBreakdown({ data, invoice, quote, project }) {
+  const t = quoteTotals(quote)
+  const extras = project ? extraChargeLines(data, project) : []
+  const jobTotal = t.total + extras.reduce((sum, l) => sum + l.amount, 0)
+  const others = invoicesForQuote(data, quote.id).filter((i) => i.id !== invoice.id && !i.draft && i.type !== 'Final')
+  const billedSoFar = invoice.amount + others.reduce((sum, i) => sum + i.amount, 0)
+
+  return (
+    <>
+      <table className="table table-compact doc-table">
+        <thead>
+          <tr>
+            <th>
+              Quotation {quote.id}: {quote.title}
+            </th>
+            <th className="num">Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          {quote.items.map((item, i) => (
+            <tr key={`item-${i}`}>
+              <td className="wrap">
+                {item.product}
+                <div className="cell-sub">
+                  {rate(item.qty, item.unit, item.price)}
+                  {item.discount ? ` · ${item.discount}% off` : ''}
+                </div>
+              </td>
+              <td className="num">{formatMoney(itemTotal(item))}</td>
+            </tr>
+          ))}
+          {quote.labour.map((line, i) => (
+            <tr key={`labour-${i}`}>
+              <td className="wrap">
+                {line.description}
+                <div className="cell-sub">{rate(line.qty, line.unit, line.price)}</div>
+              </td>
+              <td className="num">{formatMoney(labourTotal(line))}</td>
+            </tr>
+          ))}
+          {t.discount > 0 && (
+            <tr>
+              <td>Discount</td>
+              <td className="num qty-out">−{formatMoney(t.discount)}</td>
+            </tr>
+          )}
+          {t.tax > 0 && (
+            <tr>
+              <td>VAT {quote.taxRate}%</td>
+              <td className="num">{formatMoney(t.tax)}</td>
+            </tr>
+          )}
+          <tr className="doc-subtotal">
+            <td>Quotation total</td>
+            <td className="num">{formatMoney(t.total)}</td>
+          </tr>
+          {extras.map((line, i) => (
+            <tr key={`extra-${i}`}>
+              <td className="wrap">{line.description}</td>
+              <td className="num">{formatMoney(line.amount)}</td>
+            </tr>
+          ))}
+          {extras.length > 0 && (
+            <tr className="doc-subtotal">
+              <td>Job total, with extras charged on {project.id}</td>
+              <td className="num">{formatMoney(jobTotal)}</td>
+            </tr>
+          )}
+        </tbody>
+      </table>
+
+      <table className="table table-compact doc-table doc-billing">
+        <thead>
+          <tr>
+            <th>How this job is billed</th>
+            <th className="num">Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Advance payment: this invoice</td>
+            <td className="num">{invoice.amount > 0 ? formatMoney(invoice.amount) : 'Not set yet'}</td>
+          </tr>
+          {others.map((i) => (
+            <tr key={i.id}>
+              <td>
+                {i.type} invoice {i.id}
+              </td>
+              <td className="num">{formatMoney(i.amount)}</td>
+            </tr>
+          ))}
+          <tr className="doc-subtotal">
+            <td>Rest of the job, billed on the final invoice at handover</td>
+            <td className="num">{formatMoney(jobTotal - billedSoFar)}</td>
+          </tr>
+        </tbody>
+      </table>
+    </>
+  )
+}
 
 // The invoice as the client sees it, on screen and when printed. The
 // "Receipt" buttons in the payments table are marked no-print; the client,
@@ -20,9 +131,12 @@ export default function InvoiceDocument({ invoice, onReceipt, onOpenRecord }) {
   const client = clientForInvoice(data, invoice)
   const project = projectForInvoice(data, invoice)
   const sale = saleForInvoice(data, invoice)
+  const quote = quoteForInvoice(data, invoice)
   const status = invoiceStatus(invoice)
   const open = (module, id) => () => onOpenRecord(module, id)
-  // Final invoices carry a breakdown; the others are one line.
+  const isAdvance = invoice.type === 'Advance' && !!quote
+  // Final invoices carry a breakdown; advance invoices show the whole job;
+  // the others are one line.
   const lines = invoice.lines?.length
     ? invoice.lines
     : [{ description: `${invoice.type} invoice: ${invoice.description}`, amount: invoice.amount }]
@@ -66,7 +180,7 @@ export default function InvoiceDocument({ invoice, onReceipt, onOpenRecord }) {
           )}
         </div>
         <div>
-          <div className="doc-label">{project ? 'Project' : 'Sale'}</div>
+          <div className="doc-label">{project ? 'Project' : sale ? 'Sale' : 'Quotation'}</div>
           {project ? (
             <>
               <div className="doc-strong">
@@ -95,22 +209,26 @@ export default function InvoiceDocument({ invoice, onReceipt, onOpenRecord }) {
         </div>
       </div>
 
-      <table className="table table-compact doc-table">
-        <thead>
-          <tr>
-            <th>Description</th>
-            <th className="num">Amount</th>
-          </tr>
-        </thead>
-        <tbody>
-          {lines.map((line, i) => (
-            <tr key={i}>
-              <td className="wrap">{line.description}</td>
-              <td className={`num${line.amount < 0 ? ' qty-out' : ''}`}>{formatMoney(line.amount)}</td>
+      {isAdvance ? (
+        <AdvanceBreakdown data={data} invoice={invoice} quote={quote} project={project} />
+      ) : (
+        <table className="table table-compact doc-table">
+          <thead>
+            <tr>
+              <th>Description</th>
+              <th className="num">Amount</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {lines.map((line, i) => (
+              <tr key={i}>
+                <td className="wrap">{line.description}</td>
+                <td className={`num${line.amount < 0 ? ' qty-out' : ''}`}>{formatMoney(line.amount)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
 
       <div className="doc-foot invoice-foot">
         <div className="doc-text">
@@ -151,7 +269,7 @@ export default function InvoiceDocument({ invoice, onReceipt, onOpenRecord }) {
           </p>
         </div>
         <dl className="totals">
-          <dt>Invoice amount</dt>
+          <dt>{isAdvance ? 'Advance payment' : 'Invoice amount'}</dt>
           <dd>{formatMoney(invoice.amount)}</dd>
           <dt>Paid to date</dt>
           <dd>−{formatMoney(amountPaid(invoice))}</dd>

@@ -2,9 +2,12 @@
 // invoice lives here, and the data store runs them whenever a quote, project
 // or sale changes, so it works the same from every page.
 //
-//   Quote approved      -> its Advance invoice (half the quote) is issued.
+//   Quote approved      -> its Advance invoice opens as a Draft with no
+//                          amount; the studio enters the advance the client
+//                          pays on the invoice page, which issues it, and can
+//                          change it later.
 //   Quote un-approved   -> that invoice goes back to Draft (never deleted);
-//                          approving again re-issues the same invoice.
+//                          approving again re-issues it with the same amount.
 //   Project created     -> its Final invoice opens as a Draft.
 //   Project changes     -> the draft Final invoice updates itself: quote total
 //                          + extras charged to the client - invoices already issued.
@@ -23,19 +26,15 @@ import {
   amountPaid,
 } from './links.js'
 import { quoteTotals } from '../quotations/quoteFields.js'
-import { nextInvoiceId, nextPaymentId, addDays, ADVANCE_SHARE } from '../invoices/invoiceFields.js'
+import { nextInvoiceId, nextPaymentId, addDays } from '../invoices/invoiceFields.js'
 import { formatMoney, todayIso } from '../utils/format.js'
 
 const money = (n) => formatMoney(n)
 
-// The lines of a project's Final invoice, worked out from the project and its
-// quote. While the invoice is a draft these are recalculated every time it's
-// shown; when handover is done they're saved onto the invoice.
-export function finalInvoiceLines(data, project) {
-  const quote = quoteForProject(data, project)
-  if (!quote) return []
-  const lines = [{ description: `Quotation ${quote.id}: ${quote.title}`, amount: quoteTotals(quote).total }]
-
+// What a project charges the client on top of its quote: materials and extra
+// work ticked "Charge client".
+export function extraChargeLines(data, project) {
+  const lines = []
   project.materials
     .filter((m) => m.billable)
     .forEach((m) => {
@@ -49,6 +48,19 @@ export function finalInvoiceLines(data, project) {
   project.stages.installation.costs
     .filter((c) => c.billable)
     .forEach((c) => lines.push({ description: `Extra work: ${c.description}`, amount: Number(c.amount) || 0 }))
+  return lines
+}
+
+// The lines of a project's Final invoice, worked out from the project and its
+// quote. While the invoice is a draft these are recalculated every time it's
+// shown; when handover is done they're saved onto the invoice.
+export function finalInvoiceLines(data, project) {
+  const quote = quoteForProject(data, project)
+  if (!quote) return []
+  const lines = [
+    { description: `Quotation ${quote.id}: ${quote.title}`, amount: quoteTotals(quote).total },
+    ...extraChargeLines(data, project),
+  ]
 
   invoicesForQuote(data, quote.id)
     .filter((i) => i.type !== 'Final' && !i.draft)
@@ -76,11 +88,10 @@ const notice = (text, invoiceId) => ({ text, module: 'invoices', recordId: invoi
 
 // --- Quotes ------------------------------------------------------------
 
+export const advanceDescription = (quote) => `Advance payment for quotation ${quote.id}`
+
 export function onQuoteSaved(data, before, quote) {
   const today = todayIso()
-  const total = quoteTotals(quote).total
-  const advanceAmount = Math.round(total * ADVANCE_SHARE)
-  const description = `Advance payment: ${ADVANCE_SHARE * 100}% of quotation ${quote.id} (${money(total)})`
   const advance = data.invoices.find((i) => i.quoteId === quote.id && i.type === 'Advance' && !i.cancelled)
   const unpaid = advance && amountPaid(advance) === 0
   let invoices = data.invoices
@@ -89,28 +100,25 @@ export function onQuoteSaved(data, before, quote) {
 
   if (quote.status === 'Approved') {
     if (!advance) {
+      // No amount is assumed: the studio enters what the client pays.
       const created = {
         id: nextInvoiceId(invoices),
         type: 'Advance',
         quoteId: quote.id,
         saleId: '',
-        date: today,
-        dueDate: addDays(today, 7),
-        description,
-        amount: advanceAmount,
-        draft: false,
+        date: '',
+        dueDate: '',
+        description: advanceDescription(quote),
+        amount: 0,
+        draft: true,
         cancelled: false,
         payments: [],
       }
       invoices = [created, ...invoices]
-      notices.push(notice(`${quote.id} approved: advance invoice ${created.id} issued for ${money(advanceAmount)}`, created.id))
-    } else if (advance.draft) {
-      put({ ...advance, draft: false, date: today, dueDate: addDays(today, 7), description, amount: unpaid ? advanceAmount : advance.amount })
-      notices.push(notice(`${quote.id} approved again: advance invoice ${advance.id} re-issued`, advance.id))
-    } else if (unpaid && advance.amount !== advanceAmount) {
-      // The quote was edited while approved; an unpaid advance follows it.
-      put({ ...advance, description, amount: advanceAmount })
-      notices.push(notice(`${quote.id} changed: advance invoice ${advance.id} updated to ${money(advanceAmount)}`, advance.id))
+      notices.push(notice(`${quote.id} approved: advance invoice ${created.id} opened. Enter the advance amount to issue it`, created.id))
+    } else if (advance.draft && advance.amount > 0) {
+      put({ ...advance, draft: false, date: today, dueDate: addDays(today, 7) })
+      notices.push(notice(`${quote.id} approved again: advance invoice ${advance.id} re-issued for ${money(advance.amount)}`, advance.id))
     }
   } else if (before?.status === 'Approved' && advance && !advance.draft && unpaid) {
     put({ ...advance, draft: true })

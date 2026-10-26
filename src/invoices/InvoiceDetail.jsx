@@ -18,10 +18,13 @@ import {
   amountPaid,
   invoiceBalance,
   projectBilling,
+  invoicesForQuote,
 } from '../data/links.js'
+import { advanceDescription } from '../data/billing.js'
+import { quoteTotals } from '../quotations/quoteFields.js'
 import { formatMoney, todayIso } from '../utils/format.js'
 import { printElement } from '../utils/printElement.js'
-import { PAYMENT_METHODS, nextPaymentId, validatePayment } from './invoiceFields.js'
+import { PAYMENT_METHODS, nextPaymentId, validatePayment, validateAdvance, addDays } from './invoiceFields.js'
 import InvoiceDocument from './InvoiceDocument.jsx'
 
 // The PDF library is large, so it only loads when a PDF is asked for.
@@ -111,6 +114,79 @@ function RecordPayment({ invoice }) {
   )
 }
 
+// No advance is assumed: the studio enters what the client pays up front.
+// Entering it issues the invoice; changing it later updates the invoice, and
+// the project's draft final invoice takes off the new figure. Once the final
+// invoice has been issued the advance stays as it was billed.
+function AdvanceAmount({ invoice, quote }) {
+  const data = useData()
+  const [value, setValue] = useState(invoice.amount || '')
+  const [submitted, setSubmitted] = useState(false)
+  const [saved, setSaved] = useState('')
+
+  const quoteInvoices = invoicesForQuote(data, quote.id)
+  const final = quoteInvoices.find((i) => i.type === 'Final' && !i.draft)
+  const total = quoteTotals(quote).total
+  // Progress invoices already issued also count against the quote.
+  const billedElsewhere = quoteInvoices
+    .filter((i) => i.id !== invoice.id && !i.draft && i.type !== 'Final')
+    .reduce((sum, i) => sum + i.amount, 0)
+  const error = validateAdvance(value, invoice, total - billedElsewhere)
+  const issuing = invoice.draft
+
+  if (final) {
+    return (
+      <Card title="Advance amount">
+        <p className="cell-sub">The final invoice {final.id} has been issued, so the advance can’t change now.</p>
+      </Card>
+    )
+  }
+
+  function save() {
+    setSubmitted(true)
+    if (error) return
+    const amount = Number(value)
+    const today = todayIso()
+    data.updateInvoice({
+      ...invoice,
+      amount,
+      description: advanceDescription(quote),
+      ...(issuing ? { draft: false, date: today, dueDate: addDays(today, 7) } : {}),
+    })
+    setSaved(issuing ? `Issued for ${formatMoney(amount)}.` : `Advance changed to ${formatMoney(amount)}.`)
+    setSubmitted(false)
+  }
+
+  return (
+    <Card title="Advance amount">
+      <p className="card-intro">
+        {issuing
+          ? 'Enter the advance the client is paying. Saving it issues this invoice.'
+          : 'Change it if the client pays a different advance. The project’s final invoice follows it.'}
+      </p>
+      <Field label="Advance (LKR)" error={submitted ? error : undefined} hint={`Quote ${quote.id} is ${formatMoney(total)}.`}>
+        <input
+          type="number"
+          min="0"
+          className="num"
+          value={value}
+          onChange={(e) => {
+            setValue(e.target.value)
+            setSaved('')
+          }}
+          aria-invalid={submitted && !!error}
+        />
+      </Field>
+      <div className="movement-foot">
+        {saved && <span className="diff-ok">{saved}</span>}
+        <button type="button" className="btn btn-primary" onClick={save}>
+          {issuing ? 'Issue advance invoice' : 'Update amount'}
+        </button>
+      </div>
+    </Card>
+  )
+}
+
 // `onOpenRecord(module, id)` jumps to the client, quote, project, sale or
 // staff member. Recording payments and cancelling need their own permission.
 export default function InvoiceDetail({ invoiceId, justRaised, onBack, onOpenRecord }) {
@@ -131,6 +207,10 @@ export default function InvoiceDetail({ invoiceId, justRaised, onBack, onOpenRec
   // removed; only a hand-raised progress invoice with no payments can be.
   const automatic = invoice.type !== 'Progress'
   const canCancel = auth.can('invoices.cancel') && !automatic && !invoice.cancelled && invoice.payments.length === 0
+  // An advance waiting for its amount: the quote is approved but nothing entered yet.
+  const awaitingAdvance = invoice.type === 'Advance' && invoice.draft && quote?.status === 'Approved'
+  const canSetAdvance =
+    invoice.type === 'Advance' && !invoice.cancelled && quote?.status === 'Approved' && auth.can('invoices.raise')
   const open = (module, id) => () => onOpenRecord(module, id)
 
   const ctx = { client, project, branch, nameOf: (id) => staffName(data, id) }
@@ -169,7 +249,9 @@ export default function InvoiceDetail({ invoiceId, justRaised, onBack, onOpenRec
         <div className="stage-warning">
           {invoice.type === 'Final'
             ? 'Draft final invoice. It updates as the project changes (extra materials and work charged to the client) and is issued when the handover is marked done.'
-            : `Draft. ${quote?.id ?? 'The quote'} is no longer approved, so this invoice isn’t owed. Approving the quote again re-issues it.`}
+            : awaitingAdvance
+              ? `Draft. ${quote.id} is approved; enter the advance the client is paying to issue this invoice.`
+              : `Draft. ${quote?.id ?? 'The quote'} is no longer approved, so this invoice isn’t owed. Approving the quote again re-issues it.`}
         </div>
       )}
 
@@ -200,8 +282,10 @@ export default function InvoiceDetail({ invoiceId, justRaised, onBack, onOpenRec
             </dl>
           </Card>
 
+          {canSetAdvance && <AdvanceAmount key={invoice.id} invoice={invoice} quote={quote} />}
+
           {auth.can('invoices.payments') && !invoice.cancelled && !invoice.draft && invoiceBalance(invoice) > 0 && (
-            <RecordPayment invoice={invoice} />
+            <RecordPayment key={`${invoice.id}-${invoice.amount}`} invoice={invoice} />
           )}
 
           {billing?.quote && (
